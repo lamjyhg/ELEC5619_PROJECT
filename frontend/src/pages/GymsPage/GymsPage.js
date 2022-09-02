@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { handleActionToGetGyms } from '../../state/gyms/gyms.action';
 import { Input } from 'antd';
+import GymsMap from '../../components/GymsMap/GymsMap';
 const GymsPage = () => {
   const { gymsList, isError, isLoading, isSuccess } = useSelector((state) => {
     return state.gyms.gymsPage;
@@ -16,7 +17,7 @@ const GymsPage = () => {
   }, []);
 
   return (
-    <h1>
+    <>
       <Input.Search
         allowClear
         style={{
@@ -24,7 +25,8 @@ const GymsPage = () => {
         }}
         placeholder="search gyms by name"
       />
-    </h1>
+      <GymsMap></GymsMap>
+    </>
   );
 };
 export default GymsPage;
