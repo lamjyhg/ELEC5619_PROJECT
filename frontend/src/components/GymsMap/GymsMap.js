@@ -10,6 +10,8 @@ import {
   InfoBox,
   OverlayView,
 } from '@react-google-maps/api';
+import './GymsMap.scss';
+import { googleMapApiKey } from '../../services/googleMaps';
 
 import { CloseOutlined } from '@ant-design/icons';
 
@@ -32,6 +34,7 @@ function GymsMap() {
   ]);
 
   const handleMarkerClick = (detail) => {
+    setCenter(detail.geolocation);
     setGym(detail);
   };
 
@@ -52,11 +55,6 @@ function GymsMap() {
                 }}
               ></CloseOutlined>
             }
-            style={{
-              background: 'white',
-              border: '1px solid #ccc',
-              padding: 15,
-            }}
           >
             <p> trading hours :OverlayView</p>
 
@@ -78,12 +76,18 @@ function GymsMap() {
         setCenter(newCenter);
       });
     }
+    console.log(process.env.GOOGLE_MAP_API_KEY);
   }, []);
 
   return (
     <>
-      <Wrapper apiKey="AIzaSyAiK11DnRIczBDNY3YzLDIKp3JpLk8C8tE">
-        <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={12}>
+      <Wrapper class="gyms-map" apiKey={googleMapApiKey}>
+        <GoogleMap
+          class="gyms-map"
+          mapContainerStyle={containerStyle}
+          center={center}
+          zoom={12}
+        >
           {/* Child components, such as markers, info windows, etc. */}
           {gyms.map((each) => (
             <Marker
