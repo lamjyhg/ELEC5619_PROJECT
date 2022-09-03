@@ -1,3 +1,6 @@
+import { Layout } from 'antd';
+import { Content, Footer, Header } from 'antd/lib/layout/layout';
+import Sider from 'antd/lib/layout/Sider';
 import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { getToken, clearSessionStorage } from '../../services/sessionStorage';

@@ -13,17 +13,15 @@ const Router = () => {
     <Routes>
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />}></Route>
-      <Route path="/account" element={<AccountPage />}></Route>
+
       <Route path="/" element={<MainLayout />}>
         <Route path="/gyms" element={<GymsPage />} />
-        <Route path="/" element={<ProtectedLayout />}>
-          <Route
-            path="/user-management"
-            element={<UserManagementPage />}
-          ></Route>
-          <Route path="/gymRequests" element={<GymRequestsPage />}></Route>
-          <Route path="/gymRequest/:id" element={<GymRequestsPage />}></Route>
-        </Route>
+      </Route>
+      <Route path="/" element={<ProtectedLayout />}>
+        <Route path="/account" element={<AccountPage />}></Route>
+        <Route path="/user-management" element={<UserManagementPage />}></Route>
+        <Route path="/gymRequests" element={<GymRequestsPage />}></Route>
+        <Route path="/gymRequest/:id" element={<GymRequestsPage />}></Route>
       </Route>
     </Routes>
   );

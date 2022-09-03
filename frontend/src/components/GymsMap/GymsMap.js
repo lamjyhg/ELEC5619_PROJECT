@@ -1,32 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Wrapper, Status } from '@googlemaps/react-wrapper';
-import { HeartFilled } from '@ant-design/icons';
+import { Wrapper } from '@googlemaps/react-wrapper';
 import { useNavigate } from 'react-router-dom';
-import {
-  GoogleMap,
-  LoadScript,
-  Marker,
-  InfoWindow,
-  InfoBox,
-  OverlayView,
-} from '@react-google-maps/api';
+import { GoogleMap, Marker, OverlayView } from '@react-google-maps/api';
 import './GymsMap.scss';
 import { googleMapApiKey } from '../../services/googleMaps';
 
 import { CloseOutlined } from '@ant-design/icons';
-
-import { Input, Button, Card } from 'antd';
-
-const containerStyle = {
-  width: '500px',
-  height: '500px',
-};
+import { Card } from 'antd';
+import { mapStyle } from './MapStyle';
 
 function GymsMap() {
   const [center, setCenter] = useState({ lat: -34.9, lng: 100.0 });
   const [gym, setGym] = useState(null);
-
-  const navigate = useNavigate();
 
   const [gyms, setGyms] = useState([
     { id: 1, name: 'oliver_room', geolocation: { lat: -33.928, lng: 151.15 } },
@@ -47,16 +32,19 @@ function GymsMap() {
         >
           <Card
             size="small"
-            title={gym.name}
+            className="gymCard"
+            title={<p className="gymCard__title">{gym.name}</p>}
             extra={
               <CloseOutlined
                 onClick={() => {
                   setGym(null);
                 }}
+                className="gymCard__header__closeButton"
               ></CloseOutlined>
             }
           >
-            <p> trading hours :OverlayView</p>
+            <p className="gymCard__tradingHours"> trading hours :</p>
+            <p className="gymCard__tradingHours"> Mon: 6pm-7pm</p>
 
             <a href={'/gyms/gym/' + gym.id}>more</a>
           </Card>
@@ -76,19 +64,14 @@ function GymsMap() {
         setCenter(newCenter);
       });
     }
-    console.log(process.env.GOOGLE_MAP_API_KEY);
+
+    //getGyms by current center location
   }, []);
 
   return (
-    <>
-      <Wrapper class="gyms-map" apiKey={googleMapApiKey}>
-        <GoogleMap
-          class="gyms-map"
-          mapContainerStyle={containerStyle}
-          center={center}
-          zoom={12}
-        >
-          {/* Child components, such as markers, info windows, etc. */}
+    <div className="gymsMap">
+      <Wrapper apiKey={googleMapApiKey}>
+        <GoogleMap mapContainerStyle={mapStyle} center={center} zoom={12}>
           {gyms.map((each) => (
             <Marker
               position={each.geolocation}
@@ -99,10 +82,9 @@ function GymsMap() {
             ></Marker>
           ))}
           {showGymCard()}
-          <></>
         </GoogleMap>
       </Wrapper>
-    </>
+    </div>
   );
 }
 export default GymsMap;
