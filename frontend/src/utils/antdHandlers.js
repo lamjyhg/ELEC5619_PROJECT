@@ -1,4 +1,4 @@
-export function getItem(label, key, icon, children, type) {
+export const getItem = (label, key, icon, children, type) => {
   return {
     key,
     icon,
@@ -6,4 +6,4 @@ export function getItem(label, key, icon, children, type) {
     label,
     type,
   };
-}
+};

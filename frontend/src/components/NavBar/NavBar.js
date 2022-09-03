@@ -9,13 +9,13 @@ import { useNavigate } from 'react-router-dom';
 
 import React, { useState, useEffect } from 'react';
 import { getToken } from '../../services/sessionStorage';
-import { getItem } from '../../utils/antdMenuHandler';
+import { getItem } from '../../utils/antdHandlers';
 
 const { Header, Footer, Sider, Content } = Layout;
 
 const usersItems = [
   getItem('Gyms', 'gyms'),
-  getItem('', 'accounts', <UserOutlined />, [
+  getItem('', 'account', <UserOutlined />, [
     getItem('Profile', 'profile'),
     getItem('Change Password', 'change-password'),
     getItem('Appointments', 'appointments'),
