@@ -6,7 +6,7 @@ import {
 } from '../../services/sessionStorage';
 import { useEffect, useState } from 'react';
 import { Modal, Button } from 'antd';
-const LogoutButton = (buttonClassName) => {
+const LogoutButton = ({ buttonClassName }) => {
   const navigate = useNavigate();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -21,12 +21,12 @@ const LogoutButton = (buttonClassName) => {
     if (!getToken()) {
       navigate('/');
     }
+    console.log(buttonClassName);
   }, []);
 
   return (
     <>
       <Modal
-        title="Basic Modal"
         visible={isModalVisible}
         onOk={() => {
           logout();
