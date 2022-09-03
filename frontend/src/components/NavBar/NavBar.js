@@ -9,18 +9,9 @@ import { useNavigate } from 'react-router-dom';
 
 import React, { useState, useEffect } from 'react';
 import { getToken } from '../../services/sessionStorage';
+import { getItem } from '../../utils/antdMenuHandler';
 
 const { Header, Footer, Sider, Content } = Layout;
-
-function getItem(label, key, icon, children, type) {
-  return {
-    key,
-    icon,
-    children,
-    label,
-    type,
-  };
-}
 
 const usersItems = [
   getItem('Gyms', 'gyms'),
@@ -57,13 +48,7 @@ const NavBar = () => {
 
   return (
     <Header>
-      <Menu
-        onClick={onClick}
-        defaultSelectedKeys={['1']}
-        defaultOpenKeys={['sub1']}
-        mode="horizontal"
-        items={items}
-      />
+      <Menu onClick={onClick} mode="horizontal" items={items} />
     </Header>
   );
 };
