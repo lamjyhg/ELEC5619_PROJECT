@@ -127,7 +127,7 @@ const GymOwnerAppointmentManagementTable = () => {
     setCancelledId(null);
   };
 
-  const handleCancel = () => {
+  const handleCancel = (id) => {
     setCancelledId(null);
   };
 
