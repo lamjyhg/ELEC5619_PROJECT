@@ -1,10 +1,16 @@
 import { Button } from 'antd';
 import './Login.scss';
+
+
+import LoginBody from '../../components/LoginBody/LoginBody';
+
 const LoginPage = () => {
   return (
-    <h1>
-      <Button>Admin</Button>
-    </h1>
+    <>
+
+      <LoginBody />
+    
+    </>
   );
 };
 export default LoginPage;
