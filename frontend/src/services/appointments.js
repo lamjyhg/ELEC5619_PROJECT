@@ -10,3 +10,12 @@ export const handleRequestToGetGymsAppointments = (userId) => {
   };
   return request(config).then((res) => res.data);
 };
+
+export const handleRequestToGetUsers = (userId) => {
+  const config = {
+    url: URL_PREFIX + '/',
+    method: GET,
+    data: { userId },
+  };
+  return request(config).then((res) => res.data);
+};

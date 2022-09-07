@@ -11,9 +11,9 @@ const gymsSlice = createSlice({
       isSuccess: false,
     },
   },
+
   extraReducers: (builder) => {
     builder
-      //get gyms
       .addCase(handleActionToGetGyms.pending, (state, action) => ({
         ...state,
         gymsPage: {
