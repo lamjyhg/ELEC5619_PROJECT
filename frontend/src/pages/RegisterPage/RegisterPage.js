@@ -1,4 +1,11 @@
+import RegisterBody from "../../components/RegisterBody/RegisterBody";
+
 const RegisterPage = () => {
-  return <h1>Register</h1>;
+
+  return (
+    <div>
+      <RegisterBody />
+    </div>
+  )
 };
 export default RegisterPage;
