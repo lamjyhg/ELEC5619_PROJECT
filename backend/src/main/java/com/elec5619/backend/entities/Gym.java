@@ -28,11 +28,11 @@ public class Gym {
     @Column(name = "name", nullable = false,length = 255)
     private String name;
 
-    @Column(name = "image_url", nullable = false)
+    @Column(name = "image_url")
     private String imageUrl;
 
-    @Column(name = "maximum_of_appointments", nullable = false)
-    private String maximumAppointments;
+    @Column(name = "maximum_of_appointments")
+    private String maximumOfAppointments;
 
     @Type(type = "json")
     @Column(columnDefinition = "json", name = "geoLocation")

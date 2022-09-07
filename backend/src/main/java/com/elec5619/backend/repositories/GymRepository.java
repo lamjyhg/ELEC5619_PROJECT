@@ -5,5 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface GymRepository extends JpaRepository<Gym,Long>{
+    //@Query("SELECT JSON_VALUE(GEOLOCATOON, '$.lat') AS LAT, JSON_VALUE(GEOLOCATOON, '$.lat') AS LAT")
+    //public List<Gym> findNearbyGymsByCurrentLocationAndDistance(@Param("latitude") Double latitude,@Param("longitude") Double longitude);
 }
