@@ -9,6 +9,8 @@ import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 import java.util.Map;
+import java.util.UUID;
+import org.hibernate.annotations.GenericGenerator;
 
 @Getter
 @Setter
@@ -17,9 +19,13 @@ import java.util.Map;
 @TypeDef(name = "json", typeClass = JsonType.class)
 public class Gym {
     @Id
-    @GeneratedValue( strategy = GenerationType.IDENTITY)
-    @Column(name = "gym_id",updatable = false, nullable = false)
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "gym_id", columnDefinition = "BINARY(16)",updatable = false, nullable = false)
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name="user_id",nullable = false)
