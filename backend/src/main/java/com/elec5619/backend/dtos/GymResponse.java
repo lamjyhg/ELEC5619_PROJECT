@@ -1,9 +1,14 @@
 package com.elec5619.backend.dtos;
+
 import lombok.Data;
 
 import java.util.Map;
 import java.util.UUID;
-public class GymGetDto {
+
+@Data
+public class GymResponse {
+    private UUID gymId;
+
     private String userId;
 
     private String name;
