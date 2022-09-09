@@ -39,6 +39,14 @@
             margin-top: 0;
             justify-content: space-around;
 
+
+            #login-logo{
+                height: 20rem;
+                width: 20rem;
+            }
+
+
+
             #submitButton {
                 font-size: large;
                 border-radius: 4px;
@@ -62,6 +70,10 @@
                 height: 100%;
                 background-size: cover;
             }
+        }
+
+        #logo{
+            margin: 0;
         }
 
         #buttonItem {

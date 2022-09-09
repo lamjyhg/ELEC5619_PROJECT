@@ -7,6 +7,7 @@ import { Button, Space } from 'antd';
 import React, {useEffect, useState} from "react"
 
 import './LoginBody.scss'
+import logo from '../../image/gymmy.png'
 
 const LoginBody = () => {
 
@@ -17,6 +18,10 @@ const LoginBody = () => {
         <div className="login-container">
 
             <div className="login-item-container">
+
+                <div className='login-item' id='logo'>
+                    <img id="login-logo" src={logo}></img>
+                </div>
 
                 <div className="login-item">
                     <Input  id='username' placeholder="Username/email" prefix={<UserOutlined />} />
@@ -47,10 +52,10 @@ const LoginBody = () => {
 
 
 
-            <div className="login-item-container">
+            {/* <div className="login-item-container">
                 <div className="login-item">
                 </div>
-            </div>
+            </div> */}
 
         </div>
     )

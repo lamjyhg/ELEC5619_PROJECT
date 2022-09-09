@@ -7,6 +7,7 @@ import { Button, Space } from 'antd';
 import React, {useEffect, useState} from "react"
 
 import './RegisterBody.scss'
+import logo from '../../image/gymmy.png'
 
 const RegisterBody = () => {
 
@@ -17,6 +18,11 @@ const RegisterBody = () => {
         <div className="register-container">
 
             <div className="register-item-container">
+
+                <div className='register-item' id='logo'>
+                    <img id="register-logo" src={logo}></img>
+                </div>
+
 
                 <div className="register-item">
                     <Input  id='username' placeholder="Username/email" prefix={<UserOutlined />} />
@@ -46,12 +52,12 @@ const RegisterBody = () => {
 
             </div>
 
-
+{/* 
 
             <div className="register-item-container">
                 <div className="register-item">
                 </div>
-            </div>
+            </div> */}
 
         </div>
     )
