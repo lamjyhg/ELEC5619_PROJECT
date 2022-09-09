@@ -8,7 +8,11 @@ import lombok.Setter;
 import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Map;
+import java.util.UUID;
+import org.hibernate.annotations.GenericGenerator;
 
 @Getter
 @Setter
@@ -17,13 +21,19 @@ import java.util.Map;
 @TypeDef(name = "json", typeClass = JsonType.class)
 public class Gym {
     @Id
-    @GeneratedValue( strategy = GenerationType.IDENTITY)
-    @Column(name = "gym_id",updatable = false, nullable = false)
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "gym_id", columnDefinition = "BINARY(16)",updatable = false, nullable = false)
+    private UUID gymId;
 
-    @ManyToOne
-    @JoinColumn(name="user_id",nullable = false)
-    private User user;
+//    @ManyToOne
+//    @JoinColumn(name="user_id",nullable = false)
+    @Column(name="user_id",nullable = false)
+    @NotNull
+    private String userId;
 
     @Column(name = "name", nullable = false,length = 255)
     private String name;
