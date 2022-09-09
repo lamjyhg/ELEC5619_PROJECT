@@ -2,7 +2,7 @@ import axios from 'axios';
 import { rootStore } from '../App';
 import { getToken, removeToken } from '../services/sessionStorage';
 
-const baseURL = `http://localhost:8000/gymmy`;
+const baseURL = `http://localhost:8080/`;
 const timeout = 50000;
 
 export default function request(options) {

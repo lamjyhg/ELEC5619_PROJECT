@@ -30,7 +30,7 @@ const gymsSlice = createSlice({
           isLoading: false,
           isError: false,
           isSuccess: true,
-          gymsList: action.payload.data,
+          gymsList: action.payload,
         },
       }))
       .addCase(handleActionToGetGyms.rejected, (state, action) => ({

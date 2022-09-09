@@ -8,15 +8,19 @@ import { googleMapApiKey } from '../../services/googleMaps';
 import { CloseOutlined } from '@ant-design/icons';
 import { Card } from 'antd';
 import { mapStyle } from './MapStyle';
+import { useSelector } from 'react-redux';
 
 function GymsMap() {
+  const { gymsList, isSuccess, isLoading, isError } = useSelector(
+    (state) => state.gyms.gymsPage
+  );
   const [center, setCenter] = useState({ lat: -34.9, lng: 100.0 });
   const [gym, setGym] = useState(null);
 
-  const [gyms, setGyms] = useState([
-    { id: 1, name: 'oliver_room', geolocation: { lat: -33.928, lng: 151.15 } },
-    { id: 1, name: 'jay_room', geolocation: { lat: -33.828, lng: 151.15 } },
-  ]);
+  // const [gyms, setGyms] = useState([
+  //   { id: 1, name: 'oliver_room', geolocation: { lat: -33.928, lng: 151.15 } },
+  //   { id: 1, name: 'jay_room', geolocation: { lat: -33.828, lng: 151.15 } },
+  // ]);
 
   const handleMarkerClick = (detail) => {
     setCenter(detail.geolocation);
@@ -60,7 +64,6 @@ function GymsMap() {
           lat: parseFloat(position.coords.latitude),
           lng: parseFloat(position.coords.longitude),
         };
-        console.log(newCenter);
         setCenter(newCenter);
       });
     }
@@ -72,9 +75,10 @@ function GymsMap() {
     <div className="gymsMap">
       <Wrapper apiKey={googleMapApiKey}>
         <GoogleMap mapContainerStyle={mapStyle} center={center} zoom={12}>
-          {gyms.map((each) => (
+          {gymsList.map((each, index) => (
             <Marker
-              position={each.geolocation}
+              key={index}
+              position={each.geoLocation}
               clickable={true}
               onClick={() => {
                 handleMarkerClick(each);
