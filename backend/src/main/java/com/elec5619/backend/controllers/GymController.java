@@ -15,6 +15,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping(path = "/gyms")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class GymController {
 
     private final GymService gymService;
