@@ -12,7 +12,7 @@ public class GeoLocationValidator implements
 
     @Override
     public boolean isValid(Map<String, Double> value, ConstraintValidatorContext context) {
-        return value.size() == 2 && value.containsKey("lat") && value.containsKey("lng");
+        return value!= null&& value.size() == 2 && value.containsKey("lat") && value.containsKey("lng");
     }
 
 }

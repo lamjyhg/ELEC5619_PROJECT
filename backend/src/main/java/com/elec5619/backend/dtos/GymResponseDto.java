@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Data
-public class GymResponse {
+public class GymResponseDto {
     private UUID gymId;
 
     private String userId;

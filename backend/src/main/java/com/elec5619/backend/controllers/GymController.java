@@ -1,7 +1,7 @@
 package com.elec5619.backend.controllers;
 
-import com.elec5619.backend.dtos.GymRequest;
-import com.elec5619.backend.dtos.GymResponse;
+import com.elec5619.backend.dtos.GymRequestDto;
+import com.elec5619.backend.dtos.GymResponseDto;
 import com.elec5619.backend.services.GymService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.*;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -21,17 +20,17 @@ public class GymController {
     private final GymService gymService;
 
     @GetMapping
-    public ResponseEntity<List<GymResponse>> findAllGyms() {
+    public ResponseEntity<List<GymResponseDto>> findAllGyms() {
         return ResponseEntity.ok(gymService.findAll());
     }
 
     @GetMapping("/{gymId}")
-    public ResponseEntity<GymResponse> findOneGymById(@PathVariable UUID gymId) {
+    public ResponseEntity<GymResponseDto> findOneGymById(@PathVariable UUID gymId) {
         return ResponseEntity.ok(gymService.findOneById(gymId));
     }
 
     @PostMapping("")
-    public ResponseEntity<GymResponse> createGym(@Valid @RequestBody GymRequest gymRequestBody) {
+    public ResponseEntity<GymResponseDto> createGym(@Valid @RequestBody GymRequestDto gymRequestDtoBody) {
 //        System.out.println(String.format("name : %s", gymPostDto.getName()));
 //        System.out.println(String.format("address : %s", gymPostDto.getAddress()));
 //        System.out.println(String.format("id : %s", gymPostDto.getUserId()));
@@ -41,12 +40,12 @@ public class GymController {
 //        System.out.println(String.format("geolocation : %s", gymPostDto.getGeoLocation().toString()));
 //
 //        return "aaa";
-        return ResponseEntity.ok(gymService.create(gymRequestBody));
+        return ResponseEntity.ok(gymService.create(gymRequestDtoBody));
     }
 
     @PutMapping("/{gymId}")
-    public ResponseEntity<GymResponse> updateGym(@PathVariable UUID gymId, @Valid @RequestBody GymRequest gymRequestBody) {
-        return ResponseEntity.ok(gymService.update(gymId, gymRequestBody));
+    public ResponseEntity<GymResponseDto> updateGym(@PathVariable UUID gymId, @Valid @RequestBody GymRequestDto gymRequestDtoBody) {
+        return ResponseEntity.ok(gymService.update(gymId, gymRequestDtoBody));
     }
 
 
