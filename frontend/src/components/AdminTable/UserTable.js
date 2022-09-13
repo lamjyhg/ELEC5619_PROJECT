@@ -65,7 +65,7 @@ while(len--) {
 }
 
 // function
-function UserManagementTable () {
+function UserTable () {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const onSelectChange = (newSelectedRowKeys) => {
     setSelectedRowKeys(newSelectedRowKeys);
@@ -82,4 +82,4 @@ function UserManagementTable () {
   
 }
 
-export default UserManagementTable;
+export default UserTable;

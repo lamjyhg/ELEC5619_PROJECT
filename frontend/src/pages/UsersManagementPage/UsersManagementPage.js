@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout } from 'antd';
-import Table from '../../components/UserManagementTable';
+import {UserTable} from '../../components/AdminTable';
 import "./UserManagementPage.scss"
 
 const { Content} = Layout;
@@ -13,7 +13,7 @@ function UserManagementPage() {
         <h2>User Table</h2>  
       </Layout>
       <Content className="content">
-          <Table />
+          <UserTable />
       </Content>
     </Layout>
   );
