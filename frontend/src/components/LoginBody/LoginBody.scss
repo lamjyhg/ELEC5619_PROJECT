@@ -51,19 +51,22 @@
                 font-size: large;
                 border-radius: 4px;
                 height: 3rem;
-                width: 22rem;
+                width: 18rem;
                 margin: 0rem;
             }
 
-            #password, #username{
+            #username{
                 width: 18rem;
+                height: 3rem;
+
+            }
+
+            #password{
+                width: 17rem;
                 height: 3rem;
                 
             }
 
-            #username{
-                width: 19rem;
-            }
 
             #auth_img{
                 width: 100%;
