@@ -5,6 +5,8 @@ import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @Entity
@@ -31,8 +33,6 @@ public class User {
     @Column(name = "type", unique = false, nullable = false)
     private String type;
 
-
-
     @Override
     public String toString(){
         return "\nid: " + this.id +
@@ -42,5 +42,7 @@ public class User {
                 "\nname: " + this.name +
                 "\ntype: " + this.type;
     }
+//    @OneToMany(mappedBy = "gym")
+//    private Set<Gym> gyms;
 
 }

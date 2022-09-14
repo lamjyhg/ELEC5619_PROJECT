@@ -25,8 +25,7 @@ public class Appointment {
 
 //    @ManyToOne
 //    @JoinColumn(name="gym_id", nullable = false)
-    @Column(name = "gym_id", nullable = false)
-    private UUID gymId;
+//    private Gym gymId;
 
     @Column(name = "status", nullable = false)
     private AppointmentStatus status;

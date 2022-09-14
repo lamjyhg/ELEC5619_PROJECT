@@ -13,6 +13,4 @@ public interface GymApplicationMapper {
     GymApplication toEntity(GymApplicationRequestDto gymApplicationRequestDto);
 
     GymApplicationResponseDto fromEntity(GymApplication gymApplication);
-
-
 }
