@@ -49,17 +49,18 @@
                 font-size: large;
                 border-radius: 4px;
                 height: 3rem;
-                width: 22rem;
+                width: 13rem;
                 margin: 0rem;
             }
 
-            #password, #username, #re_password{
-                width: 18rem;
+             #username,  #nickname, #gender, #email{
+                width: 19rem;
                 height: 3rem;
             }
 
-            #username{
-                width: 19rem;
+            #re_password,#password {
+                width: 18rem;
+                height: 3rem;
             }
 
             #auth_img{
