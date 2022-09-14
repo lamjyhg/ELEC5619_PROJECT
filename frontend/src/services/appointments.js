@@ -1,21 +1,28 @@
-import { GET } from '../constants/requests';
+import { GET, POST, PUT } from '../constants/requests';
 import request from '../utils/request';
 const URL_PREFIX = 'appointments';
 
-export const handleRequestToGetGymsAppointments = (userId) => {
+export const handleRequestToGetGymAppointments = () => {
   const config = {
-    url: URL_PREFIX + '/',
+    url: URL_PREFIX + '',
     method: GET,
-    data: { userId },
   };
   return request(config).then((res) => res.data);
 };
 
-export const handleRequestToGetUsers = (userId) => {
+export const handleRequestToCreateAppointment = (appointment) => {
   const config = {
-    url: URL_PREFIX + '/',
-    method: GET,
-    data: { userId },
+    url: URL_PREFIX + '',
+    method: POST,
+    data: { appointment },
+  };
+  return request(config).then((res) => res.data);
+};
+
+export const handleRequestToCancelAppointment = (id) => {
+  const config = {
+    url: URL_PREFIX + '/' + id,
+    method: PUT,
   };
   return request(config).then((res) => res.data);
 };

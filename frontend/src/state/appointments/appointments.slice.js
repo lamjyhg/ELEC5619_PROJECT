@@ -4,6 +4,8 @@ import { handleActionToGetGyms } from './gyms.action';
 const appointmentsSlice = createSlice({
   name: 'appointments',
   initialState: {},
-  reducers: {},
+  reducers: {
+    
+  },
 });
 export default appointmentsSlice.reducer;

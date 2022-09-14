@@ -37,27 +37,29 @@ public class GymApplicationService {
         return gymApplicationMapper.fromEntity(gymApplication);
     }
 
-    public GymApplicationResponseDto create(GymApplicationRequestDto gymApplicationRequestDto){
-        GymApplication gymApplication =gymApplicationMapper.toEntity(gymApplicationRequestDto);
+    public GymApplicationResponseDto create(GymApplicationRequestDto gymApplicationRequestDto) {
+        GymApplication gymApplication = gymApplicationMapper.toEntity(gymApplicationRequestDto);
         gymApplication.setStatus(GymApplicationStatus.PENDING);
         System.out.println(1111);
         gymApplicationRepository.save(gymApplication);
         return gymApplicationMapper.fromEntity(gymApplication);
     }
 
-    public GymApplicationResponseDto updateStatus(UUID id, GymApplicationStatus status){
-        GymApplication foundGymApplication = gymApplicationRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(String.format("Unknown id %s", id)));
-        if(foundGymApplication.getGymId()==null || foundGymApplication.getType() == GymApplicationType.UPDATE){
-            throw  new IllegalArgumentException("can not update without gymId");
+    public GymApplicationResponseDto updateStatus(UUID id, GymApplicationStatus status) {
+        GymApplication foundGymApplication = gymApplicationRepository
+                .findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(String.format("Unknown id %s", id)));
+        if (foundGymApplication.getGymId() == null || foundGymApplication.getType() == GymApplicationType.UPDATE) {
+            throw new IllegalArgumentException("can not update without gymId");
         }
-        if(status == GymApplicationStatus.PENDING || foundGymApplication.getStatus() != GymApplicationStatus.PENDING){
+        if (status == GymApplicationStatus.PENDING || foundGymApplication.getStatus() != GymApplicationStatus.PENDING) {
             throw new BadRequestException("Invalid status update");
         }
         foundGymApplication.setStatus(status);
         gymApplicationRepository.save(foundGymApplication);
 
         Gym gym = gymMapper.fromGymApplication(foundGymApplication);
-        if(foundGymApplication.getGymId() != null){
+        if (foundGymApplication.getGymId() != null) {
             gym.setGymId(foundGymApplication.getGymApplicationId());
         }
         gymRepository.save(gym);

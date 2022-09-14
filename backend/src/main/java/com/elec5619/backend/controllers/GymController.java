@@ -3,11 +3,14 @@ package com.elec5619.backend.controllers;
 import com.elec5619.backend.dtos.GymRequestDto;
 import com.elec5619.backend.dtos.GymResponseDto;
 import com.elec5619.backend.services.GymService;
+import com.elec5619.backend.utils.EmailSendingHandler;
+import com.elec5619.backend.utils.EmailSendingHanlderImple;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.*;
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,7 +23,7 @@ public class GymController {
     private final GymService gymService;
 
     @GetMapping
-    public ResponseEntity<List<GymResponseDto>> findAllGyms() {
+    public ResponseEntity<List<GymResponseDto>> findAllGyms() throws IOException {
         return ResponseEntity.ok(gymService.findAll());
     }
 
