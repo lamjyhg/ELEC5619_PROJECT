@@ -7,6 +7,7 @@ import com.elec5619.backend.exceptions.BadRequestException;
 import com.elec5619.backend.mappers.AppointmentMapper;
 import com.elec5619.backend.repositories.AppointmentRepository;
 import com.elec5619.backend.utils.EmailSendingHandler;
+import com.elec5619.backend.utils.EmailSendingHanlderImple;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 public class AppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final AppointmentMapper appointmentMapper;
-    private final EmailSendingHandler emailSendingHandler;
+    private final EmailSendingHandler emailSendingHandler =  new EmailSendingHanlderImple();
     //private final
 
     public List<AppointmentResponseDto> listAllForGymOwner(UUID gymId) {

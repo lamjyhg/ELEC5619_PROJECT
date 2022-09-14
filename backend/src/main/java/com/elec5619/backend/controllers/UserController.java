@@ -24,9 +24,8 @@ public class UserController {
     }
 
     @PostMapping("/Register")
-    public Map<Boolean, String> createUser( @RequestBody UserRequest user) {
+    public Map<Boolean, String> createUser(@Valid @RequestBody UserRequest user) {
 
-        System.out.println(user);
 
         Map<Boolean, String> registerMap = userService.createUser(user);
 
@@ -34,13 +33,12 @@ public class UserController {
     }
 
 
-    @GetMapping("/Login")
-    public boolean getUser(@Valid @RequestBody UserRequest user) {
+    @PostMapping("/Login")
+    public boolean getUser( @RequestBody UserRequest user) {
 
+        boolean res = userService.getUser(user);
 
-        boolean registerRes = userService.getUser(user);
-
-        return registerRes;
+        return res;
     }
 
 

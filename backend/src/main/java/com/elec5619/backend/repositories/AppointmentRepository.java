@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, UUID> {
-    public Optional<Appointment> findByIdAndGymId(final UUID appointmentId, final UUID gymId);
+    //public Optional<Appointment> findByIdAndGymId(final UUID appointmentId, final UUID gymId);
 
     public List<Appointment> findAllByGymId(final UUID gymId);
 }
