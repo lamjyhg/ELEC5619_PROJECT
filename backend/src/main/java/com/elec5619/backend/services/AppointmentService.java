@@ -3,14 +3,19 @@ package com.elec5619.backend.services;
 import com.elec5619.backend.dtos.AppointmentResponseDto;
 import com.elec5619.backend.entities.Appointment;
 import com.elec5619.backend.entities.AppointmentStatus;
+import com.elec5619.backend.entities.Gym;
+import com.elec5619.backend.entities.User;
 import com.elec5619.backend.exceptions.BadRequestException;
 import com.elec5619.backend.mappers.AppointmentMapper;
 import com.elec5619.backend.repositories.AppointmentRepository;
 import com.elec5619.backend.utils.EmailSendingHandler;
+import com.elec5619.backend.utils.EmailSendingHanlderImple;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -18,12 +23,19 @@ import java.util.stream.Collectors;
 @Service
 public class AppointmentService {
     private final AppointmentRepository appointmentRepository;
-    private final AppointmentMapper appointmentMapper;
-    private final EmailSendingHandler emailSendingHandler;
-    //private final
+     private final AppointmentMapper appointmentMapper;
+     private final EmailSendingHandler emailSendingHandler = new EmailSendingHanlderImple();
 
-    public List<AppointmentResponseDto> listAllForGymOwner(UUID gymId) {
-        List<Appointment> appointments = appointmentRepository.findAllByGymId(gymId);
+    public List<AppointmentResponseDto> listAllForGymOwner() {
+        List<Appointment> appointments = new ArrayList<Appointment>();
+        User owner = new User();
+        System.out.println(1111);
+//        owner.getGyms().forEach(gym -> {
+//            gym.getAppointments().forEach(appointment -> {
+//                appointments.add(appointment);
+//            });
+//        });
+
         return appointments
                 .stream()
                 .map(appointment -> appointmentMapper.fromEntity(appointment)).collect(Collectors.toList());

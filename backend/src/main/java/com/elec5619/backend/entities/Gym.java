@@ -12,6 +12,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -30,7 +31,9 @@ public class Gym {
     private UUID gymId;
 
 //    @ManyToOne
-//    @JoinColumn(name="user_id",nullable = false)
+//    private User user;
+
+
     @Column(name="user_id",nullable = false)
     @NotNull
     private String userId;
@@ -56,5 +59,11 @@ public class Gym {
     @Column(name = "address", nullable = false)
     private String address;
 
+//    @ManyToOne
+//    @JoinColumn(name = "user_id", nullable = false)
+//    private User user;
+//
+//    @OneToMany(mappedBy = "appointment")
+//    private Set<Appointment> appointments;
 
 }
