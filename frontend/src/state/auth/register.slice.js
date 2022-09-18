@@ -1,11 +1,11 @@
 
 import {createSlice} from "@reduxjs/toolkit";
-import {handleRegisterRequest} from "./auth.action";
+import {handleRegisterRequest} from "./register.action";
 
 const registerSlice = createSlice({
-    name:"auth",
+    name:"register",
     initialState:{
-        authPage:{
+        registerPage:{
             isSuccess:false,
             isLoading:false,
             isError:false,
@@ -16,8 +16,8 @@ const registerSlice = createSlice({
         builder.addCase(
             handleRegisterRequest.pending, (state,action) => ({
                 ...state,
-                authPage: {
-                    ...state.authPage,
+                registerPage: {
+                    ...state.registerPage,
                     isSuccess:false,
                     isLoading:true,
                     isError:false,
@@ -27,8 +27,8 @@ const registerSlice = createSlice({
         ).addCase(
             handleRegisterRequest.fulfilled, (state,action) => ({
                 ...state,
-                authPage: {
-                    ...state.authPage,
+                registerPage: {
+                    ...state.registerPage,
                     isSuccess:true,
                     isLoading:false,
                     isError:false,
@@ -38,8 +38,8 @@ const registerSlice = createSlice({
         ).addCase(
             handleRegisterRequest.rejected, (state,action) => ({
                 ...state,
-                authPage: {
-                    ...state.authPage,
+                registerPage: {
+                    ...state.registerPage,
                     isSuccess:false,
                     isLoading:false,
                     isError:true,

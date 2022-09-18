@@ -1,17 +1,5 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import {loginService, registerService} from "../../services/auth";
-
-export const handleLoginRequest = createAsyncThunk(
-    "LOGIN_USER",
-    async(params, thunkAPI) => {
-        try {
-            console.log(params);
-            return await loginService(params);
-        }catch (error){
-            return thunkAPI.rejectWithValue(error);
-        }
-    }
-)
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import {registerService} from "../../services/auth";
 
 export const handleRegisterRequest = createAsyncThunk(
     "CREATE_USER",

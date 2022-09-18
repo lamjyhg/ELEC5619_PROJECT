@@ -11,6 +11,9 @@ import './RegisterBody.scss'
 import logo from '../../image/gymmy.png'
 
 import {registerService} from "../../services/auth";
+import {useDispatch, useSelector} from "react-redux";
+import {handleRegisterRequest} from "../../state/auth/register.action";
+import {isPending} from "@reduxjs/toolkit";
 
 const RegisterBody = () => {
 
@@ -32,6 +35,16 @@ const RegisterBody = () => {
     const emailOnchange = (evt) => {setEmail(evt.target.value)}
     const rePasswordOnchange = (evt) => {setRePassword(evt.target.value)}
 
+
+    const {isSuccess, isLoading, isError } = useSelector(
+        (state) => state.register.registerPage
+    );
+
+    const dispatch = useDispatch();
+
+
+
+
     const submit = () => {
         const userInput = {
             "email":email,
@@ -42,10 +55,17 @@ const RegisterBody = () => {
         }
 
 
-        registerService(userInput)
-            .then( res => {console.log(res)})
-            .catch( err => console.log(err))
+        // registerService(userInput)
+        //     .then(res => console.log(res))
+        //     .catch(err => console.log(err))
+        const handleRegister = async () => {
+            await dispatch(handleRegisterRequest(userInput));
+        };
+
+
+        handleRegister()
     }
+
 
 
 
@@ -78,7 +98,7 @@ const RegisterBody = () => {
                 </div>
 
                 <div className="register-item" id='buttonItem' onClick={submit}>
-                    <Button id='submitButton' type="primary" loading={isSubmitLoading}>
+                    <Button id='submitButton' type="primary" loading={isLoading}>
                         {submitText}
                     </Button>
                 </div>

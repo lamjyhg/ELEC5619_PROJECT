@@ -9,7 +9,6 @@ export const registerService = (user) => {
         data: user,
     };
 
-    console.log(user)
 
     return request(config).then((res) => res.data);
 };
@@ -17,8 +16,9 @@ export const registerService = (user) => {
 export const loginService  = (userInput) => {
     const config = {
         url: URL_PREFIX + '/Login',
-        method: GET,
-        data: { userInput },
+        method: POST,
+        data: userInput ,
     };
+
     return request(config).then((res) => res.data);
 };
