@@ -1,7 +1,9 @@
 package com.elec5619.backend.controllers;
 
-import com.elec5619.backend.dtos.UserRequest;
+import com.elec5619.backend.dtos.LoginRequest;
+import com.elec5619.backend.dtos.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.elec5619.backend.entities.User;
@@ -24,22 +26,19 @@ public class UserController {
     }
 
     @PostMapping("/Register")
-    public Map<Boolean, String> createUser(@Valid @RequestBody UserRequest user) {
+    public ResponseEntity createUser(@Valid @RequestBody RegisterRequest user) {
 
+        ResponseEntity response = userService.createUser(user);
 
-        Map<Boolean, String> registerMap = userService.createUser(user);
-
-        return registerMap;
+        return response;
     }
 
-
     @PostMapping("/Login")
-    public boolean getUser( @RequestBody UserRequest user) {
+    public ResponseEntity getUser( @Valid @RequestBody LoginRequest user) {
 
-        boolean res = userService.getUser(user);
+        ResponseEntity res = userService.getUser(user);
 
         return res;
     }
-
 
 }

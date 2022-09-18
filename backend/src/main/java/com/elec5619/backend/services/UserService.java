@@ -1,12 +1,13 @@
 package com.elec5619.backend.services;
 
-import com.elec5619.backend.dtos.UserRequest;
-import com.elec5619.backend.mappers.UserMapper;
+import com.elec5619.backend.dtos.LoginRequest;
+import com.elec5619.backend.dtos.RegisterRequest;
+import com.elec5619.backend.mappers.LoginMapper;
+import com.elec5619.backend.mappers.RegisterMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.elec5619.backend.entities.User;
 import com.elec5619.backend.repositories.UserRepository;
@@ -19,50 +20,46 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    private final UserMapper userMapper;
+    private final RegisterMapper registerMapper;
+    private final LoginMapper loginMapper;
 
 
-    public Map<Boolean, String> createUser(UserRequest userRequest) {
+    public ResponseEntity createUser(RegisterRequest userRequest) {
 
 
-        User user = userMapper.toEntity(userRequest);
+        User user = registerMapper.toEntity(userRequest);
         Optional<User> repeatEmail = userRepository.getUserByEmail(user.getEmail());
         Optional<User> repeatUsername = userRepository.getUserByUsername(user.getUsername());
 
-        Map<Boolean, String> retMap = new HashMap<>();
 
         if (repeatEmail.isPresent()) {
             // user exists
-            retMap.put(false, "This email has been registered.");
-
-            return retMap;
+            return new ResponseEntity<>("This email has been registered.", HttpStatus.BAD_REQUEST);
         }
 
         if(repeatUsername.isPresent()){
-            retMap.put(false, "This username has been registered.");
 
-            return retMap;
+            return new ResponseEntity<>("This username has been registered.", HttpStatus.BAD_REQUEST);
         }
 
 
 
         userRepository.save(user);
-        retMap.put(true, "Register Success!");
 
-        return retMap;
+        return new ResponseEntity<>("Register Success!", HttpStatus.OK);
     }
 
 
 
-    public boolean getUser(UserRequest userRequest){
-        User user = userMapper.toEntity(userRequest);
+    public ResponseEntity getUser(LoginRequest userRequest){
+        User user = loginMapper.toEntity(userRequest);
         Optional<User> checkUser = userRepository.getUserByEmailAndPassword(user.getEmail(), user.getPassword());
         if(checkUser.isPresent()){
             // login success
-            return true;
+            return new ResponseEntity<>("Login Success!", HttpStatus.OK);
         }
 
-        return false;
+        return new ResponseEntity<>("Login failed!", HttpStatus.BAD_REQUEST);
     }
 
 

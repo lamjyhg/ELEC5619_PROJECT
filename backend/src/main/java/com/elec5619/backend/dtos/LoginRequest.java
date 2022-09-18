@@ -5,15 +5,11 @@ import com.elec5619.backend.utils.validators.InputStringValidator.InputSecurityC
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 @Data
-public class UserRequest {
+public class LoginRequest {
 
 
-//    @NotNull(message = "id cannot be empty")
-//    private Long id;
     @NotBlank(message = "email cannot be empty")
     @InputSecurityConstraint
     @EmailFormatConstraint
@@ -21,15 +17,5 @@ public class UserRequest {
     @NotBlank(message = "password cannot be empty")
     @InputSecurityConstraint
     private String password;
-    @NotBlank(message = "username cannot be empty")
-    @InputSecurityConstraint
-    private String username;
-    @NotBlank(message = "name cannot be empty")
-    @InputSecurityConstraint
-    private String name;
-    @NotBlank(message = "type cannot be empty")
-    @InputSecurityConstraint
-    private String type;
-
 
 }
