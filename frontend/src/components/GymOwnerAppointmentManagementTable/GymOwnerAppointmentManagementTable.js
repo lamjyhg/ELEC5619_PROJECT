@@ -2,6 +2,11 @@ import { Button, Col, Modal, Row, Table, Tooltip } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import React, { useState } from 'react';
 import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  handleActionToCancelAppointmentByGymOwner,
+  handleActionToGetGymsAppointmentsByGymOwner,
+} from '../../state/appointments/appointments.action';
 import GymOwnerAppointmentCancellationForm from './GymOwnerAppointmentCancellationForm/GymOwnerAppointmentCancellationForm';
 import './GymOwnerAppointmentManagementTable.scss';
 
@@ -43,7 +48,7 @@ const data = [
     note: '11fhfdshsfhdsjdgjshdjhsdkhhdhjkadhkjahdkhakjhdjkahjkhjkahkjdhahdahdkahkdhkahkdahkdhkahkdhakhkhakhdkah',
   },
   {
-    key: '1',
+    key: '1dskl',
     gymName: 'A',
     userName: 'a',
     startTime: '1',
@@ -52,7 +57,7 @@ const data = [
     note: '11fhfdshsfhdsjdgjshdjhsdkhhdhjkadhkjahdkhakjhdjkahjkhjkahkjdhahdahdkahkdhkahkdahkdhkahkdhakhkhakhdkah',
   },
   {
-    key: '1',
+    key: '1sbj',
     gymName: 'A',
     userName: 'a',
     startTime: '1',
@@ -61,7 +66,7 @@ const data = [
     note: '11fhfdshsfhdsjdgjshdjhsdkhhdhjkadhkjahdkhakjhdjkahjkhjkahkjdhahdahdkahkdhkahkdahkdhkahkdhakhkhakhdkah',
   },
   {
-    key: '1',
+    key: '1djskj',
     gymName: 'A',
     userName: 'a',
     startTime: '1',
@@ -70,7 +75,7 @@ const data = [
     note: '11fhfdshsfhdsjdgjshdjhsdkhhdhjkadhkjahdkhakjhdjkahjkhjkahkjdhahdahdkahkdhkahkdahkdhkahkdhakhkhakhdkah',
   },
   {
-    key: '1',
+    key: '1ds',
     gymName: 'A',
     userName: 'a',
     startTime: '1',
@@ -79,7 +84,7 @@ const data = [
     note: '11fhfdshsfhdsjdgjshdjhsdkhhdhjkadhkjahdkhakjhdjkahjkhjkahkjdhahdahdkahkdhkahkdahkdhkahkdhakhkhakhdkah',
   },
   {
-    key: '1',
+    key: '1ssd',
     gymName: 'A',
     userName: 'a',
     startTime: '1',
@@ -90,8 +95,15 @@ const data = [
 ];
 
 const GymOwnerAppointmentManagementTable = () => {
-  useEffect(() => {}, []);
   const [cancelledId, setCancelledId] = useState(null);
+
+  const { appointmentList, isError, isLoading, isSuccess } = useSelector(
+    (state) => {
+      return state.appointments.gymOwner;
+    }
+  );
+
+  const dispatch = useDispatch();
 
   const columns = [
     { title: 'Gym Name', dataIndex: 'gymName', key: 'gymName' },
@@ -122,14 +134,24 @@ const GymOwnerAppointmentManagementTable = () => {
     },
   ];
 
-  const handleOk = () => {
+  const handleOk = async () => {
     //cancel appointment
+    console.log(cancelledId);
+    await dispatch(handleActionToCancelAppointmentByGymOwner(cancelledId));
     setCancelledId(null);
   };
 
-  const handleCancel = (id) => {
+  const handleCancel = () => {
     setCancelledId(null);
   };
+
+  useEffect(() => {
+    const getAppointments = async () => {
+      await dispatch(handleActionToGetGymsAppointmentsByGymOwner());
+    };
+
+    getAppointments();
+  }, []);
 
   return (
     <>

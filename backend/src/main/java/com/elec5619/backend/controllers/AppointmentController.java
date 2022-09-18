@@ -22,12 +22,12 @@ public class AppointmentController {
     private final AppointmentService appointmentService;
 
 
-    @GetMapping("/getByGymId/{gymId}")
-    public ResponseEntity<List<AppointmentResponseDto>> getAppointmentsByGymOwner(@PathVariable UUID gymId) {
-        return ResponseEntity.ok(appointmentService.listAllForGymOwner(gymId));
+    @GetMapping("/listAllByGymOwner")
+    public ResponseEntity<List<AppointmentResponseDto>> getAppointmentsByGymOwner() {
+        return ResponseEntity.ok(appointmentService.listAllForGymOwner());
     }
 
-    @PutMapping("/cancelledByGymOwner/{appointmentId}")
+    @PutMapping("/{appointmentId}/cancelledByGymOwner")
     public ResponseEntity<AppointmentResponseDto> cancelAppointmentByGymOwner(@PathVariable UUID appointmentId, @RequestParam(name = "comment") String comment) throws IOException {
         return ResponseEntity.ok(appointmentService.cancelByGymOwner(appointmentId, comment));
     }
