@@ -2,14 +2,13 @@ package com.elec5619.backend.services;
 
 import com.elec5619.backend.dtos.AppointmentRequestDto;
 import com.elec5619.backend.dtos.AppointmentResponseDto;
-import com.elec5619.backend.dtos.UserRequest;
+
 import com.elec5619.backend.entities.Appointment;
 import com.elec5619.backend.entities.AppointmentStatus;
 import com.elec5619.backend.entities.Gym;
 import com.elec5619.backend.entities.User;
 import com.elec5619.backend.exceptions.BadRequestException;
 import com.elec5619.backend.mappers.AppointmentMapper;
-import com.elec5619.backend.mappers.UserMapper;
 import com.elec5619.backend.repositories.AppointmentRepository;
 import com.elec5619.backend.repositories.GymRepository;
 import com.elec5619.backend.repositories.UserRepository;
@@ -29,7 +28,7 @@ import java.util.stream.Collectors;
 public class AppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final GymRepository gymRepository;
-    private final UserMapper userMapper;
+    //private final UserMapper userMapper;
     private final AppointmentMapper appointmentMapper;
     private final UserRepository userRepository;
     private final EmailSendingHandler emailSendingHandler = new EmailSendingHanlderImple();
@@ -38,16 +37,9 @@ public class AppointmentService {
     public List<AppointmentResponseDto> listAllForGymOwner() {
 
         List<Appointment> appointments = new ArrayList<Appointment>();
-        UserRequest userRequest = new UserRequest();
-        userRequest.setEmail("123@gmail.com");
-        userRequest.setUsername("us");
-        userRequest.setPassword("sss");
-        userRequest.setType("sss");
-        userRequest.setName("n");
 
-        User user = userMapper.toEntity(userRequest);
-        user.setId(UUID.fromString("40e72a56-b479-4e72-a81c-c248fef6ecd3"));
-        userRepository.save(user);
+
+
         //appointments = appointmentRepository.findAllByGymOwnerId(UUID.fromString("40e72a56-b479-4e72-a81c-c248fef6ecd3"));
         List<Gym> gyms =new ArrayList<>();
 
