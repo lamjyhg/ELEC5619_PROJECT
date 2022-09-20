@@ -3,16 +3,16 @@ import TextArea from 'antd/lib/input/TextArea';
 
 const GymOwnerAppointmentCancellationForm = ({
   cancelledId,
-  handleOk,
-  handleCancel,
+  comment,
+  handleConfirmCancellation,
+  handleCancelCancellatin,
+  handleChangeCommentValue,
 }) => {
-
-  
   return (
     <Modal
       visible={cancelledId !== null}
-      onOk={handleOk}
-      onCancel={handleCancel}
+      onOk={handleConfirmCancellation}
+      onCancel={handleCancelCancellatin}
     >
       <h1>Appointment Cancellation {cancelledId}</h1>
       <Row>
@@ -36,6 +36,8 @@ const GymOwnerAppointmentCancellationForm = ({
         placeholder="please leave a comment for cancellation"
         maxLength={200}
         showCount={true}
+        value={comment}
+        onChange={handleChangeCommentValue}
       />
     </Modal>
   );

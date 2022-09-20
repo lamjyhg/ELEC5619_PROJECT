@@ -18,9 +18,12 @@ export const handleActionToGetGymsAppointmentsByGymOwner = createAsyncThunk(
 
 export const handleActionToCancelAppointmentByGymOwner = createAsyncThunk(
   'CANCEL_GYM_APPOINTMENT_BY_GYM_OWNER',
-  async (params, thunkAPI) => {
+  async (parames, thunkAPI) => {
     try {
-      return await handleRequestToCancelAppointmentByGymOwner(params);
+      return await handleRequestToCancelAppointmentByGymOwner(
+        parames.cancelledId,
+        parames.comment
+      );
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }

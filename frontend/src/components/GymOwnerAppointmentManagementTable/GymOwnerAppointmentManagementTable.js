@@ -96,6 +96,7 @@ const data = [
 
 const GymOwnerAppointmentManagementTable = () => {
   const [cancelledId, setCancelledId] = useState(null);
+  const [comment, setComment] = useState('');
 
   const { appointmentList, isError, isLoading, isSuccess } = useSelector(
     (state) => {
@@ -134,15 +135,23 @@ const GymOwnerAppointmentManagementTable = () => {
     },
   ];
 
-  const handleOk = async () => {
-    //cancel appointment
-    console.log(cancelledId);
-    await dispatch(handleActionToCancelAppointmentByGymOwner(cancelledId));
-    setCancelledId(null);
+  const handleChangeCommentValue = (e) => {
+    setComment(e.target.value);
   };
 
-  const handleCancel = () => {
+  const handleConfirmCancellation = async () => {
+    //cancel appointment
+    console.log(cancelledId);
+    await dispatch(
+      handleActionToCancelAppointmentByGymOwner({ cancelledId, comment })
+    );
     setCancelledId(null);
+    setComment('');
+  };
+
+  const handleCancelCancellatin = () => {
+    setCancelledId(null);
+    setComment('');
   };
 
   useEffect(() => {
@@ -157,8 +166,10 @@ const GymOwnerAppointmentManagementTable = () => {
     <>
       <GymOwnerAppointmentCancellationForm
         cancelledId={cancelledId}
-        handleOk={handleOk}
-        handleCancel={handleCancel}
+        handleConfirmCancellation={handleConfirmCancellation}
+        handleCancelCancellatin={handleCancelCancellatin}
+        comment={comment}
+        handleChangeCommentValue={handleChangeCommentValue}
       ></GymOwnerAppointmentCancellationForm>
       <Table
         pagination={{ pageSize: 8 }}

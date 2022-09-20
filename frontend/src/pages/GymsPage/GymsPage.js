@@ -9,6 +9,7 @@ const GymsPage = () => {
   const { gymsList, isError, isLoading, isSuccess } = useSelector((state) => {
     return state.gyms.gymsPage;
   });
+
   const [isShowingList, setIsShowingList] = useState(true);
   const dispatch = useDispatch();
 
