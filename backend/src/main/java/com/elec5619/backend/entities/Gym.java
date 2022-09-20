@@ -1,4 +1,7 @@
 package com.elec5619.backend.entities;
+import com.elec5619.backend.entities.gymEnums.GymApplicationStatus;
+import com.elec5619.backend.entities.gymEnums.GymApplicationType;
+import com.elec5619.backend.entities.gymEnums.GymStatus;
 import lombok.Data;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
@@ -11,6 +14,7 @@ import org.hibernate.annotations.TypeDef;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -59,5 +63,22 @@ public class Gym {
 
     @OneToMany(mappedBy = "gym")
     private Set<Appointment> appointments;
+
+
+    @Column(name="last_updated_time", nullable = false)
+    private Date lastUpdatedTime;
+
+    @Column(name="gym_application_status", nullable = false)
+    private GymApplicationStatus gymApplicationStatus;
+
+    @Column(name="gym_application_type", nullable = false)
+    private GymApplicationType gymApplicationType;
+
+    @Column(name="gym_status",nullable = false)
+    private GymStatus gymStatus;
+
+
+
+
 
 }
