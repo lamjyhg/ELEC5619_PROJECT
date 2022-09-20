@@ -1,8 +1,6 @@
 package com.elec5619.backend.controllers;
 
 import com.elec5619.backend.dtos.AppointmentResponseDto;
-import com.elec5619.backend.dtos.GymApplicationResponseDto;
-import com.elec5619.backend.entities.GymApplicationStatus;
 import com.elec5619.backend.services.AppointmentService;
 import com.elec5619.backend.utils.EmailSendingHandler;
 import com.elec5619.backend.utils.EmailSendingHanlderImple;
