@@ -10,6 +10,7 @@ import lombok.Data;
 import javax.validation.constraints.*;
 
 import java.util.Map;
+import java.util.UUID;
 
 @Data
 //@ConditionalValid(field = "name", dependentFields = {"firstName", "lastName"}, message = "Either name or first name and last name are required")
