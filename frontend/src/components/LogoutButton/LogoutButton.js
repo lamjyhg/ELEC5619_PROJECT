@@ -21,7 +21,6 @@ const LogoutButton = ({ buttonClassName }) => {
     if (!getToken()) {
       navigate('/');
     }
-    console.log(buttonClassName);
   }, []);
 
   return (

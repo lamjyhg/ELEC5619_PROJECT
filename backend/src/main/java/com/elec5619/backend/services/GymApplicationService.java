@@ -60,7 +60,7 @@ public class GymApplicationService {
 
         Gym gym = gymMapper.fromGymApplication(foundGymApplication);
         if (foundGymApplication.getGymId() != null) {
-            gym.setGymId(foundGymApplication.getGymApplicationId());
+            gym.setId(foundGymApplication.getId());
         }
         gymRepository.save(gym);
         // send email

@@ -27,16 +27,10 @@ public class Gym {
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
-    @Column(name = "gym_id", columnDefinition = "BINARY(16)",updatable = false, nullable = false)
-    private UUID gymId;
-
-//    @ManyToOne
-//    private User user;
+    @Column(name = "id", columnDefinition = "BINARY(16)",updatable = false, nullable = false)
+    private UUID id;
 
 
-    @Column(name="user_id",nullable = false)
-    @NotNull
-    private String userId;
 
     @Column(name = "name", nullable = false,length = 255)
     private String name;
@@ -59,11 +53,11 @@ public class Gym {
     @Column(name = "address", nullable = false)
     private String address;
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_id", nullable = false)
-//    private User user;
-//
-//    @OneToMany(mappedBy = "appointment")
-//    private Set<Appointment> appointments;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @OneToMany(mappedBy = "gym")
+    private Set<Appointment> appointments;
 
 }

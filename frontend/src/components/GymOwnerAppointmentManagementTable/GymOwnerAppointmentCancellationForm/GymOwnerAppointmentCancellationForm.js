@@ -6,6 +6,8 @@ const GymOwnerAppointmentCancellationForm = ({
   handleOk,
   handleCancel,
 }) => {
+
+  
   return (
     <Modal
       visible={cancelledId !== null}

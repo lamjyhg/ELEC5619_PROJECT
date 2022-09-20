@@ -20,15 +20,17 @@ public class Appointment {
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
-    @Column(name = "appointment_id", columnDefinition = "BINARY(16)",updatable = false, nullable = false)
-    private UUID appointmentId;
+    @Column(name = "id", columnDefinition = "BINARY(16)",updatable = false, nullable = false)
+    private UUID id;
 
-//    @ManyToOne
-//    @JoinColumn(name="gym_id", nullable = false)
-//    private Gym gymId;
+
 
     @Column(name = "status", nullable = false)
     private AppointmentStatus status;
+
+    @ManyToOne
+    @JoinColumn(name="gym_id", nullable = false)
+    private Gym gym;
 
 
 }

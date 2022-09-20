@@ -4,8 +4,11 @@ import javax.persistence.*;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
+import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -14,9 +17,13 @@ import java.util.Set;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // auto inc
-    @Column(name = "id", updatable = false, nullable = false)
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "id", columnDefinition = "BINARY(16)",updatable = false, nullable = false)
+    private UUID id;
 
     @Column(name = "email", unique = false, nullable = false)
     private String email;
@@ -42,7 +49,8 @@ public class User {
                 "\nname: " + this.name +
                 "\ntype: " + this.type;
     }
-//    @OneToMany(mappedBy = "gym")
-//    private Set<Gym> gyms;
+
+    @OneToMany(mappedBy = "user")
+    private List<Gym> gyms;
 
 }

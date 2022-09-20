@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Data
 public class GymApplicationResponseDto {
-    private UUID gymApplicationId;
+    private UUID id;
 
     private String userId;
 

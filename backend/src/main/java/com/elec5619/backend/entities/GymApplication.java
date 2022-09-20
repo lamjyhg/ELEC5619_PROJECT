@@ -22,8 +22,8 @@ public class GymApplication {
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
-    @Column(name = "gym_application_id", columnDefinition = "BINARY(16)",updatable = false, nullable = false)
-    private UUID gymApplicationId;
+    @Column(name = "id", columnDefinition = "BINARY(16)",updatable = false, nullable = false)
+    private UUID id;
 
     //    @ManyToOne
 //    @JoinColumn(name="user_id",nullable = false)
