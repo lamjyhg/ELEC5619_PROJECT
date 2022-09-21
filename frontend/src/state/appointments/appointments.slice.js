@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-// import { replaceAppointmentInList } from '../../utils/appointmentsHandlers';
+import { replaceAppointmentInList } from '../../utils/appointmentsHandlers';
 import {
   handleActionToCancelAppointmentByGymOwner,
   handleActionToGetGymsAppointmentsByGymOwner,
@@ -68,22 +68,22 @@ const appointmentsSlice = createSlice({
           },
         })
       )
-      // .addCase(
-      //   handleActionToCancelAppointmentByGymOwner.fulfilled,
-      //   (state, action) => ({
-      //     ...state,
-      //     gymOwner: {
-      //       ...state.gymOwner,
-      //       isLoading: false,
-      //       isError: false,
-      //       isSuccess: true,
-      //       appointmentList: replaceAppointmentInList(
-      //         action.payload,
-      //         state.gymOwner.appointmentList
-      //       ),
-      //     },
-      //   })
-      // )
+      .addCase(
+        handleActionToCancelAppointmentByGymOwner.fulfilled,
+        (state, action) => ({
+          ...state,
+          gymOwner: {
+            ...state.gymOwner,
+            isLoading: false,
+            isError: false,
+            isSuccess: true,
+            appointmentList: replaceAppointmentInList(
+              action.payload,
+              state.gymOwner.appointmentList
+            ),
+          },
+        })
+      )
       .addCase(
         handleActionToCancelAppointmentByGymOwner.rejected,
         (state, action) => ({

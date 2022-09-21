@@ -9,6 +9,7 @@ import lombok.Data;
 
 import javax.validation.constraints.*;
 
+import java.sql.Time;
 import java.util.Map;
 import java.util.UUID;
 
@@ -30,7 +31,7 @@ public class GymRequestDto {
     private Map<String, Double> geoLocation;
 
     @TradingHoursConstraint
-    private Map<String, Map<String, String>> tradingHours;
+    private Map<Integer, Map<String, Time>> tradingHours;
 
     @NotBlank(message = "address should not be blank")
     private String address;

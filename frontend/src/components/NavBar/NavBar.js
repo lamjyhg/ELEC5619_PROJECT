@@ -19,7 +19,7 @@ const usersItems = [
     getItem('Profile', 'profile'),
     getItem('Change Password', 'change-password'),
     getItem('Appointments', 'appointments'),
-    getItem('Gym owner', 'gym-owner'),
+    getItem('Gym owner', 'gymOwner'),
     getItem('Log out', 'logout'),
   ]),
 ];

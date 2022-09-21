@@ -3,6 +3,7 @@ package com.elec5619.backend.dtos;
 import com.elec5619.backend.entities.gymEnums.GymStatus;
 import lombok.Data;
 
+import java.sql.Time;
 import java.util.Map;
 import java.util.UUID;
 
@@ -18,7 +19,7 @@ public class GymResponseDto {
 
     private Map<String, Double> geoLocation;
 
-    private Map<String, Map<String, String>> tradingHours;
+    private Map<Integer, Map<String, Time>> tradingHours;
 
     private String address;
 

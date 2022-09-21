@@ -9,6 +9,7 @@ import { CloseOutlined } from '@ant-design/icons';
 import { Card } from 'antd';
 import { mapStyle } from './MapStyle';
 import { useSelector } from 'react-redux';
+import { fromNumberToWeekday, timeFormatter } from '../../utils/timeHandlers';
 
 function GymsMap() {
   const { gymsList, isSuccess, isLoading, isError } = useSelector(
@@ -27,11 +28,25 @@ function GymsMap() {
     setGym(detail);
   };
 
+  const getTradingHoursString = (tradingHours) => {
+    const keys = Object.keys(tradingHours).sort();
+    const words = keys.map((key, index) => (
+      <p className="gymCard__tradingHours" key={index}>
+        {fromNumberToWeekday(key)} :{' '}
+        {timeFormatter(tradingHours[key]['startTime']) +
+          '-' +
+          timeFormatter(tradingHours[key]['endTime'])}
+      </p>
+    ));
+    return words;
+  };
+
   const showGymCard = () => {
     if (gym) {
       return (
         <OverlayView
-          position={gym.geolocation}
+          position={gym.geoLocation}
+          key={100}
           mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
         >
           <Card
@@ -48,7 +63,7 @@ function GymsMap() {
             }
           >
             <p className="gymCard__tradingHours"> trading hours :</p>
-            <p className="gymCard__tradingHours"> Mon: 6pm-7pm</p>
+            {getTradingHoursString(gym.tradingHours)}
 
             <a href={'/gyms/' + gym.id}>more</a>
           </Card>
@@ -75,16 +90,18 @@ function GymsMap() {
     <div className="gymsMap">
       <Wrapper apiKey={googleMapApiKey}>
         <GoogleMap mapContainerStyle={mapStyle} center={center} zoom={12}>
-          {gymsList.map((each, index) => (
-            <Marker
-              key={index}
-              position={each.geoLocation}
-              clickable={true}
-              onClick={() => {
-                handleMarkerClick(each);
-              }}
-            ></Marker>
-          ))}
+          {gymsList.map((each, index) => {
+            return (
+              <Marker
+                key={index}
+                position={each.geoLocation}
+                clickable={true}
+                onClick={() => {
+                  handleMarkerClick(each);
+                }}
+              ></Marker>
+            );
+          })}
           {showGymCard()}
         </GoogleMap>
       </Wrapper>

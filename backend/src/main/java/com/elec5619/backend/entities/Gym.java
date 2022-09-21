@@ -14,6 +14,7 @@ import org.hibernate.annotations.TypeDef;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.sql.Time;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
@@ -51,7 +52,7 @@ public class Gym {
 
     @Type(type = "json")
     @Column(columnDefinition = "json", name = "trading_hours")
-    private Map<String,Map<String,String>> tradingHours;
+    private Map<Integer, Map<String, Time>> tradingHours;
 
 
     @Column(name = "address", nullable = false)
