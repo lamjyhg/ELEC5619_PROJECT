@@ -1,27 +1,72 @@
+
+
+.side_floater{
+    position: fixed;
+    left:70rem;
+    top:8rem;
+    background-color: #eaeaea;
+    width: 20rem;
+
+    .appointment_box {
+
+        padding-left: 1rem;
+        border-radius: 8px;
+
+        .appointment_title {
+            padding-right: 2rem;
+            font-size: large;
+        }
+
+        .short_line {
+            border: none;
+            border-bottom: 1px solid #ffffff;
+            margin-bottom: 1rem;
+            margin-top: 0.5rem;
+            margin-right: 1rem;
+        }
+
+    }
+
+}
+
+
+
+
+
+
+
+
 .single_gym_container{
 
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20rem;
+
+
+  .line {
+    border: none;
+    border-bottom: 3px solid #dedede;
+      margin: 0rem 32rem 2rem 0rem;
+  }
 
   .top_container {
-
-
     display: flex;
+    margin-left: 5rem;
 
     .right_image_area{
 
-        height: 40rem;
+        height: 20rem;
         margin-top: 4rem;
         margin-left: 5rem;
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
+
+
 
         .mid_img{
             .large_img{
-              width: 50rem;
-              height: 30rem;
+              width: 22rem;
+              height: 22rem;
             }
         }
 
@@ -29,7 +74,6 @@
             display: flex;
             margin-top: 0.5rem;
             width: 50rem;
-
 
             justify-content: center;
             align-items: center;
@@ -46,15 +90,22 @@
     .left_info_area{
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        height: 40rem;
+        height: 20rem;
         margin-top: 4rem;
         margin-left: 3rem;
+        align-items: flex-end;
+
 
 
         .info_title{
             font-size: xxx-large;
             font-weight: bold;
+
+        }
+
+        .large_size_info{
+              font-size: x-large;
+              font-weight: bold;
         }
 
         .middle_size_info{
@@ -66,8 +117,112 @@
             font-size: small;
             font-weight: lighter;
         }
+
+        .description_wrapper{
+            margin-top: 4rem;
+            color: #c7c7c7;
+            font-weight: bold;
+            width: 30rem;
+        }
     }
 
+
+
+  }
+
+
+  .bot_container{
+      display: flex;
+      flex-direction: column;
+      margin-left: 6rem;
+
+
+      .review_container{
+
+          display: flex;
+          flex-direction: column;
+          margin-left: 3rem;
+
+          .review_header{
+              margin-top: 2rem;
+              display: flex;
+              font-size: xx-large;
+          }
+
+          .review_body{
+              width: 50rem;
+              .single_review{
+
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: flex-start;
+                  align-items: flex-start;
+                  margin-left: 1rem;
+                  margin-bottom: 3rem;
+                  border-bottom: 1px solid #dedede;
+
+
+                  .single_review_header{
+                      font-size: medium;
+                      font-weight:bold ;
+                      color: #a4a4a4;
+                      //border-bottom: 1px solid black;
+                  }
+
+                  .single_review_body{
+                      font-size: medium;
+                      text-align: left;
+                  }
+
+
+
+              }
+          }
+
+
+      }
+
+
+      .small_map {
+          margin-top: 5rem;
+          height: 25rem;
+          width: 59rem;
+          overflow-y: hidden;
+      }
+
+
+
+      .disclaimer{
+          font-size: medium;
+          .disclaimer_head{
+              font-weight: bold;
+          }
+      }
+
+      .details_container{
+          flex: 2;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+
+          font-size: x-large;
+          font-weight: bold;
+
+
+          .single_detail{
+              display: flex;
+              flex-direction: column;
+
+              .single_detail_header{
+                  font-size: large;
+              }
+
+
+              .single_detail_body{
+                  font-size: medium;
+              }
+          }
+      }
 
 
   }
