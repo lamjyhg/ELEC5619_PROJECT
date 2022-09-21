@@ -5,12 +5,15 @@ import com.elec5619.backend.dtos.GymRequestDto;
 import com.elec5619.backend.dtos.GymResponseDto;
 import com.elec5619.backend.entities.Gym;
 import com.elec5619.backend.entities.User;
+import com.elec5619.backend.entities.gymEnums.GymApplicationType;
+import com.elec5619.backend.entities.gymEnums.GymStatus;
 import com.elec5619.backend.mappers.GymMapper;
 import com.elec5619.backend.repositories.GymRepository;
 import com.elec5619.backend.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -34,8 +37,9 @@ public class GymService {
 
     public GymResponseDto create(GymRequestDto gymRequestDto) {
         Gym gym = gymMapper.toEntity(gymRequestDto);
-        User user = userRepository.findById(UUID.fromString("1")).orElseThrow(() -> new IllegalArgumentException(String.format("Unknown id")));
+        User user = userRepository.findById(UUID.fromString("24956816-4ee5-400f-8060-b4b8d6e044bc")).orElseThrow(() -> new IllegalArgumentException(String.format("Unknown id")));
         gym.setUser(user);
+        gym.setGymApplicationType(GymApplicationType.CREATE);
         gymRepository.save(gym);
         return gymMapper.fromEntity(gym);
     }
@@ -44,6 +48,7 @@ public class GymService {
         Gym foundGym = gymRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(String.format("Unknown id %s", id)));
         Gym newGym = gymMapper.toEntity(gymRequestDto);
         newGym.setId(foundGym.getId());
+        newGym.setGymApplicationType(GymApplicationType.UPDATE);
         gymRepository.save(newGym);
         return gymMapper.fromEntity(newGym);
     }

@@ -66,18 +66,16 @@ public class Gym {
 
 
     @Column(name="last_updated_time", nullable = false)
-    private Date lastUpdatedTime;
+    private Date lastUpdatedTime = new Date();
 
     @Column(name="gym_application_status", nullable = false)
-    private GymApplicationStatus gymApplicationStatus;
+    private GymApplicationStatus gymApplicationStatus = GymApplicationStatus.PENDING;
 
     @Column(name="gym_application_type", nullable = false)
     private GymApplicationType gymApplicationType;
 
     @Column(name="gym_status",nullable = false)
-    private GymStatus gymStatus;
-
-
+    private GymStatus gymStatus = GymStatus.PRIVATE;
 
 
 
