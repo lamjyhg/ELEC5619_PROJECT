@@ -13,7 +13,7 @@ import ProfilePage from '../pages/AccountPage/ProfilePage/ProfilePage';
 import ChangePasswordPage from '../pages/AccountPage/ChangePasswordPage/ChangePasswordPage';
 import AppointmentsPage from '../pages/AccountPage/AppointmentsPage/AppointmentsPage';
 import OwnerGymsPage from '../pages/AccountPage/OwnerGymsPage/OwnerGymsPage';
-import SingleGymPage from "../pages/SingleGymPage/SingleGymPage";
+import SingleGymPage from '../pages/SingleGymPage/SingleGymPage';
 
 const Router = () => {
   return (
@@ -23,7 +23,7 @@ const Router = () => {
 
       <Route path="/" element={<MainLayout />}>
         <Route path="gyms" element={<GymsPage />} />
-        <Route path="/gyms/:gym_id" element={<SingleGymPage />} />
+        <Route path="gyms/:gym_id" element={<SingleGymPage />} />
       </Route>
       <Route path="/admin" element={<ProtectedLayout />}>
         <Route path="" element={<AccountPage />}>

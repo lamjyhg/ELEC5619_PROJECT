@@ -50,7 +50,7 @@ function GymsMap() {
             <p className="gymCard__tradingHours"> trading hours :</p>
             <p className="gymCard__tradingHours"> Mon: 6pm-7pm</p>
 
-            <a href={'/gyms/gym/' + gym.id}>more</a>
+            <a href={'/gyms/' + gym.id}>more</a>
           </Card>
         </OverlayView>
       );
