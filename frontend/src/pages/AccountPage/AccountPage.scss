@@ -1,15 +1,48 @@
-.accountPage__header{
-    height: 100px;
-    display: flex;
-    justify-content: flex-end;
-    &__logoutButton{
-        width: 150px;
-        height: 50px;
-        margin-top: 15px;
-    }
+#accountPage__siderBar{
+    height: 800px;
 }
-.accountPage__content{
-    height: 700px;
-    border: 1px solid black;
-    overflow: hidden;
+.accountPage{
+    
+
+        &__siderBar{
+            
+            &__logo{
+                width: 80%;
+                &:hover{
+                    cursor: pointer;
+                }
+            }
+        }
+        &__header{
+            height: 100px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px;
+            background-color: #a3ccf2;
+            &__logoutButton{
+                width: 150px;
+                height: 50px;
+            }
+                
+            &__menuButton{
+                    width: 50px;
+                    height: 50px;
+                
+            }
+            &__content{
+                height: 700px;
+                overflow: hidden;
+                overflow: auto;
+            }
+        }
+        &__content{
+            overflow: auto;
+        }
+        
+        
+    
+    
+
 }
+

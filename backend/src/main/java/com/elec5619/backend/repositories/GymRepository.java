@@ -9,7 +9,22 @@ import java.util.List;
 import java.util.UUID;
 
 public interface GymRepository extends JpaRepository<Gym, UUID> {
-    //@Query("SELECT JSON_VALUE(GEOLOCATOON, '$.lat') AS LAT, JSON_VALUE(GEOLOCATOON, '$.lat') AS LAT")
-    //public List<Gym> findNearbyGymsByCurrentLocationAndDistance(@Param("latitude") Double latitude,@Param("longitude") Double longitude);
+    @Query(value = "SELECT * FROM (\n" +
+            "    SELECT *, \n" +
+            "        (\n" +
+            "            (\n" +
+            "                (\n" +
+            "                    acos(\n" +
+            "                        sin(( ?1 * pi() / 180))\n" +
+            "                        *\n" +
+            "                        sin(( json_value(geo_location,'$.lat') * pi() / 180)) + cos(( ?1 * pi() /180 ))\n" +
+            "                        *\n" +
+            "                        cos(( json_value(geo_location,'$.lat') * pi() / 180)) * cos((( ?2 - json_value(geo_location,'$.lng')) * pi()/180)))\n" +
+            "                ) * 180/pi()\n" +
+            "            ) * 60 * 1.1515\n" +
+            "        )\n" +
+            "    as distance FROM Gym\n" +
+            ") myTable order by distance;" , nativeQuery = true)
+    public List<Gym> findNearbyGymsByCurrentLocation(@Param("latitude") Double latitude,@Param("longitude") Double longitude);
 
 }

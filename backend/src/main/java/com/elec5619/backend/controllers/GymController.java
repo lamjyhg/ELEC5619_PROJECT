@@ -27,6 +27,11 @@ public class GymController {
         return ResponseEntity.ok(gymService.findAll());
     }
 
+    @GetMapping("/findAllNearby")
+    public ResponseEntity<List<GymResponseDto>> findAllNearbyGyms(@RequestParam(name = "latitude") Double latitude,@RequestParam(name = "longitude") Double longitude) throws IOException {
+        return ResponseEntity.ok(gymService.findAllNearby(latitude,longitude));
+    }
+
     @GetMapping("/{gymId}")
     public ResponseEntity<GymResponseDto> findOneGymById(@PathVariable UUID gymId) {
         return ResponseEntity.ok(gymService.findOneById(gymId));
