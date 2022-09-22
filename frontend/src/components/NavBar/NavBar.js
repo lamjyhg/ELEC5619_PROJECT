@@ -18,13 +18,18 @@ import './NavBar.scss';
 const { Header, Footer, Sider, Content } = Layout;
 
 const usersAccountItems = [
-  getItem('', 'account', <UserOutlined id="navbar__links__account__logo" />, [
-    getItem('Profile', 'profile'),
-    getItem('Change Password', 'change-password'),
-    getItem('Appointments', 'appointments'),
-    getItem('Gym owner', 'gymOwner'),
-    getItem('Log out', 'logout'),
-  ]),
+  getItem(
+    '',
+    'account',
+    <UserOutlined id="navbar__container__account__logo" />,
+    [
+      getItem('Profile', 'profile'),
+      getItem('Change Password', 'change-password'),
+      getItem('Appointments', 'appointments'),
+      getItem('Gym owner', 'gymOwner'),
+      getItem('Log out', 'logout'),
+    ]
+  ),
 ];
 // const adminItems = [
 //   getItem('Users', 'users'),

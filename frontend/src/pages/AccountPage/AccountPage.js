@@ -37,7 +37,7 @@ const AccountPage = () => {
           <AccountPageMenu></AccountPageMenu>
         </Sider>
         <Layout>
-          <Header className="accountPage__header">
+          <Header id="accountPage__header">
             <Button
               className="accountPage__header__menuButton"
               type="primary"
