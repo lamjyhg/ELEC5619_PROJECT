@@ -30,4 +30,17 @@ public class RegisterRequest {
     @InputSecurityConstraint
     private String type;
 
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+
+    public String getUsername() {
+        return username;
+    }
 }
