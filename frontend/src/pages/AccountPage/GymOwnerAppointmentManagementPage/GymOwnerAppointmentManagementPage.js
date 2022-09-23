@@ -3,6 +3,7 @@ import GymOwnerAppointmentManagementTable from '../../../components/GymOwnerAppo
 const GymOwnerAppointmentManagementPage = () => {
   return (
     <>
+      <h2>Appointments for all gyms</h2>
       <GymOwnerAppointmentManagementTable></GymOwnerAppointmentManagementTable>
     </>
   );

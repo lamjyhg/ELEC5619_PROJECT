@@ -11,6 +11,7 @@ import com.elec5619.backend.mappers.GymMapper;
 import com.elec5619.backend.repositories.GymRepository;
 import com.elec5619.backend.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -27,6 +28,11 @@ public class GymService {
 
     public List<GymResponseDto> findAll() {
         List<Gym> gymList = gymRepository.findAll();
+        return gymList.stream().map(gym -> gymMapper.fromEntity(gym)).collect(Collectors.toList());
+    }
+
+    public List<GymResponseDto> findAllNearby(Double latitude,Double longitude) {
+        List<Gym> gymList = gymRepository.findNearbyGymsByCurrentLocation(latitude,longitude);
         return gymList.stream().map(gym -> gymMapper.fromEntity(gym)).collect(Collectors.toList());
     }
 

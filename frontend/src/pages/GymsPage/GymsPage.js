@@ -1,6 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { handleActionToGetGyms } from '../../state/gyms/gyms.action';
+import {
+  handleActionToGetGyms,
+  handleActionToGetNearbyGyms,
+} from '../../state/gyms/gyms.action';
 import { Input, Button, Row } from 'antd';
 import GymsMap from '../../components/GymsMap/GymsMap';
 import { Content } from 'antd/lib/layout/layout';
@@ -11,12 +14,33 @@ const GymsPage = () => {
   });
 
   const [isShowingList, setIsShowingList] = useState(true);
+  const [currentGeoLocation, setCurrentGeoLocation] = useState({
+    lat: 0,
+    lng: 0,
+  });
   const dispatch = useDispatch();
 
   useEffect(() => {
+    var newCenter = currentGeoLocation;
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        newCenter = {
+          lat: parseFloat(position.coords.latitude),
+          lng: parseFloat(position.coords.longitude),
+        };
+        console.log(newCenter);
+        setCurrentGeoLocation(newCenter);
+      });
+    }
+
+    //getGyms by current center location
     const handleGetGyms = async () => {
-      await dispatch(handleActionToGetGyms());
+      console.log(newCenter.lat, newCenter.lng);
+      await dispatch(
+        handleActionToGetNearbyGyms({ lat: newCenter.lat, lng: newCenter.lng })
+      );
     };
+
     handleGetGyms();
   }, []);
 
@@ -27,6 +51,7 @@ const GymsPage = () => {
         style={{
           width: '40%',
         }}
+        id="gymsPage__search"
         placeholder="search gyms by name"
       />
       <Row className="gymsPage__buttonsHeader">
@@ -52,7 +77,10 @@ const GymsPage = () => {
         {isShowingList ? (
           <h1>把component 放这， 美女：）</h1>
         ) : (
-          <GymsMap></GymsMap>
+          <GymsMap
+            currentLatitude={currentGeoLocation.lat}
+            currentLongitude={currentGeoLocation.lng}
+          ></GymsMap>
         )}
       </>
     </Content>

@@ -14,6 +14,7 @@ import ChangePasswordPage from '../pages/AccountPage/ChangePasswordPage/ChangePa
 import AppointmentsPage from '../pages/AccountPage/AppointmentsPage/AppointmentsPage';
 import OwnerGymsPage from '../pages/AccountPage/OwnerGymsPage/OwnerGymsPage';
 import SingleGymPage from '../pages/SingleGymPage/SingleGymPage';
+import AdminMainPage from '../pages/AccountPage/AdminMainPage/AdminMainPage';
 
 const Router = () => {
   return (
@@ -27,6 +28,7 @@ const Router = () => {
       </Route>
       <Route path="/admin" element={<ProtectedLayout />}>
         <Route path="" element={<AccountPage />}>
+          <Route path="" element={<AdminMainPage />}></Route>
           <Route
             path="userManagement"
             element={<UserManagementPage></UserManagementPage>}

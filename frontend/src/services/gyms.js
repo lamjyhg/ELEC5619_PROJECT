@@ -11,3 +11,12 @@ export const handleRequestToGetGyms = () => {
 
   return request(config).then((res) => res.data);
 };
+
+export const handleRequestToGetNearbyGyms = (lat, lng) => {
+  const config = {
+    url: URL_PREFIX + '/findAllNearby?latitude=' + lat + '&longitude=' + lng,
+    method: GET,
+  };
+
+  return request(config).then((res) => res.data);
+};

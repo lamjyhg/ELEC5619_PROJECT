@@ -11,17 +11,15 @@ import { mapStyle } from './MapStyle';
 import { useSelector } from 'react-redux';
 import { fromNumberToWeekday, timeFormatter } from '../../utils/timeHandlers';
 
-function GymsMap() {
+function GymsMap({ currentLatitude, currentLongitude }) {
   const { gymsList, isSuccess, isLoading, isError } = useSelector(
     (state) => state.gyms.gymsPage
   );
-  const [center, setCenter] = useState({ lat: -34.9, lng: 100.0 });
+  const [center, setCenter] = useState({
+    lat: currentLatitude,
+    lng: currentLongitude,
+  });
   const [gym, setGym] = useState(null);
-
-  // const [gyms, setGyms] = useState([
-  //   { id: 1, name: 'oliver_room', geolocation: { lat: -33.928, lng: 151.15 } },
-  //   { id: 1, name: 'jay_room', geolocation: { lat: -33.828, lng: 151.15 } },
-  // ]);
 
   const handleMarkerClick = (detail) => {
     setCenter(detail.geolocation);
@@ -41,6 +39,10 @@ function GymsMap() {
     return words;
   };
 
+  useEffect(() => {
+    setCenter({ lat: currentLatitude, lng: currentLongitude });
+  }, [currentLatitude, currentLongitude]);
+
   const showGymCard = () => {
     if (gym) {
       return (
@@ -50,7 +52,7 @@ function GymsMap() {
           mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
         >
           <Card
-            size="small"
+            size="large"
             className="gymCard"
             title={<p className="gymCard__title">{gym.name}</p>}
             extra={
@@ -71,20 +73,6 @@ function GymsMap() {
       );
     }
   };
-
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const newCenter = {
-          lat: parseFloat(position.coords.latitude),
-          lng: parseFloat(position.coords.longitude),
-        };
-        setCenter(newCenter);
-      });
-    }
-
-    //getGyms by current center location
-  }, []);
 
   return (
     <div className="gymsMap">

@@ -1,5 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { handleActionToGetGyms } from './gyms.action';
+import {
+  handleActionToGetGyms,
+  handleActionToGetNearbyGyms,
+} from './gyms.action';
 
 const gymsSlice = createSlice({
   name: 'gyms',
@@ -34,6 +37,34 @@ const gymsSlice = createSlice({
         },
       }))
       .addCase(handleActionToGetGyms.rejected, (state, action) => ({
+        ...state,
+        gymsPage: {
+          ...state.gymsPage,
+          isLoading: false,
+          isError: true,
+          isSuccess: false,
+        },
+      }))
+      .addCase(handleActionToGetNearbyGyms.pending, (state, action) => ({
+        ...state,
+        gymsPage: {
+          ...state.gymsPage,
+          isLoading: true,
+          isError: false,
+          isSuccess: false,
+        },
+      }))
+      .addCase(handleActionToGetNearbyGyms.fulfilled, (state, action) => ({
+        ...state,
+        gymsPage: {
+          ...state.gymsPage,
+          isLoading: false,
+          isError: false,
+          isSuccess: true,
+          gymsList: action.payload,
+        },
+      }))
+      .addCase(handleActionToGetNearbyGyms.rejected, (state, action) => ({
         ...state,
         gymsPage: {
           ...state.gymsPage,
