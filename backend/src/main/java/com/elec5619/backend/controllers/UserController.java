@@ -9,13 +9,15 @@ import org.springframework.web.bind.annotation.*;
 import com.elec5619.backend.entities.User;
 import com.elec5619.backend.services.UserService;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Map;
 import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/user")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = { "http://localhost:3000" }, allowedHeaders = "*", allowCredentials = "true")
 public class UserController {
 
     private final UserService userService;
@@ -26,17 +28,17 @@ public class UserController {
     }
 
     @PostMapping("/Register")
-    public ResponseEntity createUser(@Valid @RequestBody RegisterRequest user) {
+    public ResponseEntity createUser(@Valid @RequestBody RegisterRequest user, HttpSession session) {
 
-        ResponseEntity response = userService.createUser(user);
+        ResponseEntity response = userService.createUser(user, session);
 
         return response;
     }
 
     @PostMapping("/Login")
-    public ResponseEntity getUser( @Valid @RequestBody LoginRequest user) {
+    public ResponseEntity getUser(@Valid @RequestBody LoginRequest user, HttpSession response) {
 
-        ResponseEntity res = userService.getUser(user);
+        ResponseEntity res = userService.getUser(user, response);
 
         return res;
     }
