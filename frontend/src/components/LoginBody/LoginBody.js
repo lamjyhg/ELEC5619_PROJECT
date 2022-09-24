@@ -10,12 +10,22 @@ import './LoginBody.scss'
 import logo from '../../image/gymmy.png'
 import {useDispatch, useSelector} from "react-redux";
 import {handleLoginRequest} from "../../state/auth/login.action";
+import {useNavigate} from "react-router-dom";
+import {getToken} from "../../services/sessionStorage";
 
 const LoginBody = () => {
 
     const {isSuccess, isLoading, isError } = useSelector(
         (state) => state.login.loginPage
     );
+
+    const navigate = useNavigate();
+
+    if (isSuccess){
+        // const t = getToken()
+        // console.log(t);
+        navigate("/")
+    }
 
     const dispatch = useDispatch();
 
