@@ -4,6 +4,7 @@ import com.elec5619.backend.dtos.LoginRequest;
 import com.elec5619.backend.dtos.RegisterRequest;
 import com.elec5619.backend.mappers.LoginMapper;
 import com.elec5619.backend.mappers.RegisterMapper;
+import com.elec5619.backend.utils.HashUtil;
 import com.elec5619.backend.utils.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,7 @@ public class UserService {
     private final RegisterMapper registerMapper;
     private final LoginMapper loginMapper;
     private final JwtTokenUtil jwtTokenUtil;
+    private final HashUtil hashUtil;
 
 
     public ResponseEntity createUser(RegisterRequest userRequest, HttpSession session) {
@@ -38,8 +40,6 @@ public class UserService {
         Optional<User> repeatUsername = userRepository.getUserByUsername(user.getUsername());
 
 
-        System.out.print("in create, ");
-        System.out.println(session.getAttribute("token"));
 
         if(jwtTokenUtil.getTokenEmail((String)session.getAttribute("token")) != null){
             return new ResponseEntity<>("PLEASE LOGIN", HttpStatus.BAD_REQUEST);
@@ -57,6 +57,9 @@ public class UserService {
         }
 
 
+        String hashedPassword = hashUtil.encrypy(user.getPassword());
+        user.setPassword(hashedPassword);
+
 
         userRepository.save(user);
 
@@ -67,19 +70,20 @@ public class UserService {
 
     public ResponseEntity getUser(LoginRequest userRequest, HttpSession session){
         User user = loginMapper.toEntity(userRequest);
-        Optional<User> checkUser = userRepository.getUserByEmailAndPassword(user.getEmail(), user.getPassword());
+        Optional<User> checkUser = userRepository.getUserByEmail(user.getEmail());
         if(checkUser.isPresent()){
-            // login success
-            String token = jwtTokenUtil.generateToken(userRequest);
-            Cookie cookie = new Cookie("token", token);
+            // email exist, check password
 
-            session.setAttribute("token", token);
+            boolean isMatch = hashUtil.matchPassword(user.getPassword(), checkUser.get().getPassword());
 
-            System.out.print("My session is: ");
-            System.out.println(session.getId());
+            if(isMatch){
+                String token = jwtTokenUtil.generateToken(userRequest);
+//                Cookie cookie = new Cookie("token", token);
 
+                session.setAttribute("token", token);
+                return new ResponseEntity<>("Login success!", HttpStatus.OK);
+            }
 
-            return new ResponseEntity<>("Login success!", HttpStatus.OK);
         }
 
 
