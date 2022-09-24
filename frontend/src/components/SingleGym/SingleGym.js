@@ -1,15 +1,13 @@
-import React, {useEffect, useState} from "react"
+import React, {useState} from "react"
 import "./SingleGym.scss"
-import left_arrow from '../../image/left_arrow.png'
-import right_arrow from '../../image/right_arrow.png'
 import temp_gym from '../../image/temp_gym_img.jpg'
-import g1 from '../../image/g1.jpg'
-import g2 from '../../image/g2.jpg'
-import g3 from '../../image/g3.jpg'
+
+
+
+import {EditFilled} from '@ant-design/icons';
 
 
 import 'antd/dist/antd.css';
-import { PlusOutlined } from '@ant-design/icons';
 import {
     Form,
     Input,
@@ -18,7 +16,6 @@ import {
     TreeSelect
 } from 'antd';
 import GymsMap from "../GymsMap/GymsMap";
-const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
 
@@ -27,18 +24,32 @@ const { TextArea } = Input;
 const SingleGym = () => {
 
 
-    const [] = useState();
 
-    const config = {
-        rules: [
-            {
-                type: 'object',
-                required: true,
-                message: 'Please select time!',
-            },
-        ],
-    };
+    const [name, setName] = useState();
+    const [email, setEmail] = useState();
+    const [date, setDate] = useState();
+    const [time, setTime] = useState();
+    const [note, setNote] = useState();
 
+    const [nameMsg, setNameMsg] = useState(null);
+    const [emailMsg, setEmailMsg] = useState(null);
+    const [dateMsg, setDateMsg] = useState(null);
+    const [timeMsg, setTimeMsg] = useState(null);
+
+
+
+    const submit_appointment = () => {
+
+
+        console.log("im here")
+
+
+    }
+
+
+    const submit_comment = () => {
+
+    }
 
     return(
         <div className="single_gym_container">
@@ -84,19 +95,6 @@ const SingleGym = () => {
                         <img className="large_img" src={temp_gym}/>
                     </div>
 
-
-                    {/*<div className="small_img_container">*/}
-                    {/*    <img className="small_img" src={g1}/>*/}
-
-
-                    {/*    <div className="small_img">*/}
-                    {/*        <img className="small_img" src={g2}/>*/}
-                    {/*    </div>*/}
-
-                    {/*    <div className="small_img">*/}
-                    {/*        <img className="small_img" src={g3}/>*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
                 </div>
             </div>
 
@@ -108,20 +106,21 @@ const SingleGym = () => {
 
 
             <div className="bot_container">
+
                 <div className="small_map">
                     <GymsMap></GymsMap>
                 </div>
 
 
 
-
                 <div className="review_container">
 
                     <div className="review_header">
-                        Reviews
+                        <div>Reviews</div>
+                        <div className="write_comment"><EditFilled />Write comments</div>
                     </div>
 
-                    <div className="line"/>
+                    {/*<div className="line"/>*/}
 
                     <div className="review_body">
 
@@ -157,35 +156,8 @@ const SingleGym = () => {
                         </div>
 
 
-                        <div className="single_review">
-                            <div className="single_review_header">
-                                yutong wang, 2022/02/12, * * * * *
-                            </div>
 
-                            <div className="single_review_body">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                Cras congue, leo sed cursus tincidunt, ex metus pellentesque orci,
-                                vel consectetur quam lectus eget tellus. Nulla congue molestie quam at
-                                iaculis. Maecenas libero ex, ultricies eget ipsum sit amet, feugiat ul
-                            </div>
 
-                            <div className="line"/>
-                        </div>
-
-                        <div className="single_review">
-                            <div className="single_review_header">
-                                yutong wang, 2022/02/12, * * * * *
-                            </div>
-
-                            <div className="single_review_body">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                Cras congue, leo sed cursus tincidunt, ex metus pellentesque orci,
-                                vel consectetur quam lectus eget tellus. Nulla congue molestie quam at
-                                iaculis. Maecenas libero ex, ultricies eget ipsum sit amet, feugiat ul
-                            </div>
-
-                            <div className="line"/>
-                        </div>
 
 
 
@@ -205,7 +177,7 @@ const SingleGym = () => {
 
 
             <div className="side_floater">
-                <div className="appointment_box">
+                <div className="appointment_box" >
 
                     <div className="appointment_title">
                         Make an appointment
@@ -225,37 +197,39 @@ const SingleGym = () => {
                         }}
                         layout="horizontal"
                     >
-                        <Form.Item label="Name">
-                            <Input />
+                        <Form.Item label="Name" id="name" name="name" rules={[{required: true, message:"Name cannot be empty!"}]}>
+                            <Input onChange={(evt) => {setName(evt.target.value)}}/>
                         </Form.Item>
 
-                        <Form.Item label="Email">
-                            <Input />
+                        <Form.Item label="Email" name="email" id="email" rules={[{required: true, message:"Email cannot be empty!"}]}>
+                            <Input onChange={(evt) => {setEmail(evt.target.value)}}/>
                         </Form.Item>
 
 
-                        <Form.Item label="Date:">
-                            <DatePicker />
+                        <Form.Item label="Date:" id="date" name="date" rules={[{required: true, message:"Date cannot be empty!"}]}>
+                            <DatePicker onChange={(value) => {setDate(value)}}/>
                         </Form.Item>
 
-                        <Form.Item label="Time:">
-                            <TreeSelect
+                        <Form.Item label="Time:" id="time" name="time" rules={[{required: true, message:"Time cannot be empty!"}]}>
+                            <TreeSelect onChange={(value) => {setTime(value)}}
                                 treeData={[
                                     {
+
                                         title: 'Monday',
                                         value: 'mon',
+                                        disabled: true,
                                         children: [
                                             {
                                                 title: '7:00',
-                                                value: '7',
+                                                value: 'm7',
                                             },
                                             {
                                                 title: '8:00',
-                                                value: '8',
+                                                value: 'm8',
                                             },
                                             {
                                                 title: '9:00',
-                                                value: '9',
+                                                value: 'm9',
                                             },
                                         ],
                                     },
@@ -265,12 +239,12 @@ const SingleGym = () => {
 
 
 
-                        <Form.Item label="Note">
-                            <TextArea rows={4} />
+                        <Form.Item label="Note" id="note">
+                            <TextArea rows={4} onChange={(evt)=>{setNote(evt.target.value)}}/>
                         </Form.Item>
 
-                        <Form.Item label="Submit">
-                            <Button>Submit</Button>
+                        <Form.Item label="Submit" >
+                            <Button type="primary" htmlType="submit" onClick={submit_appointment}>Submit</Button>
                         </Form.Item>
                     </Form>
 

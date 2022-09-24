@@ -6,10 +6,11 @@
     justify-content: center;
     align-items: center;
 
-    height: 50rem;
+    height: 100vh;
 
     overflow-x: scroll;
-    background-image: url("../../image/auth_img.jpg");
+    background: url("../../image/auth_img.jpg") no-repeat ;
+    background-size: cover;
     // Attribution: <a href="https://www.vecteezy.com/free-photos">Free Stock photos by Vecteezy</a>
 
     .ant-input-affix-wrapper{
