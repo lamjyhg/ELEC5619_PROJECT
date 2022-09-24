@@ -10,6 +10,7 @@ export default function request(options) {
 
   const axiosInstance = axios.create({
     baseURL,
+    withCredentials: true,
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
