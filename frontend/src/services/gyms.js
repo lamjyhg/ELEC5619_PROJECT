@@ -12,6 +12,24 @@ export const handleRequestToGetGyms = () => {
   return request(config).then((res) => res.data);
 };
 
+
+export const handleRequestToGetSingleGym = (UUID) => {
+  const config = {
+    url: URL_PREFIX + '/' + UUID,
+    method: GET,
+  };
+
+
+  return request(config).then((res) => res.data);
+};
+
+
+
+
+
+
+
+
 export const handleRequestToGetNearbyGyms = (lat, lng) => {
   const config = {
     url: URL_PREFIX + '/findAllNearby?latitude=' + lat + '&longitude=' + lng,

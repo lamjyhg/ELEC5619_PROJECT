@@ -26,7 +26,7 @@ const Router = () => {
       <Route path="/" element={<MainLayout />}>
           <Route path="" element={<MainPage></MainPage>}></Route>
         <Route path="gyms" element={<GymsPage />} />
-        <Route path="gyms/:gym_id" element={<SingleGymPage />} />
+        <Route path="gyms/:GID" element={<SingleGymPage />} />
       </Route>
       <Route path="/admin" element={<ProtectedLayout />}>
         <Route path="" element={<AccountPage />}>

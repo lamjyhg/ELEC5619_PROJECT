@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
   handleActionToGetGyms,
-  handleActionToGetNearbyGyms,
+  handleActionToGetNearbyGyms, handleActionToGetSingleGym,
 } from './gyms.action';
 
 const gymsSlice = createSlice({
@@ -72,7 +72,8 @@ const gymsSlice = createSlice({
           isError: true,
           isSuccess: false,
         },
-      }));
+      }))
+      ;
     //
   },
 });
