@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import com.elec5619.backend.entities.User;
 import com.elec5619.backend.services.UserService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -28,8 +29,9 @@ public class UserController {
     }
 
     @PostMapping("/Register")
-    public ResponseEntity createUser(@Valid @RequestBody RegisterRequest user, HttpSession session) {
+    public ResponseEntity createUser(@Valid @RequestBody RegisterRequest user, HttpServletRequest request) {
 
+        HttpSession session = request.getSession(false);
         ResponseEntity response = userService.createUser(user, session);
 
         return response;

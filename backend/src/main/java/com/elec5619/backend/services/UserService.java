@@ -2,30 +2,33 @@ package com.elec5619.backend.services;
 
 import com.elec5619.backend.dtos.LoginRequest;
 import com.elec5619.backend.dtos.RegisterRequest;
+import com.elec5619.backend.entities.Role;
 import com.elec5619.backend.mappers.LoginMapper;
 import com.elec5619.backend.mappers.RegisterMapper;
+import com.elec5619.backend.repositories.RoleRepository;
 import com.elec5619.backend.utils.HashUtil;
 import com.elec5619.backend.utils.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.elec5619.backend.entities.User;
 import com.elec5619.backend.repositories.UserRepository;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
 @RequiredArgsConstructor
 @Service
-public class UserService {
+public class UserService{
 
     private final UserRepository userRepository;
 
     private final RegisterMapper registerMapper;
+    private final RoleRepository roleRepository;
     private final LoginMapper loginMapper;
     private final JwtTokenUtil jwtTokenUtil;
     private final HashUtil hashUtil;
@@ -35,13 +38,30 @@ public class UserService {
 
 
 
+
         User user = registerMapper.toEntity(userRequest);
+
+
+        Optional<Role> checkUserRole = roleRepository.getRoleByName("Customer");
+        Role userRole;
+        if(!checkUserRole.isPresent()){
+            userRole = new Role("Customer");
+            roleRepository.save(userRole);
+        }else{
+            userRole = checkUserRole.get();
+        }
+
+        user.addRole(userRole);
+
+
+
+
         Optional<User> repeatEmail = userRepository.getUserByEmail(user.getEmail());
         Optional<User> repeatUsername = userRepository.getUserByUsername(user.getUsername());
 
 
 
-        if(jwtTokenUtil.getTokenEmail((String)session.getAttribute("token")) != null){
+        if(session != null && jwtTokenUtil.getTokenEmail((String)session.getAttribute("token")) != null){
             return new ResponseEntity<>("PLEASE LOGIN", HttpStatus.BAD_REQUEST);
         }
 
@@ -78,17 +98,20 @@ public class UserService {
 
             if(isMatch){
                 String token = jwtTokenUtil.generateToken(userRequest);
-//                Cookie cookie = new Cookie("token", token);
-
                 session.setAttribute("token", token);
                 return new ResponseEntity<>("Login success!", HttpStatus.OK);
             }
 
         }
-
-
-
         return new ResponseEntity<>("Login failed!", HttpStatus.BAD_REQUEST);
+    }
+
+    public void getUserRole(HttpSession session){
+
+        if(session != null){
+            jwtTokenUtil.getTokenEmail((String) session.getAttribute("token"));
+        }
+
     }
 
 

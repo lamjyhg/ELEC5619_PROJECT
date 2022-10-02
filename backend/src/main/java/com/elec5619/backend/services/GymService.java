@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -26,12 +27,23 @@ public class GymService {
     private final UserRepository userRepository;
     private final GymMapper gymMapper;
 
-    public List<GymResponseDto> findAll() {
+    private final UserService userService;
+
+    public List<GymResponseDto> findAll(HttpSession session) {
         List<Gym> gymList = gymRepository.findAll();
+
+        System.out.println("***********************************");
+        userService.getUserRole(session);
+
+
         return gymList.stream().map(gym -> gymMapper.fromEntity(gym)).collect(Collectors.toList());
     }
 
-    public List<GymResponseDto> findAllNearby(Double latitude,Double longitude) {
+    public List<GymResponseDto> findAllNearby(Double latitude,Double longitude, HttpSession session) {
+
+        System.out.println("***********************************");
+        userService.getUserRole(session);
+
         List<Gym> gymList = gymRepository.findNearbyGymsByCurrentLocation(latitude,longitude);
         return gymList.stream().map(gym -> gymMapper.fromEntity(gym)).collect(Collectors.toList());
     }
@@ -43,7 +55,7 @@ public class GymService {
 
     public GymResponseDto create(GymRequestDto gymRequestDto) {
         Gym gym = gymMapper.toEntity(gymRequestDto);
-        User user = userRepository.findById(UUID.fromString("99138acc-a4d7-4c9d-b4c7-f10a3adaada9")).orElseThrow(() -> new IllegalArgumentException(String.format("Unknown id")));
+        User user = userRepository.findById(UUID.fromString("0a8df40e-3995-40d9-8678-c0a522cdd37d")).orElseThrow(() -> new IllegalArgumentException(String.format("Unknown id")));
         gym.setUser(user);
         gym.setGymApplicationType(GymApplicationType.CREATE);
         gymRepository.save(gym);
