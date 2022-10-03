@@ -7,6 +7,7 @@ import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.UUID;
 
 @Data
@@ -23,7 +24,11 @@ public class Appointment {
     @Column(name = "id", columnDefinition = "BINARY(16)",updatable = false, nullable = false)
     private UUID id;
 
+    @Column(name = "startTime", nullable = false)
+    private Date startTime;
 
+    @Column(name = "duration", nullable = false)
+    private Number duration;
 
     @Column(name = "status", nullable = false)
     private AppointmentStatus status;
@@ -32,5 +37,7 @@ public class Appointment {
     @JoinColumn(name="gym_id", nullable = false)
     private Gym gym;
 
-
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable = false)
+    private User user;
 }

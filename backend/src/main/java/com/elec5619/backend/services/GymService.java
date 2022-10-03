@@ -52,7 +52,7 @@ public class GymService {
         Gym foundGym = gymRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(String.format("Unknown id %s", id)));
         return gymMapper.fromEntity(foundGym);
     }
-
+    
     public GymResponseDto create(GymRequestDto gymRequestDto) {
         Gym gym = gymMapper.toEntity(gymRequestDto);
         User user = userRepository.findById(UUID.fromString("0a8df40e-3995-40d9-8678-c0a522cdd37d")).orElseThrow(() -> new IllegalArgumentException(String.format("Unknown id")));

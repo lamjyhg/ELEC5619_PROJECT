@@ -20,6 +20,10 @@ public class AppointmentController {
     private final AppointmentService appointmentService;
 
 
+    @GetMapping("/listAllByUser")
+    public ResponseEntity<List<AppointmentResponseDto>> getAppointmentByUser(@PathVariable UUID userId){
+        return ResponseEntity.ok(appointmentService.listAppointmentByUser(userId));
+    }
     @GetMapping("/listAllByGymOwner")
     public ResponseEntity<List<AppointmentResponseDto>> getAppointmentsByGymOwner() {
         return ResponseEntity.ok(appointmentService.listAllForGymOwner());

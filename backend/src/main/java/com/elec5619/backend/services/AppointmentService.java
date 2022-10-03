@@ -17,10 +17,7 @@ import com.elec5619.backend.utils.EmailSendingHanlderImple;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -33,6 +30,27 @@ public class AppointmentService {
     private final UserRepository userRepository;
     private final EmailSendingHandler emailSendingHandler = new EmailSendingHanlderImple();
 
+    public List<AppointmentResponseDto> listAppointmentByUser(UUID id){
+        List<Appointment> appointments = new ArrayList<>();
+        appointments = appointmentRepository.findAllByUserId(UUID.fromString("40e72a56-b479-4e72-a81c-c248fef6ecd3"));
+//        appointments = appointmentRepository.findAllByUserId(id);
+        return appointments.stream().map(appointment -> appointmentMapper.fromEntity(appointment)).collect(Collectors.toList());
+    }
+    public AppointmentResponseDto createAppointment() {
+        Appointment appointment = new Appointment();
+    }
+
+    public AppointmentResponseDto changeAppointmentTime(UUID id, Date startTime,Number duration) {
+        Appointment appointment = appointmentRepository
+                .findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Unknown id"));
+
+        appointment.setStartTime(startTime);
+        appointment.setDuration(duration);
+        appointmentRepository.save(appointment);
+        // get user email to send
+        return appointmentMapper.fromEntity(appointment);
+    }
 
     public List<AppointmentResponseDto> listAllForGymOwner() {
 
