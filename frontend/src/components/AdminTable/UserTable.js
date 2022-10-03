@@ -1,5 +1,8 @@
 import { Space, Table, Tag } from 'antd';
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
+import {handleActionToGetSingleGym} from "../../state/gyms/singleGym.action";
+import {useDispatch, useSelector} from "react-redux";
+import {handleActionToGetAllUsers} from "../../state/user/user.action";
 
 // table header
 const columns = [
@@ -66,7 +69,12 @@ while(len--) {
 
 // function
 function UserTable () {
+  const { users, isSuccess, isLoading, isError } = useSelector(
+      (state) => state.user.userList
+  );
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const dispatch = useDispatch();
+
   const onSelectChange = (newSelectedRowKeys) => {
     setSelectedRowKeys(newSelectedRowKeys);
   };
@@ -76,6 +84,15 @@ function UserTable () {
     selectedRowKeys,
     onChange: onSelectChange,
   };
+
+  useEffect( () => {
+
+    const fetchAllUsers = async () => {
+      await dispatch(handleActionToGetAllUsers());
+    }
+    fetchAllUsers();
+    console.log("users list is " + users);
+  }, [])
 
   return <Table dataSource={data1} columns={columns} rowSelection={rowSelection} pagination={{ pageSize: 8 }}/> ;
   

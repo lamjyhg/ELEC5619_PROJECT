@@ -2,8 +2,10 @@ package com.elec5619.backend.services;
 
 import com.elec5619.backend.dtos.LoginRequest;
 import com.elec5619.backend.dtos.RegisterRequest;
+import com.elec5619.backend.dtos.UserResponse;
 import com.elec5619.backend.mappers.LoginMapper;
 import com.elec5619.backend.mappers.RegisterMapper;
+import com.elec5619.backend.mappers.UserMapper;
 import com.elec5619.backend.utils.HashUtil;
 import com.elec5619.backend.utils.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -29,7 +32,7 @@ public class UserService {
     private final LoginMapper loginMapper;
     private final JwtTokenUtil jwtTokenUtil;
     private final HashUtil hashUtil;
-
+    private final UserMapper userMapper;
 
     public ResponseEntity createUser(RegisterRequest userRequest, HttpSession session) {
 
@@ -91,6 +94,9 @@ public class UserService {
         return new ResponseEntity<>("Login failed!", HttpStatus.BAD_REQUEST);
     }
 
-
+    public List<UserResponse> getAllUsers(){
+        List<User> userList = userRepository.findAll();
+        return userList.stream().map(user -> userMapper.fromEntity(user)).collect(Collectors.toList());
+    }
 
 }
