@@ -1,4 +1,4 @@
-package com.elec5619.backend.utils;
+package com.elec5619.backend.jwt;
 
 import com.elec5619.backend.dtos.LoginRequest;
 import com.elec5619.backend.dtos.RegisterRequest;

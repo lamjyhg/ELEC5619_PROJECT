@@ -1,5 +1,12 @@
-.appointmentsTable--owner{
-    width: 95%;
+.appointmentsTable-owner{
+    width: 100%;
     margin: auto;
+    
     margin-top: 10px;
+}
+
+.appointmentsPage-owner{
+    width: 900px;
+    overflow: auto;
+    margin: auto;
 }

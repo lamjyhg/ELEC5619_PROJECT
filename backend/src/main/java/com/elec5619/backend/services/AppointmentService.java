@@ -15,6 +15,8 @@ import com.elec5619.backend.repositories.UserRepository;
 import com.elec5619.backend.utils.EmailSendingHandler;
 import com.elec5619.backend.utils.EmailSendingHanlderImple;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -37,8 +39,6 @@ public class AppointmentService {
     public List<AppointmentResponseDto> listAllForGymOwner() {
 
         List<Appointment> appointments = new ArrayList<Appointment>();
-
-
 
         //appointments = appointmentRepository.findAllByGymOwnerId(UUID.fromString("40e72a56-b479-4e72-a81c-c248fef6ecd3"));
         List<Gym> gyms =new ArrayList<>();

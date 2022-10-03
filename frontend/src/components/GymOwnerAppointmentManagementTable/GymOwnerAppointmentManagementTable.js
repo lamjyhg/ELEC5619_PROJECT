@@ -1,4 +1,4 @@
-import { Button, Col, Modal, Row, Table, Tooltip } from 'antd';
+import { Button, Col, Modal, Row, Table, Tooltip, notification } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import React, { useState } from 'react';
 import { useEffect } from 'react';
@@ -141,12 +141,16 @@ const GymOwnerAppointmentManagementTable = () => {
 
   const handleConfirmCancellation = async () => {
     //cancel appointment
-    console.log(cancelledId);
     await dispatch(
       handleActionToCancelAppointmentByGymOwner({ cancelledId, comment })
     );
     setCancelledId(null);
     setComment('');
+    notification['error']({
+      message: 'Notification Title',
+      description:
+        'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
+    });
   };
 
   const handleCancelCancellatin = () => {
@@ -163,7 +167,7 @@ const GymOwnerAppointmentManagementTable = () => {
   }, []);
 
   return (
-    <>
+    <div className="appointmentsPage-owner">
       <GymOwnerAppointmentCancellationForm
         cancelledId={cancelledId}
         handleConfirmCancellation={handleConfirmCancellation}
@@ -175,9 +179,9 @@ const GymOwnerAppointmentManagementTable = () => {
         pagination={{ pageSize: 8 }}
         columns={columns}
         dataSource={data}
-        className="appointmentsTable--owner"
+        className="appointmentsTable-owner"
       />
-    </>
+    </div>
   );
 };
 

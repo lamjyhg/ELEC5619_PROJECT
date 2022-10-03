@@ -12,8 +12,11 @@ import com.elec5619.backend.repositories.GymRepository;
 import com.elec5619.backend.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -31,7 +34,11 @@ public class GymService {
         return gymList.stream().map(gym -> gymMapper.fromEntity(gym)).collect(Collectors.toList());
     }
 
+
     public List<GymResponseDto> findAllNearby(Double latitude,Double longitude) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        System.out.println("details:"+authentication.getAuthorities());
         List<Gym> gymList = gymRepository.findNearbyGymsByCurrentLocation(latitude,longitude);
         return gymList.stream().map(gym -> gymMapper.fromEntity(gym)).collect(Collectors.toList());
     }

@@ -15,16 +15,18 @@ import AppointmentsPage from '../pages/AccountPage/AppointmentsPage/Appointments
 import OwnerGymsPage from '../pages/AccountPage/OwnerGymsPage/OwnerGymsPage';
 import SingleGymPage from '../pages/SingleGymPage/SingleGymPage';
 import AdminMainPage from '../pages/AccountPage/AdminMainPage/AdminMainPage';
-import MainPage from "../pages/MainPage/MainPage";
+import MainPage from '../pages/MainPage/MainPage';
+import ErrorPage from '../pages/ErrorPage/ErrorPage';
 
 const Router = () => {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />}></Route>
+      <Route path="/*" element={<ErrorPage></ErrorPage>}></Route>
 
       <Route path="/" element={<MainLayout />}>
-          <Route path="" element={<MainPage></MainPage>}></Route>
+        <Route path="" element={<MainPage></MainPage>}></Route>
         <Route path="gyms" element={<GymsPage />} />
         <Route path="gyms/:GID" element={<SingleGymPage />} />
       </Route>
