@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -52,5 +53,20 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Gym> gyms;
+
+    @ManyToMany
+    @JoinTable(
+            name = "UserRole",
+            joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
+
+
+
+
+    public void addRole(Role role){
+        this.roles.add(role);
+    }
 
 }

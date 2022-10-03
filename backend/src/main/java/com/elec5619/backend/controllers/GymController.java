@@ -7,8 +7,17 @@ import com.elec5619.backend.utils.EmailSendingHandler;
 import com.elec5619.backend.utils.EmailSendingHanlderImple;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.security.RolesAllowed;
 import javax.validation.*;
 import java.io.IOException;
 import java.util.List;
@@ -23,12 +32,14 @@ public class GymController {
     private final GymService gymService;
 
     @GetMapping
-    public ResponseEntity<List<GymResponseDto>> findAllGyms() throws IOException {
-        return ResponseEntity.ok(gymService.findAll());
+    public ResponseEntity<List<GymResponseDto>> findAllGyms(HttpSession session) throws IOException {
+        return ResponseEntity.ok(gymService.findAll(session));
     }
 
     @GetMapping("/findAllNearby")
-    public ResponseEntity<List<GymResponseDto>> findAllNearbyGyms(@RequestParam(name = "latitude") Double latitude,@RequestParam(name = "longitude") Double longitude) throws IOException {
+    public ResponseEntity<List<GymResponseDto>> findAllNearbyGyms(@RequestParam(name = "latitude") Double latitude,@RequestParam(name = "longitude") Double longitude, HttpServletRequest request) throws IOException {
+
+        HttpSession session = request.getSession(false);
         return ResponseEntity.ok(gymService.findAllNearby(latitude,longitude));
     }
 
@@ -55,6 +66,10 @@ public class GymController {
     public ResponseEntity<GymResponseDto> updateGym(@PathVariable UUID gymId, @Valid @RequestBody GymRequestDto gymRequestDtoBody) {
         return ResponseEntity.ok(gymService.update(gymId, gymRequestDtoBody));
     }
+
+
+
+
 
 
 }

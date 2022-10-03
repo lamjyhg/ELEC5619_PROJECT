@@ -11,16 +11,15 @@ import { mapStyle } from './MapStyle';
 import { useSelector } from 'react-redux';
 import { fromNumberToWeekday, timeFormatter } from '../../utils/timeHandlers';
 
-function GymsMap({ currentLatitude, currentLongitude, additionalList  }) {
+function GymsMap({ currentLatitude, currentLongitude, additionalList }) {
   const { gymsList, isSuccess, isLoading, isError } = useSelector(
     (state) => state.gyms.gymsPage
   );
 
-
-  if(additionalList && additionalList.length > 0){
-      additionalList.map( (element, index) => {
-        gymsList.add(element);
-      })
+  if (additionalList && additionalList.length > 0) {
+    additionalList.map((element, index) => {
+      gymsList.add(element);
+    });
   }
 
   const [center, setCenter] = useState({
