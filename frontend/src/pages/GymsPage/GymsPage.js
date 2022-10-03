@@ -23,19 +23,17 @@ const GymsPage = () => {
   useEffect(() => {
     var newCenter = currentGeoLocation;
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
+      navigator.geolocation.watchPosition((position) => {
         newCenter = {
           lat: parseFloat(position.coords.latitude),
           lng: parseFloat(position.coords.longitude),
         };
-        console.log(newCenter);
         setCurrentGeoLocation(newCenter);
       });
     }
 
     //getGyms by current center location
     const handleGetGyms = async () => {
-      console.log(newCenter.lat, newCenter.lng);
       await dispatch(
         handleActionToGetNearbyGyms({ lat: newCenter.lat, lng: newCenter.lng })
       );

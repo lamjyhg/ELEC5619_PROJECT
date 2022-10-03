@@ -6,8 +6,9 @@ import com.elec5619.backend.entities.Role;
 import com.elec5619.backend.mappers.LoginMapper;
 import com.elec5619.backend.mappers.RegisterMapper;
 import com.elec5619.backend.repositories.RoleRepository;
-import com.elec5619.backend.utils.HashUtil;
-import com.elec5619.backend.utils.JwtTokenUtil;
+import com.elec5619.backend.jwt.HashUtil;
+import com.elec5619.backend.jwt.JwtTokenUtil;
+import com.elec5619.backend.utils.EmailSendingHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -82,6 +83,8 @@ public class UserService{
 
 
         userRepository.save(user);
+
+        //
 
         return new ResponseEntity<>("Register Success!", HttpStatus.OK);
     }

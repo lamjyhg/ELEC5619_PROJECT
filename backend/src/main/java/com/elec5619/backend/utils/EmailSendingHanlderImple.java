@@ -7,11 +7,15 @@ import com.sendgrid.SendGrid;
 import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
 
 public class EmailSendingHanlderImple implements EmailSendingHandler{
-    private final Email from = new Email("lamjh1999@gmail.com");
+
+    @Value("${emailSender.from}")
+    private String fromString;
+    private final Email from = new Email(fromString);
 
     @Override
     public void send(String toEmail, String subject, String contentString) throws IOException {
@@ -22,7 +26,7 @@ public class EmailSendingHanlderImple implements EmailSendingHandler{
 
         SendGrid sendGrid = new SendGrid(System.getenv("SENDGRID_API_KEY"));
         Request request = new Request();
-        System.out.println(11111);
+
         try {
             request.setMethod(Method.POST);
             request.setEndpoint("mail/send");

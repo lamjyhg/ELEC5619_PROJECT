@@ -13,6 +13,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.security.RolesAllowed;
 import javax.validation.*;
 import java.io.IOException;
 import java.util.List;
@@ -35,7 +40,7 @@ public class GymController {
     public ResponseEntity<List<GymResponseDto>> findAllNearbyGyms(@RequestParam(name = "latitude") Double latitude,@RequestParam(name = "longitude") Double longitude, HttpServletRequest request) throws IOException {
 
         HttpSession session = request.getSession(false);
-        return ResponseEntity.ok(gymService.findAllNearby(latitude,longitude, session));
+        return ResponseEntity.ok(gymService.findAllNearby(latitude,longitude));
     }
 
     @GetMapping("/{gymId}")
