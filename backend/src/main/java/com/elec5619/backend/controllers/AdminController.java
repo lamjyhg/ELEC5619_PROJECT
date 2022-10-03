@@ -18,8 +18,8 @@ public class AdminController {
     private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<String> getAllUsers() throws IOException {
-        return ResponseEntity.ok("yes");
-        // return ResponseEntity.ok(userService.getAllUsers());
+    public ResponseEntity<List<UserResponse>> getAllUsers() throws IOException {
+        // return ResponseEntity.ok("yes");
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 }

@@ -2,22 +2,17 @@ package com.elec5619.backend.services;
 
 import com.elec5619.backend.dtos.LoginRequest;
 import com.elec5619.backend.dtos.RegisterRequest;
-<<<<<<< HEAD
+
 import com.elec5619.backend.dtos.UserResponse;
 import com.elec5619.backend.mappers.LoginMapper;
 import com.elec5619.backend.mappers.RegisterMapper;
 import com.elec5619.backend.mappers.UserMapper;
-import com.elec5619.backend.utils.HashUtil;
-import com.elec5619.backend.utils.JwtTokenUtil;
-=======
-import com.elec5619.backend.entities.Role;
-import com.elec5619.backend.mappers.LoginMapper;
-import com.elec5619.backend.mappers.RegisterMapper;
-import com.elec5619.backend.repositories.RoleRepository;
 import com.elec5619.backend.jwt.HashUtil;
 import com.elec5619.backend.jwt.JwtTokenUtil;
+import com.elec5619.backend.repositories.RoleRepository;
+import com.elec5619.backend.entities.Role;
 import com.elec5619.backend.utils.EmailSendingHandler;
->>>>>>> 0fa7e98613a4ffb70dbbb58b104e4877c9a8e25e
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
