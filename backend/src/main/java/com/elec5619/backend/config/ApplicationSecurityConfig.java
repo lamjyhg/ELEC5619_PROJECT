@@ -1,4 +1,4 @@
-package com.elec5619.backend;
+package com.elec5619.backend.config;
 
 import org.apache.http.protocol.HttpService;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +16,7 @@ import java.util.List;
 
 
 @EnableWebSecurity
-public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
+public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter  {
 
 
     @Override
