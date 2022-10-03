@@ -28,10 +28,17 @@ public class Appointment {
     private Date startTime;
 
     @Column(name = "duration", nullable = false)
-    private Number duration;
+    private Integer duration;
+
+    @Column(name = "endTime", nullable = false)
+    private Date endTime;
 
     @Column(name = "status", nullable = false)
     private AppointmentStatus status;
+
+
+    @Column(name="last_updated_time", nullable = false)
+    private Date lastUpdatedTime = new Date();
 
     @ManyToOne
     @JoinColumn(name="gym_id", nullable = false)

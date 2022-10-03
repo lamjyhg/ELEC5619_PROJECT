@@ -7,6 +7,7 @@ import com.elec5619.backend.entities.Gym;
 import com.elec5619.backend.entities.User;
 import com.elec5619.backend.entities.gymEnums.GymApplicationType;
 import com.elec5619.backend.entities.gymEnums.GymStatus;
+import com.elec5619.backend.exceptions.BadRequestException;
 import com.elec5619.backend.mappers.GymMapper;
 import com.elec5619.backend.repositories.GymRepository;
 import com.elec5619.backend.repositories.UserRepository;
@@ -53,9 +54,13 @@ public class GymService {
         return gymMapper.fromEntity(foundGym);
     }
     
-    public GymResponseDto create(GymRequestDto gymRequestDto) {
+    public GymResponseDto create(HttpSession session,GymRequestDto gymRequestDto) {
         Gym gym = gymMapper.toEntity(gymRequestDto);
-        User user = userRepository.findById(UUID.fromString("0a8df40e-3995-40d9-8678-c0a522cdd37d")).orElseThrow(() -> new IllegalArgumentException(String.format("Unknown id")));
+        UUID userId = userService.getUserId(session);
+        if(userId == null) {
+            throw new BadRequestException("No session provided");
+        }
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException(String.format("Unknown id %s", userId)));
         gym.setUser(user);
         gym.setGymApplicationType(GymApplicationType.CREATE);
         gymRepository.save(gym);

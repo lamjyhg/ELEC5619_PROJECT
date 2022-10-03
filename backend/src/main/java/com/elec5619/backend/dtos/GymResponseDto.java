@@ -19,7 +19,7 @@ public class GymResponseDto {
 
     private Map<String, Double> geoLocation;
 
-    private Map<Integer, Map<String, Time>> tradingHours;
+//    private Map<Integer, Map<String, Time>> tradingHours;
 
     private String address;
 
