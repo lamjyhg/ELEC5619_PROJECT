@@ -36,9 +36,9 @@ public class AppointmentService {
 //        appointments = appointmentRepository.findAllByUserId(id);
         return appointments.stream().map(appointment -> appointmentMapper.fromEntity(appointment)).collect(Collectors.toList());
     }
-    public AppointmentResponseDto createAppointment() {
-        Appointment appointment = new Appointment();
-    }
+//    public AppointmentResponseDto createAppointment() {
+//        Appointment appointment = new Appointment();
+//    }
 
     public AppointmentResponseDto changeAppointmentTime(UUID id, Date startTime,Number duration) {
         Appointment appointment = appointmentRepository
