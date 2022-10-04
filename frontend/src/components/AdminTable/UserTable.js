@@ -30,10 +30,13 @@ const columns = [
           if (tag === 'gym owner') {
             color = 'volcano';
           }
+          else if(tag == 'unset'){
+            color = 'grey';
+          }
 
           return (
             <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
+              {tag}
             </Tag>
           );
         })}
@@ -47,25 +50,11 @@ const columns = [
     width: 100,
     render: (_, record) => (
       <Space size="large">
-        <a>Invite</a>
         <a>Delete</a>
       </Space>
     ),
   },
 ];
-
-// generate user list
-const data1 = [];
-let len = 50;
-while(len--) {
-  data1.unshift({
-    id: len,
-    key: len,
-    name: 'user' + len,
-    email: 'test' + len +' @gmail.com',
-    tags: ['normal user'],
-  })
-}
 
 // function
 function UserTable () {
@@ -74,10 +63,10 @@ function UserTable () {
   );
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const dispatch = useDispatch();
-
   const onSelectChange = (newSelectedRowKeys) => {
     setSelectedRowKeys(newSelectedRowKeys);
   };
+  let data1 = [];
 
   // row selection can be found at the top left of the table
   const rowSelection = {
@@ -91,10 +80,24 @@ function UserTable () {
       await dispatch(handleActionToGetAllUsers());
     }
     fetchAllUsers();
-    console.log("users list is " + users);
   }, [])
 
-  return <Table dataSource={data1} columns={columns} rowSelection={rowSelection} pagination={{ pageSize: 8 }}/> ;
+  if (isSuccess) {
+    let len = users.length - 1;
+    for(let index = 0; index < users.length; index++){
+      data1.push({
+        id: index,
+        key: index,
+        name: 'user' + users[index].username,
+        email: users[index].email,
+        tags: [users[index].type],
+      })
+    }
+  }
+
+  return (
+      <Table dataSource={data1} columns={columns} rowSelection={rowSelection} pagination={{ pageSize: 8 }}/>
+  )
   
   
 }

@@ -1,10 +1,10 @@
 import { GET } from '../constants/requests';
 import request from '../utils/request';
-const URL_PREFIX = 'admin';
+const URL_PREFIX = 'user';
 
 export const handleRequestToGetAllUsers = () => {
     const config = {
-        url: URL_PREFIX + '',
+        url: URL_PREFIX + '/getAll',
         method: GET,
     };
 

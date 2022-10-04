@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.elec5619.backend.entities.User;
 import com.elec5619.backend.services.UserService;
+import com.elec5619.backend.dtos.UserResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +16,8 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Map;
 import java.util.Optional;
+import java.util.List;
+import java.io.IOException;
 
 @RestController
 @RequestMapping(path = "/user")
@@ -43,6 +46,13 @@ public class UserController {
         ResponseEntity res = userService.getUser(user, response);
 
         return res;
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<UserResponse>> getAll() throws IOException {
+        // return ResponseEntity.ok("yes");
+
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
 }

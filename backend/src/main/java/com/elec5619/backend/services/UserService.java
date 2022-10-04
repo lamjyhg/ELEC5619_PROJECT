@@ -124,6 +124,8 @@ public class UserService{
 
     public List<UserResponse> getAllUsers(){
         List<User> userList = userRepository.findAll();
+        System.out.println("==============> 1. Simple For loop Example.");
+
         return userList.stream().map(user -> userMapper.fromEntity(user)).collect(Collectors.toList());
     }
 
