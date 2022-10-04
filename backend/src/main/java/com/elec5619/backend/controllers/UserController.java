@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import com.elec5619.backend.entities.User;
 import com.elec5619.backend.services.UserService;
 import com.elec5619.backend.dtos.UserResponse;
+import com.elec5619.backend.dtos.DeleteUserRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -53,6 +54,15 @@ public class UserController {
         // return ResponseEntity.ok("yes");
 
         return ResponseEntity.ok(userService.getAllUsers());
+    }
+
+    @PostMapping("/deleteUser")
+    public ResponseEntity deleteUser(@Valid @RequestBody DeleteUserRequest user) {
+        System.out.println("email is ");
+        System.out.println(user);
+        ResponseEntity response = userService.deleteUser(user);
+
+        return response;
     }
 
 }

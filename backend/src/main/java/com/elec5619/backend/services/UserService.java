@@ -2,6 +2,7 @@ package com.elec5619.backend.services;
 
 import com.elec5619.backend.dtos.LoginRequest;
 import com.elec5619.backend.dtos.RegisterRequest;
+import com.elec5619.backend.dtos.DeleteUserRequest;
 
 import com.elec5619.backend.dtos.UserResponse;
 import com.elec5619.backend.mappers.LoginMapper;
@@ -12,6 +13,7 @@ import com.elec5619.backend.jwt.JwtTokenUtil;
 import com.elec5619.backend.repositories.RoleRepository;
 import com.elec5619.backend.entities.Role;
 import com.elec5619.backend.utils.EmailSendingHandler;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,6 +28,7 @@ import com.elec5619.backend.repositories.UserRepository;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.lang.Long;
 
 @RequiredArgsConstructor
 @Service
@@ -127,6 +130,18 @@ public class UserService{
         System.out.println("==============> 1. Simple For loop Example.");
 
         return userList.stream().map(user -> userMapper.fromEntity(user)).collect(Collectors.toList());
+    }
+    @Transactional
+    public ResponseEntity deleteUser(DeleteUserRequest request){
+        User user = userMapper.toEntity(request);
+        User u = userRepository.getUserInstanceByEmail(user.getEmail());
+        System.out.println(u.getUsername());
+        System.out.println(userRepository.count());
+        userRepository.deleteByEmail(user.getEmail());
+        System.out.println(userRepository.count());
+        // repeatEmail = userRepository.getUserByEmail(user.getEmail());
+        // System.out.println(repeatEmail.isPresent());
+        return ResponseEntity.ok("user deleted");
     }
 
 }

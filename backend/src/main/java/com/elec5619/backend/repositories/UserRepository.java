@@ -4,7 +4,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-
+import org.springframework.data.jpa.repository.Query;
 import com.elec5619.backend.entities.User;
 
 public interface UserRepository extends JpaRepository<User, UUID> {
@@ -17,4 +17,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
 
     Optional<User> getUserByName(String username);
+    User getUserInstanceByEmail(String email);
+
+    void deleteByEmail(String email);
 }
