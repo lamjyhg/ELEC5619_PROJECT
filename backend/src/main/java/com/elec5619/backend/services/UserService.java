@@ -135,13 +135,21 @@ public class UserService{
     public ResponseEntity deleteUser(DeleteUserRequest request){
         User user = userMapper.toEntity(request);
         User u = userRepository.getUserInstanceByEmail(user.getEmail());
-        System.out.println(u.getUsername());
-        System.out.println(userRepository.count());
+        //System.out.println(u.getUsername());
+        //System.out.println(userRepository.count());
         userRepository.deleteByEmail(user.getEmail());
-        System.out.println(userRepository.count());
+        //System.out.println(userRepository.count());
         // repeatEmail = userRepository.getUserByEmail(user.getEmail());
         // System.out.println(repeatEmail.isPresent());
         return ResponseEntity.ok("user deleted");
     }
 
+    public UserResponse getUserInstance(String request){
+        //User user = userMapper.toEntity(request);
+        User u = userRepository.findByEmail(request);
+        System.out.println("String request is " + request);
+        System.out.println("u.getUsername() result is: ");
+        System.out.println(u.getUsername());
+        return userMapper.fromEntity(u);
+    }
 }

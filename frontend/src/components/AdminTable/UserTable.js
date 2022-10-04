@@ -2,9 +2,8 @@ import { Space, Table, Tag } from 'antd';
 import React, {useEffect, useState} from 'react';
 import {handleActionToGetSingleGym} from "../../state/gyms/singleGym.action";
 import {useDispatch, useSelector} from "react-redux";
-import {handleActionToGetAllUsers} from "../../state/user/user.action";
-import {handleActionToDeleteUser} from "../../state/user/user.action";
-
+import {handleActionToGetAllUsers, handleActionToDeleteUser, handleActionToGetUser} from "../../state/user/user.action";
+import {useNavigate} from "react-router-dom";
 // table header
 
 
@@ -17,6 +16,8 @@ function UserTable () {
   );
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const onSelectChange = (newSelectedRowKeys) => {
     setSelectedRowKeys(newSelectedRowKeys);
   };
@@ -68,18 +69,21 @@ function UserTable () {
       width: 100,
       render: (_, {email}) => (
           <Space size="large">
-            <a onClick={() => submit(email)}>Delete</a>
+            <a onClick={() => handleEdit(email)}>Edit</a>
+            <a href="userManagement" onClick={() => submit(email)}>Delete</a>
           </Space>
       ),
     },
   ];
 
+  const handleEdit = (email) => {
+    navigate("/admin/userManagement/edit/"+email);
+  }
   const submit = (email) => {
 
     const selectedUser = {
       email: email,
     }
-    console.log(email);
 
     const handleDelete = async () => {
       await dispatch(handleActionToDeleteUser(selectedUser));

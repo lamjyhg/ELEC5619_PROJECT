@@ -58,11 +58,15 @@ public class UserController {
 
     @PostMapping("/deleteUser")
     public ResponseEntity deleteUser(@Valid @RequestBody DeleteUserRequest user) {
-        System.out.println("email is ");
-        System.out.println(user);
         ResponseEntity response = userService.deleteUser(user);
-
         return response;
     }
 
+    @RequestMapping("/getOne/{user}")
+    public ResponseEntity getUserByEmail(@PathVariable String user) {
+        System.out.println("in getUser ");
+        System.out.println(user);
+        return ResponseEntity.ok(userService.getUserInstance(user));
+    }
+    
 }

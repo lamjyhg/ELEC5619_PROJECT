@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import com.elec5619.backend.entities.User;
+import org.springframework.data.repository.query.Param;
 
 public interface UserRepository extends JpaRepository<User, UUID> {
 
@@ -20,4 +21,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     User getUserInstanceByEmail(String email);
 
     void deleteByEmail(String email);
+
+    @Query(value = "select * from user u where u.email = ?1", nativeQuery = true)
+    User findByEmail(String email);
 }

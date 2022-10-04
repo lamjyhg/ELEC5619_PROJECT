@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import {handleRequestToGetAllUsers, handleRequestToDeleteUser} from "../../services/admin";
+import {handleRequestToGetAllUsers, handleRequestToDeleteUser, handleRequestToGetUser} from "../../services/admin";
 
 
 export const handleActionToGetAllUsers = createAsyncThunk(
@@ -23,3 +23,14 @@ export const handleActionToDeleteUser = createAsyncThunk(
         }
     }
 );
+
+export const handleActionToGetUser = createAsyncThunk(
+    'GET_USER',
+    async (params, thunkAPI) => {
+        try {
+            return await handleRequestToGetUser(params);
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error);
+        }
+    }
+)

@@ -20,3 +20,14 @@ export const handleRequestToDeleteUser = (selectedUser) => {
 
     return request(config).then((res) => res.data);
 };
+
+export const handleRequestToGetUser = (id) => {
+    console.log("!!!!!!!!!!!!!!!!!!! "+ id);
+    const config = {
+        url: URL_PREFIX + '/getOne/' + id,
+        method: GET,
+
+    };
+
+    return request(config).then((res) => res.data);
+};
