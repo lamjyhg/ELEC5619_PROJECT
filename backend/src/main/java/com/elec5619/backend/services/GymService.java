@@ -63,7 +63,12 @@ public class GymService {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException(String.format("Unknown id %s", userId)));
         gym.setUser(user);
         gym.setGymApplicationType(GymApplicationType.CREATE);
+        System.out.println(userId);
+        System.out.println(user);
+        System.out.println(gym);
         gymRepository.save(gym);
+        GymResponseDto g = gymMapper.fromEntity(gym);
+        System.out.println(g);
         return gymMapper.fromEntity(gym);
     }
 

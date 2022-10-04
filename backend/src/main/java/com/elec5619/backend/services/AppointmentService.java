@@ -61,19 +61,17 @@ public class AppointmentService {
         UUID gymId = UUID.fromString(appointmentRequest.getGymId());
         //Check if gym appointment full
         Gym gym = gymRepository.findById(gymId).orElseThrow(() -> new IllegalArgumentException(String.format("Unknown id %s", gymId)));
+        System.out.println(gym.getAppointments());
         Integer currentAppointment = gym.getAppointments().size();
         Integer maxAppointments = Integer.parseInt(gym.getMaximumOfAppointments());
-        System.out.println(currentAppointment);
-        System.out.println(maxAppointments);
         if( currentAppointment >= maxAppointments ){
             throw new BadRequestException("Appointments limit has been reached.");
         }
         appointment.setGym(gym);
         appointment.setUser(user);
         appointment.setStatus(AppointmentStatus.PROCESSING);
-        System.out.println(appointment);
-        appointmentRepository.save(appointment);
-        return appointmentMapper.fromEntity(appointment);
+        Appointment newAppointment  = appointmentRepository.save(appointment);
+        return appointmentMapper.fromEntity(newAppointment);
     }
 
     public AppointmentResponseDto update(UUID id,AppointmentRequestDto appointmentRequest) {

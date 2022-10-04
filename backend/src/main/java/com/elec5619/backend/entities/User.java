@@ -51,8 +51,8 @@ public class User {
                 "\ntype: " + this.type;
     }
 
-    @OneToMany(mappedBy = "user")
-    private List<Gym> gyms;
+//    @OneToMany(mappedBy = "user")
+//    private List<Gym> gyms;
 
     @ManyToMany
     @JoinTable(
