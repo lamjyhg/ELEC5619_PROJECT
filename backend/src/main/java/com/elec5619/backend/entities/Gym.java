@@ -15,10 +15,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.sql.Time;
-import java.util.Date;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
+
 import org.hibernate.annotations.GenericGenerator;
 
 @Data
@@ -36,6 +34,8 @@ public class Gym {
     private UUID id;
 
 
+    @Column(name = "description", nullable = false,length = 255)
+    private String description;
 
     @Column(name = "name", nullable = false,length = 255)
     private String name;
@@ -63,7 +63,7 @@ public class Gym {
     private User user;
 
     @OneToMany(mappedBy = "gym")
-    private Set<Appointment> appointments;
+    private Collection<Appointment> appointments = new ArrayList<Appointment>();
 
 
     @Column(name="last_updated_time", nullable = false)
@@ -77,6 +77,10 @@ public class Gym {
 
     @Column(name="gym_status",nullable = false)
     private GymStatus gymStatus = GymStatus.PRIVATE;
+
+    public void addAppointment(Appointment appointment){
+        appointments.add(appointment);
+    }
 
 
 

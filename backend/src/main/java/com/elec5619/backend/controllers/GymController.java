@@ -1,7 +1,9 @@
 package com.elec5619.backend.controllers;
 
+import com.elec5619.backend.dtos.AppointmentResponseDto;
 import com.elec5619.backend.dtos.GymRequestDto;
 import com.elec5619.backend.dtos.GymResponseDto;
+import com.elec5619.backend.exceptions.AuthenticationError;
 import com.elec5619.backend.services.GymService;
 import com.elec5619.backend.utils.EmailSendingHandler;
 import com.elec5619.backend.utils.EmailSendingHanlderImple;
@@ -36,10 +38,12 @@ public class GymController {
         return ResponseEntity.ok(gymService.findAll(session));
     }
 
-    @GetMapping("/findAllNearby")
-    public ResponseEntity<List<GymResponseDto>> findAllNearbyGyms(@RequestParam(name = "latitude") Double latitude,@RequestParam(name = "longitude") Double longitude, HttpServletRequest request) throws IOException {
 
-        HttpSession session = request.getSession(false);
+
+    @GetMapping("/findAllNearby")
+    public ResponseEntity<List<GymResponseDto>> findAllNearbyGyms(@RequestParam(name = "latitude") Double latitude,@RequestParam(name = "longitude") Double longitude, HttpSession session) throws IOException {
+
+        System.out.println(session.getAttribute("token"));
         return ResponseEntity.ok(gymService.findAllNearby(latitude,longitude));
     }
 
@@ -49,17 +53,10 @@ public class GymController {
     }
 
     @PostMapping("")
-    public ResponseEntity<GymResponseDto> createGym(@Valid @RequestBody GymRequestDto gymRequestDtoBody) {
-//        System.out.println(String.format("name : %s", gymPostDto.getName()));
-//        System.out.println(String.format("address : %s", gymPostDto.getAddress()));
-//        System.out.println(String.format("id : %s", gymPostDto.getUserId()));
-//        System.out.println(String.format("image : %s", gymPostDto.getImageUrl()));
-//        System.out.println(String.format("number of appointments : %d", gymPostDto.getMaximumOfAppointments()));
-//        System.out.println(String.format("hours : %s", gymPostDto.getTradingHours().toString()));
-//        System.out.println(String.format("geolocation : %s", gymPostDto.getGeoLocation().toString()));
-//
-//        return "aaa";
-        return ResponseEntity.ok(gymService.create(gymRequestDtoBody));
+    public ResponseEntity<GymResponseDto> createGym(@Valid @RequestBody GymRequestDto gymRequestDtoBody, HttpServletRequest request) throws AuthenticationError {
+
+        HttpSession session = request.getSession();
+        return ResponseEntity.ok(gymService.create(gymRequestDtoBody,session));
     }
 
     @PutMapping("/{gymId}")

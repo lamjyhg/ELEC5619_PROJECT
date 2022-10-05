@@ -12,7 +12,7 @@ export const handleRequestToGetGymAppointmentsByGymOwner = () => {
 
 export const handleRequestToCancelAppointmentByGymOwner = (id, comment) => {
   const config = {
-    url: URL_PREFIX + '/' + id + '/cancelledByGymOwner' + '?comment=' + comment,
+    url: `${URL_PREFIX}/${id}/cancelByGymOwner?comment=${comment}`,
     method: PUT,
   };
   return request(config).then((res) => res.data);

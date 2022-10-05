@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -41,5 +42,29 @@ public class GlobalException extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(body, headers, status);
 
     }
+
+    @ExceptionHandler(value = {AuthenticationError.class})
+    public ResponseEntity<Object> handleAuthenticationError(AuthenticationError e, WebRequest request) {
+        return handleExceptionInternal(e, e.getMessage(),
+                new HttpHeaders(), HttpStatus.UNAUTHORIZED, request);
+    }
+
+    @ExceptionHandler(value = {IllegalArgumentException.class})
+    public ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException e, WebRequest request) {
+        return handleExceptionInternal(e, e.getMessage(),
+                new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(value = {BadRequestException.class})
+    public ResponseEntity<Object> handleBadRequestException(BadRequestException e, WebRequest request) {
+        return handleExceptionInternal(e, e.getMessage(),
+                new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+//    @ExceptionHandler(value = {AuthenticationError.class})
+//    public ResponseEntity<Object> handleIll(AuthenticationError e, WebRequest request) {
+//        return handleExceptionInternal(e, e.getMessage(),
+//                new HttpHeaders(), HttpStatus.FORBIDDEN, request);
+//    }
 
 }

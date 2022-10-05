@@ -3,6 +3,7 @@ package com.elec5619.backend.services;
 import com.elec5619.backend.dtos.LoginRequest;
 import com.elec5619.backend.dtos.RegisterRequest;
 import com.elec5619.backend.entities.Role;
+import com.elec5619.backend.exceptions.AuthenticationError;
 import com.elec5619.backend.mappers.LoginMapper;
 import com.elec5619.backend.mappers.RegisterMapper;
 import com.elec5619.backend.repositories.RoleRepository;
@@ -33,6 +34,20 @@ public class UserService{
     private final LoginMapper loginMapper;
     private final JwtTokenUtil jwtTokenUtil;
     private final HashUtil hashUtil;
+
+    public User getUserByToken(HttpSession session) throws AuthenticationError {
+        try {
+            String email = jwtTokenUtil.getTokenEmail((String) session.getAttribute("token"));
+            Optional<User> user  = userRepository.getUserByEmail(email);
+            if(! user.isPresent()){
+                throw new AuthenticationError("not authorized");
+            }
+            return user.get();
+        }
+        catch (Exception exc) {
+            throw new AuthenticationError("not authorized");
+        }
+    }
 
 
     public ResponseEntity createUser(RegisterRequest userRequest, HttpSession session) {

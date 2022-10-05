@@ -6,10 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Setter
@@ -52,7 +49,7 @@ public class User {
     }
 
     @OneToMany(mappedBy = "user")
-    private List<Gym> gyms;
+    protected Collection<Gym> gyms = new ArrayList<Gym>();
 
     @ManyToMany
     @JoinTable(
@@ -67,6 +64,10 @@ public class User {
 
     public void addRole(Role role){
         this.roles.add(role);
+    }
+
+    public void addGyms(Gym gym){
+        gyms.add(gym);
     }
 
 }
