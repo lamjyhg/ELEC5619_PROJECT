@@ -181,7 +181,14 @@
                       font-size: medium;
                       font-weight:bold ;
                       color: #a4a4a4;
+                      display: flex;
+                      flex-direction: column;
+                      align-items: flex-start;
                       //border-bottom: 1px solid black;
+
+                      .user_id{
+                          display: flex;
+                      }
                   }
 
                   .single_review_body{
@@ -195,9 +202,9 @@
           }
       }
 
-      .new_comment_container{
-
-
+      .comment_modal{
+          display: flex;
+          flex-direction: column;
 
       }
 
