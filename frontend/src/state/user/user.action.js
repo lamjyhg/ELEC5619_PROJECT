@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import {handleRequestToGetAllUsers, handleRequestToDeleteUser, handleRequestToGetUser} from "../../services/admin";
+import {handleRequestToGetAllUsers, handleRequestToDeleteUser, handleRequestToGetUser, handleRequestToUpdateRole} from "../../services/admin";
 
 
 export const handleActionToGetAllUsers = createAsyncThunk(

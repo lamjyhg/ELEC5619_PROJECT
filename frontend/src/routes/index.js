@@ -45,13 +45,12 @@ const Router = () => {
                 element={<UserEditPage />}
             >
             </Route>
-          <Route path="gymRequests">
-            <Route path="" element={<GymRequestsPage />}></Route>
+          <Route path="gymRequests" element={<GymRequestsPage />}>
+            </Route>
             <Route
-              path=":id"
-              element={<GymRequestPage></GymRequestPage>}
+                path="gymRequests/:id"
+                element={<GymRequestPage></GymRequestPage>}
             ></Route>
-          </Route>
         </Route>
       </Route>
       <Route path="/account" element={<ProtectedLayout />}>
