@@ -5,6 +5,8 @@ import com.elec5619.backend.dtos.RegisterRequest;
 import com.elec5619.backend.dtos.DeleteUserRequest;
 
 import com.elec5619.backend.dtos.UserResponse;
+import com.elec5619.backend.entities.Role;
+import com.elec5619.backend.exceptions.AuthenticationError;
 import com.elec5619.backend.mappers.LoginMapper;
 import com.elec5619.backend.mappers.RegisterMapper;
 import com.elec5619.backend.mappers.UserMapper;
@@ -43,9 +45,22 @@ public class UserService{
     private final HashUtil hashUtil;
     private final UserMapper userMapper;
 
+    public User getUserByToken(HttpSession session) throws AuthenticationError {
+        try {
+            String email = jwtTokenUtil.getTokenEmail((String) session.getAttribute("token"));
+            Optional<User> user  = userRepository.getUserByEmail(email);
+            if(! user.isPresent()){
+                throw new AuthenticationError("not authorized");
+            }
+            return user.get();
+        }
+        catch (Exception exc) {
+            throw new AuthenticationError("not authorized");
+        }
+    }
+
+
     public ResponseEntity createUser(RegisterRequest userRequest, HttpSession session) {
-
-
 
 
         User user = registerMapper.toEntity(userRequest);

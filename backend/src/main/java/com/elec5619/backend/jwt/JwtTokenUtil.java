@@ -2,6 +2,7 @@ package com.elec5619.backend.jwt;
 
 import com.elec5619.backend.dtos.LoginRequest;
 import com.elec5619.backend.dtos.RegisterRequest;
+import com.elec5619.backend.entities.User;
 import com.elec5619.backend.mappers.RegisterMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.constraints.Null;
 import java.io.Serializable;
 import java.util.Date;
@@ -59,6 +61,8 @@ public class JwtTokenUtil implements Serializable {
             return null;
         }
     }
+
+
 
 
 }

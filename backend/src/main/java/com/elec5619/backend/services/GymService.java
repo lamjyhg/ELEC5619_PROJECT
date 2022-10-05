@@ -6,19 +6,20 @@ import com.elec5619.backend.dtos.GymResponseDto;
 import com.elec5619.backend.entities.Gym;
 import com.elec5619.backend.entities.User;
 import com.elec5619.backend.entities.gymEnums.GymApplicationType;
-import com.elec5619.backend.entities.gymEnums.GymStatus;
+import com.elec5619.backend.exceptions.AuthenticationError;
+import com.elec5619.backend.jwt.JwtTokenUtil;
 import com.elec5619.backend.mappers.GymMapper;
 import com.elec5619.backend.repositories.GymRepository;
 import com.elec5619.backend.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpSession;
 import javax.annotation.security.RolesAllowed;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -28,6 +29,7 @@ public class GymService {
     private final GymRepository gymRepository;
     private final UserRepository userRepository;
     private final GymMapper gymMapper;
+    private final JwtTokenUtil jwtTokenUtil;
 
     private final UserService userService;
 
@@ -43,9 +45,6 @@ public class GymService {
 
 
     public List<GymResponseDto> findAllNearby(Double latitude,Double longitude) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-        System.out.println("details:"+authentication.getAuthorities());
         List<Gym> gymList = gymRepository.findNearbyGymsByCurrentLocation(latitude,longitude);
         return gymList.stream().map(gym -> gymMapper.fromEntity(gym)).collect(Collectors.toList());
     }
@@ -55,11 +54,13 @@ public class GymService {
         return gymMapper.fromEntity(foundGym);
     }
 
-    public GymResponseDto create(GymRequestDto gymRequestDto) {
+    public GymResponseDto create(GymRequestDto gymRequestDto, HttpSession session) throws AuthenticationError {
+        User user = userService.getUserByToken(session);
         Gym gym = gymMapper.toEntity(gymRequestDto);
-        User user = userRepository.findById(UUID.fromString("0a8df40e-3995-40d9-8678-c0a522cdd37d")).orElseThrow(() -> new IllegalArgumentException(String.format("Unknown id")));
         gym.setUser(user);
         gym.setGymApplicationType(GymApplicationType.CREATE);
+        user.addGyms(gym);
+        userRepository.save(user);
         gymRepository.save(gym);
         return gymMapper.fromEntity(gym);
     }

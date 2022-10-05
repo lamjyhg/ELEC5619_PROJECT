@@ -20,6 +20,9 @@ public class GymRequestDto {
     @NotBlank(message = "gym name should not be blank")
     private String name;
 
+    @NotBlank(message = "gym description should not be blank")
+    private String description;
+
     @NotBlank(message = "image url should not be blank")
     private String imageUrl;
 

@@ -13,6 +13,8 @@ public class GymResponseDto {
 
     private String name;
 
+    private String description;
+
     private String imageUrl;
 
     private Integer maximumOfAppointments;

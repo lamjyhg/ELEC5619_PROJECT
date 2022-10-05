@@ -1,4 +1,4 @@
-import { Button, Col, Modal, Row, Table, Tooltip, notification } from 'antd';
+import { Button, Spin, Table, Tooltip, notification, Tag } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import React, { useState } from 'react';
 import { useEffect } from 'react';
@@ -10,92 +10,8 @@ import {
 import GymOwnerAppointmentCancellationForm from './GymOwnerAppointmentCancellationForm/GymOwnerAppointmentCancellationForm';
 import './GymOwnerAppointmentManagementTable.scss';
 
-const data = [
-  {
-    key: '1',
-    gymName: 'A',
-    userName: 'a',
-    startTime: '1',
-    duration: '1',
-    status: '1',
-    note: '11fhfdshsfhdsjdgjshdjhsdkhhdhjkadhkjahdkhakjhdjkahjkhjkahkjdhahdahdkahkdhkahkdahkdhkahkdhakhkhakhdkah',
-  },
-  {
-    key: '2',
-    gymName: 'B',
-    userName: 'a',
-    startTime: '1',
-    duration: '1',
-    status: '1',
-    note: '11fhfdshsfhdsjdgjshdjhsdkhhdhjkadhkjahdkhakjhdjkahjkhjkahkjdhahdahdkahkdhkahkdahkdhkahkdhakhkhakhdkah',
-  },
-  {
-    key: '3',
-    gymName: 'A',
-    userName: 'a',
-    startTime: '1',
-    duration: '1',
-    status: '1',
-    note: '11fhfdshsfhdsjdgjshdjhsdkhhdhjkadhkjahdkhakjhdjkahjkhjkahkjdhahdahdkahkdhkahkdahkdhkahkdhakhkhakhdkah',
-  },
-  {
-    key: '5',
-    gymName: 'A',
-    userName: 'a',
-    startTime: '1',
-    duration: '1',
-    status: '1',
-    note: '11fhfdshsfhdsjdgjshdjhsdkhhdhjkadhkjahdkhakjhdjkahjkhjkahkjdhahdahdkahkdhkahkdahkdhkahkdhakhkhakhdkah',
-  },
-  {
-    key: '1dskl',
-    gymName: 'A',
-    userName: 'a',
-    startTime: '1',
-    duration: '1',
-    status: '1',
-    note: '11fhfdshsfhdsjdgjshdjhsdkhhdhjkadhkjahdkhakjhdjkahjkhjkahkjdhahdahdkahkdhkahkdahkdhkahkdhakhkhakhdkah',
-  },
-  {
-    key: '1sbj',
-    gymName: 'A',
-    userName: 'a',
-    startTime: '1',
-    duration: '1',
-    status: '1',
-    note: '11fhfdshsfhdsjdgjshdjhsdkhhdhjkadhkjahdkhakjhdjkahjkhjkahkjdhahdahdkahkdhkahkdahkdhkahkdhakhkhakhdkah',
-  },
-  {
-    key: '1djskj',
-    gymName: 'A',
-    userName: 'a',
-    startTime: '1',
-    duration: '1',
-    status: '1',
-    note: '11fhfdshsfhdsjdgjshdjhsdkhhdhjkadhkjahdkhakjhdjkahjkhjkahkjdhahdahdkahkdhkahkdahkdhkahkdhakhkhakhdkah',
-  },
-  {
-    key: '1ds',
-    gymName: 'A',
-    userName: 'a',
-    startTime: '1',
-    duration: '1',
-    status: '1',
-    note: '11fhfdshsfhdsjdgjshdjhsdkhhdhjkadhkjahdkhakjhdjkahjkhjkahkjdhahdahdkahkdhkahkdahkdhkahkdhakhkhakhdkah',
-  },
-  {
-    key: '1ssd',
-    gymName: 'A',
-    userName: 'a',
-    startTime: '1',
-    duration: '1',
-    status: '1',
-    note: '11fhfdshsfhdsjdgjshdjhsdkhhdhjkadhkjahdkhakjhdjkahjkhjkahkjdhahdahdkahkdhkahkdahkdhkahkdhakhkhakhdkah',
-  },
-];
-
 const GymOwnerAppointmentManagementTable = () => {
-  const [cancelledId, setCancelledId] = useState(null);
+  const [cancelledAppointment, setCancelledAppointment] = useState(null);
   const [comment, setComment] = useState('');
 
   const { appointmentList, isError, isLoading, isSuccess } = useSelector(
@@ -104,14 +20,20 @@ const GymOwnerAppointmentManagementTable = () => {
     }
   );
 
+  if (isError) {
+    notification['error']({
+      message: 'Notification Title',
+      description: 'There is error in this page ',
+    });
+  }
+
   const dispatch = useDispatch();
 
   const columns = [
     { title: 'Gym Name', dataIndex: 'gymName', key: 'gymName' },
-    { title: 'User Name', dataIndex: 'userName', key: 'userName' },
+    { title: 'Customer Name', dataIndex: 'customerName', key: 'customerName' },
     { title: 'Start Time', dataIndex: 'startTime', key: 'startTime' },
     { title: 'Duration', dataIndex: 'duration', key: 'duration' },
-    { title: 'Status', dataIndex: 'status', key: 'status' },
     {
       title: 'Note',
       dataIndex: 'note',
@@ -126,12 +48,34 @@ const GymOwnerAppointmentManagementTable = () => {
       },
     },
     {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
+      render: (status) => {
+        var color = 'yellow';
+        switch (status) {
+          case 'COMPLETED':
+            color = 'green';
+            break;
+          case 'CANCELLED':
+            color = 'red';
+            break;
+          default:
+            color = 'yellow';
+        }
+        return <Tag color={color}>{status.toUpperCase()}</Tag>;
+      },
+    },
+
+    {
       title: 'Actions',
-      dataIndex: 'key',
       key: 'action',
-      render: (id) => (
-        <Button onClick={() => setCancelledId(id)}>Cancel </Button>
-      ),
+      render: (_, record) =>
+        record.status === 'CANCELLED' ? null : (
+          <Button onClick={() => setCancelledAppointment(record)}>
+            Cancel{' '}
+          </Button>
+        ),
     },
   ];
 
@@ -142,19 +86,17 @@ const GymOwnerAppointmentManagementTable = () => {
   const handleConfirmCancellation = async () => {
     //cancel appointment
     await dispatch(
-      handleActionToCancelAppointmentByGymOwner({ cancelledId, comment })
+      handleActionToCancelAppointmentByGymOwner({
+        cancelledId: cancelledAppointment.id,
+        comment,
+      })
     );
-    setCancelledId(null);
+    setCancelledAppointment(null);
     setComment('');
-    notification['error']({
-      message: 'Notification Title',
-      description:
-        'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
-    });
   };
 
   const handleCancelCancellatin = () => {
-    setCancelledId(null);
+    setCancelledAppointment(null);
     setComment('');
   };
 
@@ -167,21 +109,23 @@ const GymOwnerAppointmentManagementTable = () => {
   }, []);
 
   return (
-    <div className="appointmentsPage-owner">
-      <GymOwnerAppointmentCancellationForm
-        cancelledId={cancelledId}
-        handleConfirmCancellation={handleConfirmCancellation}
-        handleCancelCancellatin={handleCancelCancellatin}
-        comment={comment}
-        handleChangeCommentValue={handleChangeCommentValue}
-      ></GymOwnerAppointmentCancellationForm>
-      <Table
-        pagination={{ pageSize: 8 }}
-        columns={columns}
-        dataSource={data}
-        className="appointmentsTable-owner"
-      />
-    </div>
+    <Spin spinning={isLoading}>
+      <div className="appointmentsPage-owner">
+        <GymOwnerAppointmentCancellationForm
+          cancelledAppointment={cancelledAppointment}
+          handleConfirmCancellation={handleConfirmCancellation}
+          handleCancelCancellatin={handleCancelCancellatin}
+          comment={comment}
+          handleChangeCommentValue={handleChangeCommentValue}
+        ></GymOwnerAppointmentCancellationForm>
+        <Table
+          pagination={{ pageSize: 8 }}
+          columns={columns}
+          dataSource={appointmentList}
+          className="appointmentsTable-owner"
+        />
+      </div>
+    </Spin>
   );
 };
 
