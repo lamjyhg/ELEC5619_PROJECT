@@ -109,7 +109,7 @@ public class UserService{
     public void getUserRole(HttpSession session){
 
         if(session != null){
-            jwtTokenUtil.getTokenEmail((String) session.getAttribute("token"));
+            System.out.println(jwtTokenUtil.getTokenEmail((String) session.getAttribute("token")));
         }
 
     }
