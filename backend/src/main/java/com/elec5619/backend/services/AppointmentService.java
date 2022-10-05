@@ -56,7 +56,6 @@ public class AppointmentService {
         User customer = userService.getUserByToken(session);
         Gym gym = gymRepository.findById(UUID.fromString(appointmentRequestDto.getGymId())).orElseThrow(() -> new IllegalArgumentException(String.format("Unknown gym id ")));
         // check there is available
-        System.out.println(gym.getId());
 
         Appointment appointment = appointmentMapper.toEntity(appointmentRequestDto);
         appointment.setCustomer(customer);

@@ -46,7 +46,7 @@ public class Appointment {
     @Column(name="start_time",nullable = false)
     private Date startTime;
 
-    @Column(name = "endTime", nullable = false)
+    @Column(name = "end_Time", nullable = false)
     private Date endTime;
 
     @Column(name = "status", nullable = false)

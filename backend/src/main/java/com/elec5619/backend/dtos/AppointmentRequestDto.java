@@ -35,7 +35,7 @@ public class AppointmentRequestDto {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date startTime;
 
-    @NotBlank(message = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endTime;
 
     @NotNull(message="not should not be null")
