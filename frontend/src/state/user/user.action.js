@@ -34,3 +34,14 @@ export const handleActionToGetUser = createAsyncThunk(
         }
     }
 )
+
+export const handleActionToUpdateRole = createAsyncThunk(
+    'GET_USER',
+    async (params, thunkAPI) => {
+        try {
+            return await handleRequestToUpdateRole(params);
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error);
+        }
+    }
+)

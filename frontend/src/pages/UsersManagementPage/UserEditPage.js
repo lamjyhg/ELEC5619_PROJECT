@@ -1,30 +1,23 @@
-import {Layout, Input, Space, Select, Button} from "antd";
-import React, {useEffect} from "react";
+import {Layout, Input, Space, Select, Button, Col, Row, Typography} from "antd";
+import React, {useEffect, useState} from "react";
 import {useDispatch,useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
-import {handleActionToGetUser} from "../../state/user/user.action";
+import {handleActionToGetUser, handleActionToUpdateRole} from "../../state/user/user.action";
 import {useNavigate} from "react-router-dom";
+
 const { Content} = Layout;
+const { Text} = Typography
+const { Option } = Select;
+
 
 function UserEditPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { Option } = Select;
-
     const { users, isSuccess, isLoading, isError } = useSelector(
         (state) => state.user.user
     );
     const { id } = useParams();
-    const typeList = [<Option key={0}>{'user'}</Option>, <Option key={1}>{"owner"}</Option>, <Option key={2}>{"admin"}</Option>];
-
-    console.log("id is" + id);
-    if(isSuccess){
-        console.log("user is" + JSON.stringify(users.id));
-    }
-
-    console.log("isSuccess is " + isSuccess);
-    console.log("isLoading is " + isLoading);
-    console.log("isError  is " + isError);
+    const [newType, setType]= useState("");
 
     let userID = "";
     let email = "";
@@ -44,9 +37,6 @@ function UserEditPage() {
     }
     useEffect( () => {
         const getUser = async () => {
-            const selectedUser = {
-                email: JSON.stringify(id),
-            }
             await dispatch(handleActionToGetUser(id));
         }
 
@@ -55,9 +45,22 @@ function UserEditPage() {
 
     const handleChange = (value) => {
         console.log(`selected ${value}`);
+        type = value;
+        setType(value);
     };
     const handleSave = () => {
-        navigate("/admin/userManagement");
+        console.log("new role is " + newType);
+        console.log("email is " + email);
+        const userInput = {
+            role: type,
+            email: email,
+        }
+        const updateRole = async () => {
+            await dispatch(handleActionToUpdateRole(userInput));
+        }
+
+        updateRole();
+        //navigate("/admin/userManagement");
     }
 
     return(
@@ -71,6 +74,7 @@ function UserEditPage() {
                     <Input key={email} addonBefore="Email" defaultValue={email} disabled={true}/>
                     <Input key={username} addonBefore="Username" defaultValue={username} disabled={true}/>
                     <Input key={password} addonBefore="Password" defaultValue={password} disabled={true}/>
+                    {/*
                     <Select
                         key={type}
                         mode="multiple"
@@ -82,7 +86,29 @@ function UserEditPage() {
                     >
                         {typeList}
                     </Select>
-                    <Button type="primary" onClick={() => handleSave()}>Save</Button>
+                    */}
+                    <Row align={"center"}>
+                        <Col className="gutter-row" span={3}>
+                            <Text strong level={2} align={"center"}>Role</Text>
+                        </Col>
+                        <Col className="gutter-row" span={6}>
+                            <Select key={type} defaultValue={type} style={{ width: 120 }} onChange={handleChange}>
+                                <Option value="user">User</Option>
+                                <Option value="owner">Owner</Option>
+                                <Option value="admin">Admin</Option>
+                            </Select>
+                        </Col>
+                    </Row>
+
+                    <Row align={"center"}>
+                        <Col className="gutter-row" span={6}>
+                            <Button type="primary" onClick={() => handleSave()}>Save</Button>
+                        </Col>
+                        <Col className="gutter-row" span={6} offset={4}>
+                            <Button type="primary" onClick={() => navigate("/admin/userManagement")}>Cancel</Button>
+                        </Col>
+                    </Row>
+
                 </Space>
             </Content>
         </Layout>

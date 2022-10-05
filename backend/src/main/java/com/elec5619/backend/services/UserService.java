@@ -152,4 +152,25 @@ public class UserService{
         System.out.println(u.getUsername());
         return userMapper.fromEntity(u);
     }
+
+    public ResponseEntity updateRole(String role, String email){
+        System.out.println("--------------------------------");
+        System.out.println(role);
+        System.out.println(email);
+        User u = userRepository.findByEmail(email);
+        System.out.println("u.username: ");
+        System.out.println(u.getUsername());
+        System.out.println("u.role");
+        Set<Role> roles = u.getRoles();
+        Role[] roleArray = roles.toArray(new Role[roles.size()]);
+        System.out.println(roles.size());
+        System.out.println("--------------add new role------------------");
+        Role userRole = new Role("Customer");
+        u.addRole(userRole);
+        roles = u.getRoles();
+        System.out.println(roles.size());
+        //userRepository.save(u);
+        //u.role = role;
+        return ResponseEntity.ok("user deleted");
+    }
 }

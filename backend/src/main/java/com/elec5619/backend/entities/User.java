@@ -68,8 +68,18 @@ public class User {
     public void addRole(Role role){
         this.roles.add(role);
     }
+
     public String getUsername(){
         return this.username;
+    }
+
+    public Set<Role> getRole(){
+            return this.roles;
+    }
+    public void updateRole(Role role) {
+        Set<Role> newRoles = new HashSet<>();
+        newRoles.add(role);
+        this.roles = newRoles;
     }
 
 }

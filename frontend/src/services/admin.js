@@ -31,3 +31,12 @@ export const handleRequestToGetUser = (id) => {
 
     return request(config).then((res) => res.data);
 };
+
+export const handleRequestToUpdateRole = (input) => {
+    const config = {
+        url: URL_PREFIX + '/updateRole/' + input.role + "/" + input.email,
+        method: POST,
+    };
+
+    return request(config).then((res) => res.data);
+};

@@ -68,5 +68,11 @@ public class UserController {
         System.out.println(user);
         return ResponseEntity.ok(userService.getUserInstance(user));
     }
+
+    @RequestMapping("/updateRole/{role}/{email}")
+    public ResponseEntity updateRole(@PathVariable String role, @PathVariable String email) {
+        ResponseEntity response = userService.updateRole(role, email);
+        return response;
+    }
     
 }
