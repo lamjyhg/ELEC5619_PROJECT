@@ -1,13 +1,14 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import {
   handleActionToGetGyms,
   handleActionToGetNearbyGyms,
-} from '../../state/gyms/gyms.action';
-import { Input, Button, Row } from 'antd';
-import GymsMap from '../../components/GymsMap/GymsMap';
-import { Content } from 'antd/lib/layout/layout';
-import './GymsPage.scss';
+} from "../../state/gyms/gyms.action";
+import { Input, Button, Row } from "antd";
+import GymsMap from "../../components/GymsMap/GymsMap";
+import { Content } from "antd/lib/layout/layout";
+import "./GymsPage.scss";
+import GymCardList from "../../components/GymCardList/GymCardList";
 const GymsPage = () => {
   const { gymsList, isError, isLoading, isSuccess } = useSelector((state) => {
     return state.gyms.gymsPage;
@@ -49,7 +50,7 @@ const GymsPage = () => {
       <Input.Search
         allowClear
         style={{
-          width: '40%',
+          width: "40%",
         }}
         id="gymsPage__search"
         placeholder="search gyms by name"
@@ -75,7 +76,7 @@ const GymsPage = () => {
 
       <>
         {isShowingList ? (
-          <h1>把component 放这， 美女：）</h1>
+          <GymCardList />
         ) : (
           <GymsMap
             currentLatitude={currentGeoLocation.lat}
