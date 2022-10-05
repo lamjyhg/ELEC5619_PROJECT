@@ -1,69 +1,33 @@
 import {
-  Button,
-  Modal,
-  Cascader,
-  DatePicker,
-  Form,
-  Input,
-  InputNumber,
-  Radio,
-  Select,
-  Switch,
-  TreeSelect,
-  message,
-  Upload,
-} from "antd";
-import {
-  UploadOutlined,
-  PlusOutlined,
   LoadingOutlined,
+  PlusOutlined,
+  UploadOutlined,
 } from "@ant-design/icons";
+import { Button, Form, Input, InputNumber, Modal, Upload } from "antd";
 import { useState } from "react";
+import { geocodeByAddress, getLatLng } from "react-places-autocomplete";
+import AddressAutoComplete from "../../../components/AddressAutoComplete/AddressAutoComplete";
 import "./OwnerGymsPage.scss";
-
-const getBase64 = (img, callback) => {
-  const reader = new FileReader();
-  reader.addEventListener("load", () => callback(reader.result));
-  reader.readAsDataURL(img);
-};
-const beforeUpload = (file) => {
-  const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
-
-  if (!isJpgOrPng) {
-    message.error("You can only upload JPG/PNG file!");
-  }
-
-  const isLt2M = file.size / 1024 / 1024 < 2;
-
-  if (!isLt2M) {
-    message.error("Image must smaller than 2MB!");
-  }
-
-  return isJpgOrPng && isLt2M;
-};
 
 const OwnerGymsPage = () => {
   const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const handleChange = (info) => {
-    if (info.file.status === "uploading") {
-      setLoading(true);
-      return;
-    }
-    if (info.file.status === "done") {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, (url) => {
-        setLoading(false);
-        setImageUrl(url);
-      });
-    }
+  const [formValue, setFormValue] = useState({
+    name: "",
+    address: "",
+    maximumOfAppointments: "",
+    imageUrl: "",
+    geoLocation: { lat: "", lng: "" },
+  });
+  const onFinish = (values) => {
+    console.log("Success:", values);
   };
   const showModal = () => {
     setIsModalOpen(true);
   };
 
   const handleOk = () => {
+    // submit gym
     setIsModalOpen(false);
   };
 
@@ -78,18 +42,35 @@ const OwnerGymsPage = () => {
     }
     return e?.fileList;
   };
-  const uploadButton = (
-    <div>
-      {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div
-        style={{
-          marginTop: 8,
-        }}
-      >
-        Upload
-      </div>
-    </div>
-  );
+  const clearAddress = () => {
+    // set address empty filed with antd form
+    setFormValue((previousForm) => ({ ...previousForm, address: "" }));
+  };
+  const handleAddressSelect = (address, placeID) => {
+    console.log({ address, placeID });
+    geocodeByAddress(address)
+      .then(async (results) => {
+        // Do something with results[0]
+        return getLatLng(results[0]);
+      })
+      .then((latLng) => {
+        // Do something with latLng
+        setFormValue((previousForm) => ({
+          ...previousForm,
+          address,
+          geoLocation: { lat: latLng.lat, lng: latLng.lng },
+        }));
+      })
+      .catch((error) => {
+        console.error("Error", error);
+      });
+  };
+  const handleAddressChange = (address) => {
+    // set form address value
+    console.log({ address });
+    setFormValue((previousForm) => ({ ...previousForm, address }));
+  };
+
   return (
     <div className="gym_list_contianer">
       <p>Gym List</p>
@@ -104,6 +85,7 @@ const OwnerGymsPage = () => {
         onCancel={handleCancel}
       >
         <Form
+          onFinish={onFinish}
           labelCol={{ span: 7 }}
           wrapperCol={{ span: 15 }}
           layout="horizontal"
@@ -112,7 +94,12 @@ const OwnerGymsPage = () => {
             <Input />
           </Form.Item>
           <Form.Item label="Address">
-            <Input />
+            <AddressAutoComplete
+              address={formValue.address}
+              clearAddress={clearAddress}
+              onChange={handleAddressChange}
+              onAddressSelect={handleAddressSelect}
+            />
           </Form.Item>
           <Form.Item label="Max Appointment">
             <Form.Item name="input-number" noStyle>
