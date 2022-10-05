@@ -20,7 +20,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
     @Query(value = " SELECT * From appointment join gym on gym.id = appointment.gym_id join user on user.id = gym.user_id where user.id = ?1 ;" , nativeQuery = true)
     public List<Appointment> findAllByGymOwnerId(@Param("userId") UUID userId);
 
-    //public List<Appointment> findAllByGymOwner(User user);
-
-
+    @Query("select a from Appointment a join User u on u.id = :userId")
+    public List<Appointment> findAllByUserId(@Param("userId") UUID userId);
 }

@@ -1,14 +1,21 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { replaceAppointmentInList } from '../../utils/appointmentsHandlers';
+import { createSlice } from "@reduxjs/toolkit";
+import { replaceAppointmentInList } from "../../utils/appointmentsHandlers";
 import {
   handleActionToCancelAppointmentByGymOwner,
   handleActionToGetGymsAppointmentsByGymOwner,
-} from './appointments.action';
+  handleActionToGetUserAppointments,
+} from "./appointments.action";
 
 const appointmentsSlice = createSlice({
-  name: 'appointments',
+  name: "appointments",
   initialState: {
     gymOwner: {
+      appointmentList: [],
+      isError: false,
+      isLoading: false,
+      isSuccess: false,
+    },
+    userAppointments: {
       appointmentList: [],
       isError: false,
       isLoading: false,
@@ -95,7 +102,38 @@ const appointmentsSlice = createSlice({
             isSuccess: false,
           },
         })
-      );
+      )
+      .addCase(handleActionToGetUserAppointments.pending, (state, action) => ({
+        ...state,
+        userAppointments: {
+          ...state.userAppointments,
+          isLoading: true,
+          isError: false,
+          isSuccess: false,
+        },
+      }))
+      .addCase(
+        handleActionToGetUserAppointments.fulfilled,
+        (state, action) => ({
+          ...state,
+          userAppointments: {
+            ...state.userAppointments,
+            isLoading: false,
+            isError: false,
+            isSuccess: true,
+            appointmentList: action.payload,
+          },
+        })
+      )
+      .addCase(handleActionToGetUserAppointments.rejected, (state, action) => ({
+        ...state,
+        userAppointments: {
+          ...state.userAppointments,
+          isLoading: true,
+          isError: false,
+          isSuccess: false,
+        },
+      }));
   },
 });
 export default appointmentsSlice.reducer;

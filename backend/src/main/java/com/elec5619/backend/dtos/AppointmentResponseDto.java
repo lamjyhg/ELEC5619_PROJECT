@@ -21,9 +21,9 @@ public class AppointmentResponseDto {
 
     private String customerEmail;
 
-    private Double duration;
-
     private Date startTime;
+
+    private Date endTime;
 
     private AppointmentStatus status;
 

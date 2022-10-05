@@ -1,3 +1,14 @@
+# install nvm
+brew update
+brew install nvm
+mkdir ~/.nvm
+
+echo "export NVM_DIR=~/.nvm\nsource \$(brew --prefix nvm)/nvm.sh" >> .zshrc
+source ~/.zshrc
+
+# update node version
+nvm install 16.16.0  
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

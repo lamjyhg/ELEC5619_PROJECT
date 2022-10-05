@@ -13,7 +13,10 @@ import javax.validation.constraints.*;
 import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.UUID;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PositiveOrZero;
+
 @Data
 public class AppointmentRequestDto {
 
@@ -31,6 +34,9 @@ public class AppointmentRequestDto {
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date startTime;
+
+    @NotBlank(message = "yyyy-MM-dd HH:mm:ss")
+    private Date endTime;
 
     @NotNull(message="not should not be null")
     private String note;

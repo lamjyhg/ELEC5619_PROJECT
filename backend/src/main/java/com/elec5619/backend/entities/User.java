@@ -50,6 +50,8 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     protected Collection<Gym> gyms = new ArrayList<Gym>();
+//    @OneToMany(mappedBy = "user")
+//    private List<Gym> gyms;
 
     @ManyToMany
     @JoinTable(

@@ -10,6 +10,14 @@ export const handleRequestToGetGymAppointmentsByGymOwner = () => {
   return request(config).then((res) => res.data);
 };
 
+export const handleRequestToGetAppointmentsByUser = () => {
+  const config = {
+    url: URL_PREFIX + '/listAllByUser',
+    method: GET,
+  };
+  return request(config).then((res) => res.data);
+};
+
 export const handleRequestToCancelAppointmentByGymOwner = (id, comment) => {
   const config = {
     url: `${URL_PREFIX}/${id}/cancelByGymOwner?comment=${comment}`,

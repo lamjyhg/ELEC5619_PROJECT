@@ -1,12 +1,13 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
   handleRequestToCreateAppointment,
+  handleRequestToGetAppointmentsByUser,
   handleRequestToCancelAppointmentByGymOwner,
   handleRequestToGetGymAppointmentsByGymOwner,
-} from '../../services/appointments';
+} from "../../services/appointments";
 
 export const handleActionToGetGymsAppointmentsByGymOwner = createAsyncThunk(
-  'GET_GYM_APPOINTMENTS_BY_GYM_OWNER',
+  "GET_GYM_APPOINTMENTS_BY_GYM_OWNER",
   async (params, thunkAPI) => {
     try {
       return await handleRequestToGetGymAppointmentsByGymOwner();
@@ -15,9 +16,19 @@ export const handleActionToGetGymsAppointmentsByGymOwner = createAsyncThunk(
     }
   }
 );
+export const handleActionToGetUserAppointments = createAsyncThunk(
+  "GET_APPOINTMENTS_BY_USER",
+  async (params, thunkAPI) => {
+    try {
+      return await handleRequestToGetAppointmentsByUser();
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 
 export const handleActionToCancelAppointmentByGymOwner = createAsyncThunk(
-  'CANCEL_GYM_APPOINTMENT_BY_GYM_OWNER',
+  "CANCEL_GYM_APPOINTMENT_BY_GYM_OWNER",
   async (parames, thunkAPI) => {
     try {
       return await handleRequestToCancelAppointmentByGymOwner(
@@ -31,7 +42,7 @@ export const handleActionToCancelAppointmentByGymOwner = createAsyncThunk(
 );
 
 export const handleActionToCreateAppointment = createAsyncThunk(
-  'CREATE_APPOINTMENT',
+  "CREATE_APPOINTMENT",
   async (params, thunkAPI) => {
     try {
       return await handleRequestToCreateAppointment(params);

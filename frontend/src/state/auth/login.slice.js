@@ -5,10 +5,12 @@ import {handleLoginRequest} from "./login.action";
 const loginSlice = createSlice({
     name:"login",
     initialState:{
+       
         loginPage:{
             isSuccess:false,
             isLoading:false,
             isError:false,
+            userInfo:{},
             errors:"",
         },
     },
@@ -29,6 +31,7 @@ const loginSlice = createSlice({
                 ...state,
                 loginPage: {
                     ...state.loginPage,
+                    userInfo:action.payload.user,
                     isSuccess:true,
                     isLoading:false,
                     isError:false,

@@ -27,7 +27,7 @@ public class Appointment {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "customer_id", nullable = false)
     private User customer;
 
     @Column(name = "customer_name", nullable = false)
@@ -36,15 +36,18 @@ public class Appointment {
     @Column(name = "customer_email", nullable = false)
     private String customerEmail;
 
+    @Column(name="last_updated_time", nullable = false)
+    private Date lastUpdatedTime = new Date();
+
     @ManyToOne
     @JoinColumn(name="gym_id", nullable = false)
     private Gym gym;
 
-    @Column(name = "duration", nullable = false)
-    private Double duration;
-
     @Column(name="start_time",nullable = false)
     private Date startTime;
+
+    @Column(name = "endTime", nullable = false)
+    private Date endTime;
 
     @Column(name = "status", nullable = false)
     private AppointmentStatus status = AppointmentStatus.PROCESSING;

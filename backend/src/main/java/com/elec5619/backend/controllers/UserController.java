@@ -2,6 +2,7 @@ package com.elec5619.backend.controllers;
 
 import com.elec5619.backend.dtos.LoginRequest;
 import com.elec5619.backend.dtos.RegisterRequest;
+import com.elec5619.backend.dtos.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.List;
 import java.io.IOException;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/user")
@@ -45,7 +47,6 @@ public class UserController {
     public ResponseEntity getUser(@Valid @RequestBody LoginRequest user, HttpSession response) {
 
         ResponseEntity res = userService.getUser(user, response);
-
         return res;
     }
 
@@ -74,5 +75,9 @@ public class UserController {
         ResponseEntity response = userService.updateRole(role, email);
         return response;
     }
-    
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserResponse> getUserProfile(@PathVariable  UUID userId){
+        return ResponseEntity.ok(userService.getUserInfo(userId));
+    }
 }

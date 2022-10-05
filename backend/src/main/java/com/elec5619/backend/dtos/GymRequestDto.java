@@ -26,7 +26,6 @@ public class GymRequestDto {
     @NotBlank(message = "image url should not be blank")
     private String imageUrl;
 
-    //@Digits(integer = 3, fraction = 0, message = "maximum of appointments should be positive integer")
     @PositiveOrZero(message = "maximum of appointments should be positive integer")
     private Integer maximumOfAppointments;
 
@@ -38,7 +37,5 @@ public class GymRequestDto {
 
     @NotBlank(message = "address should not be blank")
     private String address;
-
-
 }
 

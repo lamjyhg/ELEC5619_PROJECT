@@ -11,7 +11,7 @@ public class UserResponse {
 
     private UUID id;
     private String email;
-    private String password;
+//    private String password;
     private String username;
     private String name;
     private String type;
