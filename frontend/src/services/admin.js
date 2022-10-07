@@ -40,3 +40,13 @@ export const handleRequestToUpdateRole = (input) => {
 
     return request(config).then((res) => res.data);
 };
+
+
+export const handleRequestToGetCurrentUser = () => {
+    const config = {
+        url: URL_PREFIX + "/current_user",
+        method:GET
+    };
+
+    return request(config).then((res) => res.data);
+}

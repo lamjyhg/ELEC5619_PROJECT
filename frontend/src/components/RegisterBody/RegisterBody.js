@@ -14,6 +14,7 @@ import {registerService} from "../../services/auth";
 import {useDispatch, useSelector} from "react-redux";
 import {handleRegisterRequest} from "../../state/auth/register.action";
 import {isPending} from "@reduxjs/toolkit";
+import {useNavigate} from "react-router-dom";
 
 const RegisterBody = () => {
 
@@ -34,6 +35,7 @@ const RegisterBody = () => {
     const passwordOnchange = (evt) => {setPassword(evt.target.value)}
     const emailOnchange = (evt) => {setEmail(evt.target.value)}
     const rePasswordOnchange = (evt) => {setRePassword(evt.target.value)}
+    const fullnameOnchange = (evt) => {setName(evt.target.value)}
 
 
     const {isSuccess, isLoading, isError } = useSelector(
@@ -41,6 +43,7 @@ const RegisterBody = () => {
     );
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
 
 
@@ -50,7 +53,7 @@ const RegisterBody = () => {
             "email":email,
             "password":password,
             "username":username,
-            "name":"unset",
+            "name":name,
             "type":"unset",
         }
 
@@ -64,6 +67,11 @@ const RegisterBody = () => {
 
 
         handleRegister()
+    }
+
+
+    if(isSuccess){
+        navigate("/login")
     }
 
 
@@ -87,6 +95,11 @@ const RegisterBody = () => {
 
                 <div className="register-item" onChange={usernameOnchange}>
                     <Input  id='username' placeholder="username" prefix={<UserOutlined />} />
+                </div>
+
+
+                <div className="register-item" onChange={fullnameOnchange}>
+                    <Input  id='fullname' placeholder="full name" prefix={<UserOutlined />} />
                 </div>
 
                 <div className="register-item" id='password' onChange={passwordOnchange}>
