@@ -87,33 +87,6 @@ const SingleGym = () => {
     handleGetReview();
   }, [isModalOpen]);
 
-  // <<<<<<< HEAD
-  //           <div className="right_image_area">
-  //             <div className="mid_img">
-  //               <img className="large_img" src={temp_gym} />
-  //             </div>
-  //           </div>
-  //         </div>
-
-  //         <div className="bot_container">
-  //           <div className="small_map">
-  //             <SingleGymMap
-  //               geoLocation={gym.geoLocation}
-  //               gymsList={[gym]}
-  //             ></SingleGymMap>
-  //           </div>
-
-  //           <div className="review_container">
-  //             <div className="review_header">
-  //               <div>Reviews</div>
-  //               <div className="write_comment">
-  //                 <EditFilled />
-  //                 Write comments
-  //               </div>
-  //             </div>
-  // =======
-  // >>>>>>> 415058807d530060f73be0f9dc676c6545a8021f
-
   const desc = [1, 2, 3, 4, 5];
 
   const showComments = () => {
