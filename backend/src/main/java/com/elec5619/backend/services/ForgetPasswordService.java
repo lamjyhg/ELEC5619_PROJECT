@@ -35,8 +35,12 @@ public class ForgetPasswordService {
         Optional<UserForgetPassword> userForgetPassword = userForgetPasswordRepository.getUserForgetPasswordByHash(hash);
 
         if(userForgetPassword.isPresent() == false){
-            return new ResponseEntity<>("Login failed!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Invalid link !", HttpStatus.BAD_REQUEST);
         }
+
+        userForgetPassword.get().setHash("");
+        userForgetPasswordRepository.save(userForgetPassword.get());
+
 
         return new ResponseEntity<>("Correct link to reset password", HttpStatus.OK);
     }
