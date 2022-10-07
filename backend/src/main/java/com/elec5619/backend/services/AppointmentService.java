@@ -13,9 +13,11 @@ import com.elec5619.backend.mappers.AppointmentMapper;
 import com.elec5619.backend.repositories.AppointmentRepository;
 import com.elec5619.backend.repositories.GymRepository;
 import com.elec5619.backend.repositories.UserRepository;
+import com.elec5619.backend.utils.EmailHtmlHandlers;
 import com.elec5619.backend.utils.EmailSendingHandler;
 import com.elec5619.backend.utils.EmailSendingHanlderImple;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
@@ -30,14 +32,14 @@ public class AppointmentService {
     private final GymRepository gymRepository;
     private final UserService userService;
     //private final UserMapper userMapper;
-    private final AppointmentMapper appointmentMapper ;
+    private final AppointmentMapper appointmentMapper;
     private final UserRepository userRepository;
-    private final EmailSendingHandler emailSendingHandler = new EmailSendingHanlderImple();
-
-    public List<AppointmentResponseDto> listAppointmentByUser(HttpSession session){
+    private final EmailSendingHandler emailSendingHandler = new EmailSendingHanlderImple("lamjh1999@gmail.com");
+private final EmailHtmlHandlers emailHtmlHandlers = new EmailHtmlHandlers();
+    public List<AppointmentResponseDto> listAppointmentByUser(HttpSession session) {
         UUID userId = userService.getUserId(session);
         System.out.println(userId);
-        if(userId == null) {
+        if (userId == null) {
             throw new BadRequestException("No session provided");
         }
         List<Appointment> appointments = new ArrayList<>();
@@ -46,26 +48,28 @@ public class AppointmentService {
                 .stream()
                 .map(appointment -> appointmentMapper.fromEntity(appointment)).collect(Collectors.toList());
     }
-    public AppointmentResponseDto findAppointmentById(UUID id){
+
+    public AppointmentResponseDto findAppointmentById(UUID id) {
         Appointment appointment = appointmentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(String.format("Unknown id %s", id)));
         return appointmentMapper.fromEntity(appointment);
     }
 
     public AppointmentResponseDto create(AppointmentRequestDto appointmentRequestDto, HttpSession session) throws AuthenticationError {
 
-        User customer = userService.getUserByToken(session);
-        Gym gym = gymRepository.findById(UUID.fromString(appointmentRequestDto.getGymId())).orElseThrow(() -> new IllegalArgumentException(String.format("Unknown gym id ")));
-        // check there is available
+         User customer = userService.getUserByToken(session);
+         Gym gym = gymRepository.findById(UUID.fromString(appointmentRequestDto.getGymId())).orElseThrow(() -> new IllegalArgumentException(String.format("Unknown gym id ")));
+         // check there is available
 
-        Appointment appointment = appointmentMapper.toEntity(appointmentRequestDto);
-        appointment.setCustomer(customer);
-        appointment.setGym(gym);
-        gym.addAppointment(appointment);
-        gymRepository.save(gym);
-        appointmentRepository.save(appointment);
+         Appointment appointment = appointmentMapper.toEntity(appointmentRequestDto);
+         appointment.setCustomer(customer);
+         appointment.setGym(gym);
+         gym.addAppointment(appointment);
+         gymRepository.save(gym);
+         appointmentRepository.save(appointment);
 
 
         return appointmentMapper.fromEntity(appointment);
+
     }
 
 //    public AppointmentResponseDto create(HttpSession session, AppointmentRequestDto appointmentRequest) {
@@ -94,9 +98,7 @@ public class AppointmentService {
 //    }
 
 
-
-
-    public AppointmentResponseDto update(UUID id,AppointmentRequestDto appointmentRequest) {
+    public AppointmentResponseDto update(UUID id, AppointmentRequestDto appointmentRequest) {
         Appointment appointment = appointmentRepository
                 .findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Unknown id"));
@@ -106,25 +108,27 @@ public class AppointmentService {
         return appointmentMapper.fromEntity(appointment);
     }
 
-    public List<AppointmentResponseDto> listAllForGymOwner( HttpSession session) throws AuthenticationError {
-        {
+    public List<AppointmentResponseDto> listAllForGymOwner(HttpSession session) throws AuthenticationError {
 
-            User gymOwner = userService.getUserByToken(session);
-            List<Appointment> appointments = appointmentRepository.findAllByGymOwnerId(gymOwner.getId());
-            return appointments
-                    .stream()
-                    .map(appointment -> appointmentMapper.fromEntity(appointment)).collect(Collectors.toList());
-        }
+
+        User gymOwner = userService.getUserByToken(session);
+
+        List<Appointment> appointments = appointmentRepository.findAllByGymOwnerId(gymOwner.getId());
+
+        return appointments
+                .stream()
+                .map(appointment -> appointmentMapper.fromEntity(appointment)).collect(Collectors.toList());
 
 
     }
-    public AppointmentResponseDto cancelByGymOwner(UUID id, String comment,   HttpSession session) throws AuthenticationError, IOException {
+
+    public AppointmentResponseDto cancelByGymOwner(UUID id, String comment, HttpSession session) throws AuthenticationError, IOException {
         User owner = userService.getUserByToken(session);
         Appointment appointment = appointmentRepository
                 .findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Unknown id"));
 
-        if(appointment.getGym().getUser().getId() != owner.getId()){
+        if (appointment.getGym().getOwner().getId() != owner.getId()) {
             throw new AuthenticationError("You are not authorized to make requests for this appointment");
         }
 
@@ -133,15 +137,22 @@ public class AppointmentService {
             throw new BadRequestException("Invalid status update");
         }
 
+        try{
+            String toEmail = appointment.getCustomerEmail();
+            String appointmentId = appointment.getId().toString();
+            String gymName = appointment.getGym().getName();
+            String startTime = appointment.getStartTime().toString();
+            String endTime = appointment.getEndTime().toString();
+            String note = comment;
+            String content = emailHtmlHandlers.getCancellationEmailHtml(appointmentId,gymName,startTime,endTime,note);
+            emailSendingHandler.send(toEmail, String.format("appointment %s cancelled", "sss"), content);
+
+        }catch(Exception e){
+            throw new BadRequestException("email send failed");
+        }
+
         appointment.setStatus(AppointmentStatus.CANCELLED);
         appointmentRepository.save(appointment);
-
-        // get user email to send
-//        String toEmail = appointment.getCustomerEmail();
-//        String content = comment;
-//        emailSendingHandler.send(toEmail, String.format("appointment %s cancelled", appointment.getId()), content);
-
-
 
         return appointmentMapper.fromEntity(appointment);
 

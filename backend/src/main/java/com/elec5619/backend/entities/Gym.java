@@ -50,17 +50,17 @@ public class Gym {
     @Column(columnDefinition = "json", name = "geoLocation")
     private Map<String,Double> geoLocation;
 
-//    @Type(type = "json")
-//    @Column(columnDefinition = "json", name = "trading_hours")
-//    private Map<Integer, Map<String, Time>> tradingHours;
-//
+    @Type(type = "json")
+    @Column(columnDefinition = "json", name = "trading_hours")
+    private Map<Integer, Map<String, Time>> tradingHours;
+
 
     @Column(name = "address", nullable = false)
     private String address;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "owner_id", nullable = false)
+    private User owner;
 
     @OneToMany(mappedBy = "gym")
     private Collection<Appointment> appointments = new ArrayList<Appointment>();

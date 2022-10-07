@@ -1,8 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { Wrapper } from '@googlemaps/react-wrapper';
-import { useNavigate } from 'react-router-dom';
-import { GoogleMap, Marker, OverlayView } from '@react-google-maps/api';
-import { googleMapApiKey } from '../../../services/googleMaps';
+import { GoogleMap, MarkerF } from '@react-google-maps/api';
 
 const mapStyle = {
   width: '100%',
@@ -10,14 +6,20 @@ const mapStyle = {
   borderRadius: '10px',
 };
 
-const SingleGymMap = ({ geoLocation }) => {
+const SingleGymMap = ({ geoLocation, gymsList }) => {
   return (
     <div className="gymsMap">
-      <Wrapper apiKey={googleMapApiKey}>
-        <GoogleMap mapContainerStyle={mapStyle} center={geoLocation} zoom={12}>
-          <Marker position={geoLocation}></Marker>
-        </GoogleMap>
-      </Wrapper>
+      <GoogleMap mapContainerStyle={mapStyle} zoom={12} center={geoLocation}>
+        {gymsList.map((each, index) => {
+          return (
+            <MarkerF
+              key={index}
+              position={each.geoLocation}
+              clickable={true}
+            ></MarkerF>
+          );
+        })}
+      </GoogleMap>
     </div>
   );
 };

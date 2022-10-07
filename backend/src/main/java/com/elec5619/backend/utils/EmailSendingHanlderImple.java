@@ -13,15 +13,16 @@ import java.io.IOException;
 
 public class EmailSendingHanlderImple implements EmailSendingHandler{
 
-    @Value("${emailSender.from}")
-    private String fromString;
-    private final Email from = new Email(fromString);
+
+    private final Email from;
+    public EmailSendingHanlderImple(String fromEmail){
+        from  = new Email(fromEmail);
+    }
 
     @Override
-    public void send(String toEmail, String subject, String contentString) throws IOException {
+    public void send(String toEmail, String subject, String html) throws IOException {
         Email to = new Email(toEmail);
-        Content content = new Content("text/plain", contentString);
-        System.out.println(String.format("%s %s %s %s",toEmail,from.getEmail(),contentString, subject));
+        Content content = new Content("text/html", html);
         Mail mail = new Mail(from,subject,to, content);
 
         SendGrid sendGrid = new SendGrid(System.getenv("SENDGRID_API_KEY"));

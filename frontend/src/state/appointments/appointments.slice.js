@@ -1,19 +1,24 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { replaceAppointmentInList } from "../../utils/appointmentsHandlers";
+import { createSlice } from '@reduxjs/toolkit';
+import { replaceAppointmentInList } from '../../utils/appointmentsHandlers';
 import {
   handleActionToCancelAppointmentByGymOwner,
   handleActionToGetGymsAppointmentsByGymOwner,
   handleActionToGetUserAppointments,
-} from "./appointments.action";
+} from './appointments.action';
 
 const appointmentsSlice = createSlice({
-  name: "appointments",
+  name: 'appointments',
   initialState: {
     gymOwner: {
       appointmentList: [],
       isError: false,
       isLoading: false,
       isSuccess: false,
+      cancel: {
+        isError: false,
+        isLoading: false,
+        isSuccess: false,
+      },
     },
     userAppointments: {
       appointmentList: [],
@@ -70,8 +75,11 @@ const appointmentsSlice = createSlice({
           gymOwner: {
             ...state.gymOwner,
             isLoading: true,
-            isError: false,
-            isSuccess: false,
+            cancel: {
+              isLoading: true,
+              isError: false,
+              isSuccess: false,
+            },
           },
         })
       )
@@ -82,8 +90,11 @@ const appointmentsSlice = createSlice({
           gymOwner: {
             ...state.gymOwner,
             isLoading: false,
-            isError: false,
-            isSuccess: true,
+            cancel: {
+              isLoading: false,
+              isError: false,
+              isSuccess: true,
+            },
             appointmentList: replaceAppointmentInList(
               action.payload,
               state.gymOwner.appointmentList
@@ -98,8 +109,11 @@ const appointmentsSlice = createSlice({
           gymOwner: {
             ...state.gymOwner,
             isLoading: false,
-            isError: true,
-            isSuccess: false,
+            cancel: {
+              isLoading: false,
+              isError: true,
+              isSuccess: false,
+            },
           },
         })
       )

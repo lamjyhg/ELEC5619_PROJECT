@@ -1,12 +1,14 @@
 import { Button, Spin, Table, Tooltip, notification, Tag } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import React, { useState } from 'react';
+import moment from 'moment';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   handleActionToCancelAppointmentByGymOwner,
   handleActionToGetGymsAppointmentsByGymOwner,
 } from '../../state/appointments/appointments.action';
+import { displayDate } from '../../utils/dateHandlers';
 import GymOwnerAppointmentCancellationForm from './GymOwnerAppointmentCancellationForm/GymOwnerAppointmentCancellationForm';
 import './GymOwnerAppointmentManagementTable.scss';
 
@@ -14,16 +16,32 @@ const GymOwnerAppointmentManagementTable = () => {
   const [cancelledAppointment, setCancelledAppointment] = useState(null);
   const [comment, setComment] = useState('');
 
-  const { appointmentList, isError, isLoading, isSuccess } = useSelector(
-    (state) => {
+  const { appointmentList, isError, isLoading, isSuccess, cancel } =
+    useSelector((state) => {
       return state.appointments.gymOwner;
-    }
-  );
+    });
 
   if (isError) {
+    notification.destroy();
     notification['error']({
-      message: 'Notification Title',
-      description: 'There is error in this page ',
+      message: 'Error',
+      description: 'There is error to get appointments ',
+    });
+  }
+
+  if (cancel.isError) {
+    notification.destroy();
+    notification['error']({
+      message: 'Error',
+      description: 'Cancel failed ',
+    });
+  }
+
+  if (cancel.isSuccess) {
+    notification.destroy();
+    notification['success']({
+      message: 'Success',
+      description: 'Cancel Successfully ',
     });
   }
 
@@ -32,8 +50,22 @@ const GymOwnerAppointmentManagementTable = () => {
   const columns = [
     { title: 'Gym Name', dataIndex: 'gymName', key: 'gymName' },
     { title: 'Customer Name', dataIndex: 'customerName', key: 'customerName' },
-    { title: 'Start Time', dataIndex: 'startTime', key: 'startTime' },
-    { title: 'Duration', dataIndex: 'duration', key: 'duration' },
+    {
+      title: 'Start Time',
+      dataIndex: 'startTime',
+      key: 'startTime',
+      render: (startTime) => displayDate(startTime),
+      sorter: (a, b) => moment(a.startTime).unix() - moment(b.startTime).unix(),
+      defaultSortOrder: 'ascend',
+    },
+    {
+      title: 'End Time',
+      dataIndex: 'endTime',
+      key: 'endTime',
+      render: (endTime) => displayDate(endTime),
+      sorter: (a, b) => moment(a.endTime).unix() - moment(b.endTime).unix(),
+      defaultSortOrder: 'ascend',
+    },
     {
       title: 'Note',
       dataIndex: 'note',
@@ -51,6 +83,23 @@ const GymOwnerAppointmentManagementTable = () => {
       title: 'Status',
       dataIndex: 'status',
       key: 'status',
+      filterMode: 'tree',
+      filterSearch: true,
+      onFilter: (value, record) => record.status.includes(value),
+      filters: [
+        {
+          text: 'completed',
+          value: 'COMPLETED',
+        },
+        {
+          text: 'cancelled',
+          value: 'CANCELLED',
+        },
+        {
+          text: 'processing',
+          value: 'PROCESSING',
+        },
+      ],
       render: (status) => {
         var color = 'yellow';
         switch (status) {
@@ -85,6 +134,9 @@ const GymOwnerAppointmentManagementTable = () => {
 
   const handleConfirmCancellation = async () => {
     //cancel appointment
+    if (cancel.isLoading) {
+      return;
+    }
     await dispatch(
       handleActionToCancelAppointmentByGymOwner({
         cancelledId: cancelledAppointment.id,
@@ -96,6 +148,9 @@ const GymOwnerAppointmentManagementTable = () => {
   };
 
   const handleCancelCancellatin = () => {
+    if (cancel.isLoading) {
+      return;
+    }
     setCancelledAppointment(null);
     setComment('');
   };
@@ -116,6 +171,7 @@ const GymOwnerAppointmentManagementTable = () => {
           handleConfirmCancellation={handleConfirmCancellation}
           handleCancelCancellatin={handleCancelCancellatin}
           comment={comment}
+          isLoading={cancel.isLoading}
           handleChangeCommentValue={handleChangeCommentValue}
         ></GymOwnerAppointmentCancellationForm>
         <Table
@@ -123,6 +179,7 @@ const GymOwnerAppointmentManagementTable = () => {
           columns={columns}
           dataSource={appointmentList}
           className="appointmentsTable-owner"
+          rowKey="id"
         />
       </div>
     </Spin>

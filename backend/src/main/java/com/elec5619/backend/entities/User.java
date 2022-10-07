@@ -48,7 +48,7 @@ public class User {
                 "\ntype: " + this.type;
     }
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "owner")
     protected Collection<Gym> gyms = new ArrayList<Gym>();
 //    @OneToMany(mappedBy = "user")
 //    private List<Gym> gyms;

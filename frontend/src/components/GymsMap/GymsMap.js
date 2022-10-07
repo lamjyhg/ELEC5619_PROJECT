@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Wrapper } from '@googlemaps/react-wrapper';
-import { useNavigate } from 'react-router-dom';
 import { GoogleMap, Marker, OverlayView } from '@react-google-maps/api';
 import './GymsMap.scss';
 import { googleMapApiKey } from '../../services/googleMaps';
@@ -80,10 +79,9 @@ function GymsMap({ currentLatitude, currentLongitude, additionalList }) {
       );
     }
   };
-
   return (
     <div className="gymsMap">
-      <Wrapper apiKey={googleMapApiKey}>
+      <Wrapper googleMapsApiKey={googleMapApiKey}>
         <GoogleMap mapContainerStyle={mapStyle} center={center} zoom={12}>
           {gymsList.map((each, index) => {
             return (

@@ -32,12 +32,20 @@ public class AppointmentRequestDto {
     @PositiveOrZero(message = "duration should be positive (hr)")
     private Double duration;
 
+    @Future(message="startTime should be future")
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date startTime;
 
+    @Future(message="endTime should be future")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endTime;
 
     @NotNull(message="not should not be null")
     private String note;
+
+
+    @AssertTrue(message="startTime should be before endTime")
+    public boolean isValidRange() {
+        return endTime.compareTo(startTime) > 0;
+    }
 }

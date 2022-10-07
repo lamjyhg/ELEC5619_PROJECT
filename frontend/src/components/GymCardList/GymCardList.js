@@ -1,8 +1,8 @@
-import { Col, Row, Spin, Card, Avatar } from "antd";
-import { useSelector } from "react-redux";
-import { gyms } from "../../utils/gymMock";
-import Icon from "@ant-design/icons";
-import "./GymCardList.scss";
+import { Col, Row, Spin, Card, Avatar } from 'antd';
+import { useSelector } from 'react-redux';
+import Icon from '@ant-design/icons';
+import './GymCardList.scss';
+import { useNavigate } from 'react-router-dom';
 const { Meta } = Card;
 const dumbBell = () => {
   return (
@@ -15,16 +15,17 @@ export default function GymCardList() {
   const { gymsList, isSuccess, isLoading, isError } = useSelector(
     (state) => state.gyms.gymsPage
   );
-  console.log(
-    "111111",
-    gyms.reduce((rows, item, index) => {
-      if ((index + 1) % 3 == 1) {
-        return [...rows, [item]];
-      } else {
-        return [...rows.slice(0, -1), rows.slice(-1)[0].concat(item)];
-      }
-    }, [])
-  );
+  const navigate = useNavigate();
+  // console.log(
+  //   "111111",
+  //   gyms.reduce((rows, item, index) => {
+  //     if ((index + 1) % 3 == 1) {
+  //       return [...rows, [item]];
+  //     } else {
+  //       return [...rows.slice(0, -1), rows.slice(-1)[0].concat(item)];
+  //     }
+  //   }, [])
+  // );
   return (
     <div>
       <p>Nearby Gym</p>
@@ -32,9 +33,9 @@ export default function GymCardList() {
         <Spin />
       ) : (
         //replace with gymList
-        gyms
+        gymsList
           .reduce((rows, item, index) => {
-            console.log("s", rows.slice(0, -1));
+            console.log('s', rows.slice(0, -1));
             if ((index + 1) % 3 == 1) {
               return [...rows, [item]];
             } else {
@@ -48,7 +49,9 @@ export default function GymCardList() {
                 {row.map((item, index) => (
                   <Col span={8} key={index} align="center">
                     <Card
-                      onClick={() => {}}
+                      onClick={() => {
+                        navigate('/gyms/' + item.id);
+                      }}
                       hoverable
                       className="card_body"
                       cover={
@@ -60,7 +63,7 @@ export default function GymCardList() {
                     >
                       <Meta
                         avatar={<Icon component={dumbBell} />}
-                        style={{ textAlign: "left" }}
+                        style={{ textAlign: 'left' }}
                         title={item.name}
                         description={item.address}
                       />

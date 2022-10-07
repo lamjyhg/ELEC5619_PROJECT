@@ -17,7 +17,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
 
 ////    public List<Appointment> findAllByGymId(final UUID gymId);
     //@Query("select a from Appointment a ")
-    @Query(value = " SELECT * From appointment join gym on gym.id = appointment.gym_id join user on user.id = gym.user_id where user.id = ?1 ;" , nativeQuery = true)
+    @Query(value = " SELECT * From appointment join gym on gym.id = appointment.gym_id join user on user.id = gym.owner_id where owner_id = ?1  ;" , nativeQuery = true)
     public List<Appointment> findAllByGymOwnerId(@Param("userId") UUID userId);
 
     @Query("select a from Appointment a join User u on u.id = :userId")

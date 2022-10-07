@@ -57,7 +57,7 @@ public class GymService {
     public GymResponseDto create(GymRequestDto gymRequestDto, HttpSession session) throws AuthenticationError {
         User user = userService.getUserByToken(session);
         Gym gym = gymMapper.toEntity(gymRequestDto);
-        gym.setUser(user);
+        gym.setOwner(user);
         gym.setGymApplicationType(GymApplicationType.CREATE);
         user.addGyms(gym);
         userRepository.save(user);

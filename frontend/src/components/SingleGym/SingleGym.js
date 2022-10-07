@@ -142,7 +142,10 @@ const SingleGym = () => {
 
         <div className="bot_container">
           <div className="small_map">
-            <SingleGymMap geoLocation={gym.geoLocation}></SingleGymMap>
+            <SingleGymMap
+              geoLocation={gym.geoLocation}
+              gymsList={[gym]}
+            ></SingleGymMap>
           </div>
 
           <div className="review_container">
