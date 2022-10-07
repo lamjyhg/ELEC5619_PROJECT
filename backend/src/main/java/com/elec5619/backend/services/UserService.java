@@ -124,8 +124,9 @@ public class UserService {
 
     public void getUserRole(HttpSession session) {
 
-        if (session != null) {
-            jwtTokenUtil.getTokenEmail((String) session.getAttribute("token"));
+
+        if(session != null){
+            System.out.println(jwtTokenUtil.getTokenEmail((String) session.getAttribute("token")));
         }
 
     }

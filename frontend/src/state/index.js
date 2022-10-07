@@ -5,6 +5,8 @@ import registerSlice from "./auth/register.slice";
 import loginSlice from "./auth/login.slice";
 import singleGymSlice from "./gyms/singleGym.slice";
 import userSlice from "./user/user.slice";
+import reviewSlice from "./Review/review.slice";
+
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +16,8 @@ export const store = configureStore({
     appointments: appointmentsSlice,
     singleGym: singleGymSlice,
     user: userSlice,
+    reviews: reviewSlice,
+
   },
 });
 export default store;

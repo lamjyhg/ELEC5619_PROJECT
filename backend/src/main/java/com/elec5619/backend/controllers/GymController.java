@@ -3,8 +3,15 @@ package com.elec5619.backend.controllers;
 import com.elec5619.backend.dtos.AppointmentResponseDto;
 import com.elec5619.backend.dtos.GymRequestDto;
 import com.elec5619.backend.dtos.GymResponseDto;
+
 import com.elec5619.backend.exceptions.AuthenticationError;
+
+import com.elec5619.backend.dtos.ReviewRequest;
+import com.elec5619.backend.dtos.ReviewResponse;
+import com.elec5619.backend.entities.Review;
+
 import com.elec5619.backend.services.GymService;
+import com.elec5619.backend.services.ReviewService;
 import com.elec5619.backend.utils.EmailSendingHandler;
 import com.elec5619.backend.utils.EmailSendingHanlderImple;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +39,22 @@ import java.util.UUID;
 public class GymController {
 
     private final GymService gymService;
+    private final ReviewService reviewService;
+
+
+    @GetMapping("/{gymId}/reviews")
+    public ResponseEntity<List<ReviewResponse>> finalAllReviewByGymId(@PathVariable(name = "gymId")UUID gymId) throws IOException {
+
+        List<ReviewResponse> x = reviewService.findAllByGymId(gymId);
+        return ResponseEntity.ok(x);
+    }
+
+
+    @PostMapping("/{gymId}/create_review")
+    public ResponseEntity<ReviewResponse> createReview( @RequestBody ReviewRequest request) throws IOException {
+        ReviewResponse review = reviewService.create(request);
+        return ResponseEntity.ok(review);
+    }
 
     @GetMapping
     public ResponseEntity<List<GymResponseDto>> findAllGyms(HttpSession session) throws IOException {

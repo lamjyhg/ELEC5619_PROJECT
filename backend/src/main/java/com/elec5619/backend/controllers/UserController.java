@@ -47,6 +47,9 @@ public class UserController {
     public ResponseEntity getUser(@Valid @RequestBody LoginRequest user, HttpSession response) {
 
         ResponseEntity res = userService.getUser(user, response);
+
+        userService.getUserRole(response);
+
         return res;
     }
 

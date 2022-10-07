@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import './SingleGym.scss';
 import temp_gym from '../../image/temp_gym_img.jpg';
+import { Avatar, Rate, Modal } from 'antd';
 
 import { EditFilled } from '@ant-design/icons';
 
 import 'antd/dist/antd.css';
 import { Form, Input, Button, DatePicker, TreeSelect, Select } from 'antd';
+import GymsMap from '../GymsMap/GymsMap';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleActionToGetSingleGym } from '../../state/gyms/singleGym.action';
-import { current } from '@reduxjs/toolkit';
+import { handleLoginRequest } from '../../state/auth/login.action';
+import {
+  handleActionToGetReviews,
+  handleActionToSubmitReview,
+} from '../../state/Review/review.action';
 import SingleGymMap from './SingleGymMap/SingleGymMap';
 const { TextArea } = Input;
 
@@ -18,7 +24,12 @@ const SingleGym = () => {
     (state) => state.singleGym.singleGym
   );
 
+  const { reviewList, isSuc, isLod, isErr } = useSelector(
+    (state) => state.reviews.reviewPage
+  );
+
   const dispatch = useDispatch();
+  const { GID } = useParams();
 
   const [name, setName] = useState();
   const [email, setEmail] = useState();
@@ -32,6 +43,104 @@ const SingleGym = () => {
   const [timeMsg, setTimeMsg] = useState(null);
 
   const [week, setWeek] = useState('this');
+  const [star, setStar] = useState(3);
+  const [comment, setComment] = useState('');
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    const UID = '0a8df40e-3995-40d9-8678-c0a522cdd37d';
+
+    const handleCreateReview = async () => {
+      await dispatch(handleActionToSubmitReview({ star, comment, GID, UID }));
+    };
+
+    handleCreateReview();
+
+    setIsModalOpen(false);
+    window.location.reload();
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const onStarChange = (e) => {
+    setStar(e);
+  };
+
+  const onCommentChange = (e) => {
+    setComment(e.target.value);
+  };
+
+  const submitAppointment = () => {};
+
+  useEffect(() => {
+    const handleGetReview = async () => {
+      await dispatch(handleActionToGetReviews({ GID }));
+    };
+
+    handleGetReview();
+  }, [isModalOpen]);
+
+  // <<<<<<< HEAD
+  //           <div className="right_image_area">
+  //             <div className="mid_img">
+  //               <img className="large_img" src={temp_gym} />
+  //             </div>
+  //           </div>
+  //         </div>
+
+  //         <div className="bot_container">
+  //           <div className="small_map">
+  //             <SingleGymMap
+  //               geoLocation={gym.geoLocation}
+  //               gymsList={[gym]}
+  //             ></SingleGymMap>
+  //           </div>
+
+  //           <div className="review_container">
+  //             <div className="review_header">
+  //               <div>Reviews</div>
+  //               <div className="write_comment">
+  //                 <EditFilled />
+  //                 Write comments
+  //               </div>
+  //             </div>
+  // =======
+  // >>>>>>> 415058807d530060f73be0f9dc676c6545a8021f
+
+  const desc = [1, 2, 3, 4, 5];
+
+  const showComments = () => {
+    const component = [];
+
+    reviewList.map((singleGym) => {
+      const src = 'https://joeschmoe.io/api/v1/' + singleGym.username;
+      component.push(
+        <div className="single_review">
+          <div className="single_review_header">
+            <div className="user_id">
+              <Avatar src={src}></Avatar>
+              {singleGym.username}, {singleGym.date}
+            </div>
+
+            <Rate allowHalf disabled defaultValue={singleGym.rating} />
+          </div>
+
+          <div className="single_review_body">{singleGym.comment}</div>
+
+          <div className="line" />
+        </div>
+      );
+    });
+
+    return component;
+  };
 
   const TimeMap = {
     0: 'Monday',
@@ -53,12 +162,6 @@ const SingleGym = () => {
     Sunday: 'sun',
   };
 
-  const { GID } = useParams();
-
-  const submit_appointment = () => {};
-
-  const submit_comment = () => {};
-
   useEffect(() => {
     const handleGetGym = async (GID) => {
       await dispatch(handleActionToGetSingleGym(GID));
@@ -71,11 +174,17 @@ const SingleGym = () => {
     setWeek(opt);
   };
 
+  if (isSuc) {
+    console.log(reviewList);
+  }
+
   if (isSuccess) {
     const treeData = [];
     const today = new Date();
     const day = today.getDay() - 1;
     const currentDayString = day.toString();
+
+    var id = 1;
     for (const key in gym.tradingHours) {
       if (week === 'this' && day >= key) {
         continue;
@@ -91,8 +200,9 @@ const SingleGym = () => {
 
       for (let i = startTime; i < endTime; i++) {
         const time = i.toString() + ':00';
-        const child = { title: time, value: i };
+        const child = { title: time, value: key + ' ' + i.toString() };
         timeChild.push(child);
+        id += 1;
       }
 
       treeData.push({
@@ -151,7 +261,7 @@ const SingleGym = () => {
           <div className="review_container">
             <div className="review_header">
               <div>Reviews</div>
-              <div className="write_comment">
+              <div className="write_comment" onClick={showModal}>
                 <EditFilled />
                 Write comments
               </div>
@@ -159,40 +269,29 @@ const SingleGym = () => {
 
             {/*<div className="line"/>*/}
 
-            <div className="review_body">
-              <div className="single_review">
-                <div className="single_review_header">
-                  yutong wang, 2022/02/12, * * * * *
-                </div>
-
-                <div className="single_review_body">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras
-                  congue, leo sed cursus tincidunt, ex metus pellentesque orci,
-                  vel consectetur quam lectus eget tellus. Nulla congue molestie
-                  quam at iaculis. Maecenas libero ex, ultricies eget ipsum sit
-                  amet, feugiat ul
-                </div>
-
-                <div className="line" />
-              </div>
-
-              <div className="single_review">
-                <div className="single_review_header">
-                  yutong wang, 2022/02/12, * * * * *
-                </div>
-
-                <div className="single_review_body">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras
-                  congue, leo sed cursus tincidunt, ex metus pellentesque orci,
-                  vel consectetur quam lectus eget tellus. Nulla congue molestie
-                  quam at iaculis. Maecenas libero ex, ultricies eget ipsum sit
-                  amet, feugiat ul
-                </div>
-
-                <div className="line" />
-              </div>
-            </div>
+            <div className="review_body">{showComments()}</div>
           </div>
+
+          <Modal
+            className="comment_modal"
+            title="Write your comment"
+            visible={isModalOpen}
+            onOk={handleOk}
+            onCancel={handleCancel}
+          >
+            <div className="single_review_header">
+              <div className="user_id">
+                <Avatar src="https://joeschmoe.io/api/v1/x"></Avatar>
+                yutong wang, 2022/02/12
+              </div>
+
+              <Rate tooltips={desc} onChange={onStarChange} value={star} />
+            </div>
+
+            <div className="comment_space" onChange={onCommentChange}>
+              <TextArea rows={4} placeholder="Put your comment here ..." />
+            </div>
+          </Modal>
         </div>
 
         <div className="side_floater">
@@ -236,13 +335,6 @@ const SingleGym = () => {
                 />
               </Form.Item>
 
-              {/*<Form.Item label="Date:" id="date" name="date"*/}
-              {/*           rules={[{required: true, message: "Date cannot be empty!"}]}>*/}
-              {/*    <DatePicker onChange={(value) => {*/}
-              {/*        setDate(value)*/}
-              {/*    }}/>*/}
-              {/*</Form.Item>*/}
-
               <Form.Item
                 label="Week:"
                 name="week"
@@ -282,7 +374,7 @@ const SingleGym = () => {
                 <Button
                   type="primary"
                   htmlType="submit"
-                  onClick={submit_appointment}
+                  onClick={submitAppointment}
                 >
                   Submit
                 </Button>
