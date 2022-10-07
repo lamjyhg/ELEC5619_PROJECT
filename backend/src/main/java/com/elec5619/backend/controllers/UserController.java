@@ -3,6 +3,7 @@ package com.elec5619.backend.controllers;
 import com.elec5619.backend.dtos.LoginRequest;
 import com.elec5619.backend.dtos.RegisterRequest;
 import com.elec5619.backend.dtos.UserResponse;
+import com.elec5619.backend.exceptions.AuthenticationError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -82,5 +83,11 @@ public class UserController {
     @GetMapping("/{userId}")
     public ResponseEntity<UserResponse> getUserProfile(@PathVariable  UUID userId){
         return ResponseEntity.ok(userService.getUserInfo(userId));
+    }
+
+
+    @GetMapping("/current_user")
+    public ResponseEntity<UserResponse> getCurrentUser(HttpSession session) throws AuthenticationError {
+        return ResponseEntity.ok(userService.getUserResponseByToken(session));
     }
 }

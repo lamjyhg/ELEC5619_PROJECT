@@ -17,11 +17,13 @@ import {
     TreeSelect, Select,
 } from 'antd';
 import GymsMap from "../GymsMap/GymsMap";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {handleActionToGetSingleGym} from "../../state/gyms/singleGym.action";
 import {handleLoginRequest} from "../../state/auth/login.action";
 import {handleActionToGetReviews, handleActionToSubmitReview} from "../../state/Review/review.action";
+import {handleActionToGetCurrentUser} from "../../state/currentUser/currentUser.action";
+import {current} from "@reduxjs/toolkit";
 const { TextArea } = Input;
 
 
@@ -35,6 +37,10 @@ const SingleGym = () => {
 
     const {reviewList, isSuc, isLod, isErr} = useSelector(
         (state) => state.reviews.reviewPage
+    )
+
+    const {currentUser} = useSelector(
+        (state) => state.currentUser.currentUserPage
     )
 
     const dispatch = useDispatch();
@@ -61,14 +67,32 @@ const SingleGym = () => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    const navigate = useNavigate();
+
+
+    let dateNow = Date.now();
+
+    let dateObj = new Date(dateNow);
+    let day = dateObj.getDate();
+    let month = dateObj.getMonth() + 1;
+    let year = dateObj.getFullYear();
+
+    // prints date & time in YYYY-MM-DD format
+    const dateString = " " + year + "/" + month + "/" + day;
+
+
+
     const showModal = () => {
+        if(!currentUser || !currentUser.id){
+            navigate('/login', { replace: true });
+        }
         setIsModalOpen(true);
     };
 
 
     const handleOk = () => {
 
-        const UID = "0a8df40e-3995-40d9-8678-c0a522cdd37d";
+        const UID = currentUser.id;
 
         const handleCreateReview = async () => {
             await dispatch(handleActionToSubmitReview({star, comment, GID, UID}));
@@ -185,7 +209,12 @@ const SingleGym = () => {
             await dispatch(handleActionToGetSingleGym(GID));
         }
 
+        const handleGetCurrentUser = async () => {
+            await dispatch(handleActionToGetCurrentUser());
+        }
+
         handleGetGym(GID);
+        handleGetCurrentUser();
 
     }, [])
 
@@ -195,11 +224,6 @@ const SingleGym = () => {
     const changeWeek = (opt) => {
 
         setWeek(opt)
-    }
-
-
-    if(isSuc){
-        console.log(reviewList)
     }
 
 
@@ -333,8 +357,8 @@ const SingleGym = () => {
                     <Modal className="comment_modal" title="Write your comment" visible={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                         <div className="single_review_header">
                             <div className="user_id">
-                                <Avatar src="https://joeschmoe.io/api/v1/x"></Avatar>
-                                yutong wang, 2022/02/12
+                                <Avatar src={"https://joeschmoe.io/api/v1/x"}></Avatar>
+                                {currentUser?currentUser.username:"-"}, {dateString}
                             </div>
 
                             <Rate tooltips={desc} onChange={onStarChange} value={star} />

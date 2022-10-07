@@ -59,6 +59,23 @@ public class UserService {
         }
     }
 
+    public UserResponse getUserResponseByToken(HttpSession session) throws AuthenticationError {
+
+        System.out.println("in token !!!");
+        try {
+            String email = jwtTokenUtil.getTokenEmail((String) session.getAttribute("token"));
+            Optional<User> user  = userRepository.getUserByEmail(email);
+            if(! user.isPresent()){
+                throw new AuthenticationError("not authorized");
+            }
+
+            return userMapper.fromEntity(user.get());
+        }
+        catch (Exception exc) {
+            throw new AuthenticationError("not authorized");
+        }
+    }
+
 
     public ResponseEntity createUser(RegisterRequest userRequest, HttpSession session) {
 

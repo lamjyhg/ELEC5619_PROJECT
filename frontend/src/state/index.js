@@ -6,6 +6,7 @@ import loginSlice from "./auth/login.slice";
 import singleGymSlice from "./gyms/singleGym.slice";
 import userSlice from "./user/user.slice";
 import reviewSlice from "./Review/review.slice";
+import currentUserSlice from "./currentUser/currentUser.slice";
 
 
 export const store = configureStore({
@@ -17,6 +18,7 @@ export const store = configureStore({
     singleGym: singleGymSlice,
     user: userSlice,
     reviews: reviewSlice,
+    currentUser: currentUserSlice,
 
   },
 });

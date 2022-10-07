@@ -14,6 +14,7 @@ import {registerService} from "../../services/auth";
 import {useDispatch, useSelector} from "react-redux";
 import {handleRegisterRequest} from "../../state/auth/register.action";
 import {isPending} from "@reduxjs/toolkit";
+import {useNavigate} from "react-router-dom";
 
 const RegisterBody = () => {
 
@@ -41,6 +42,7 @@ const RegisterBody = () => {
     );
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
 
 
@@ -64,6 +66,11 @@ const RegisterBody = () => {
 
 
         handleRegister()
+    }
+
+
+    if(isSuccess){
+        navigate("/login")
     }
 
 
