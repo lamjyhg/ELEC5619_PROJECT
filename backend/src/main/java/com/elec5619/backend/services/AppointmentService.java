@@ -148,6 +148,7 @@ private final EmailHtmlHandlers emailHtmlHandlers = new EmailHtmlHandlers();
             emailSendingHandler.send(toEmail, String.format("appointment %s cancelled", "sss"), content);
 
         }catch(Exception e){
+
             throw new BadRequestException("email send failed");
         }
 
