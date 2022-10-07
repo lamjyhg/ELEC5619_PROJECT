@@ -52,4 +52,26 @@ public class EmailHtmlHandlers {
                 "</html>";
         return content;
     }
+
+
+
+    public String getForgetPasswordEmailHtml(String hash) {
+        String content = "<html>\n" +
+                "<head>\n" +
+                "<style>\n" +
+                "\n" +
+                "</style>\n" +
+                "</head>\n" +
+                "<body style=\"color: white;\">\n" +
+                "<div style=\"width: 80%; border: 1px solid #80bfff;  padding:10px; margin: auto; background-color: #80bfff; border-radius: 10px\">\n" +
+                "   <div style=\"width: 200px; height: 200px; margin: auto;\"><img src=\"http://cdn.mcauto-images-production.sendgrid.net/896f038f42ffdd3f/81a5b1e3-e851-4e26-bf9e-02d750551746/1080x1080.png\" style=\"width: 100%; height: 100%; \"></img></div>\n" +
+                "   <p>Dear customer:</p>\n" +
+                "      <p>Please click" + " <a href=http://localhost:3000/forget_password/"+hash+">Reset</a>" +" to reset your password:</p>\n" +
+                "   </div>\n" +
+                "   <p >Gymmy; )</p>\n" +
+                "</div>\n" +
+                "</body>\n" +
+                "</html>";
+        return content;
+    }
 }

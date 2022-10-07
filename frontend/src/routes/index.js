@@ -18,12 +18,16 @@ import SingleGymPage from '../pages/SingleGymPage/SingleGymPage';
 import AdminMainPage from '../pages/AccountPage/AdminMainPage/AdminMainPage';
 import MainPage from '../pages/MainPage/MainPage';
 import ErrorPage from '../pages/ErrorPage/ErrorPage';
+import ForgetPasswordPage from "../pages/ForgetPasswordPage/ForgetPasswordPage";
+import ForgetPasswordCheckPage from "../pages/ForgetPasswordPage/ForgetPasswordCheckPage";
 
 
 const Router = () => {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
+        <Route path="/forget_password" element={<ForgetPasswordPage />} />
+        <Route path="/forget_password/:hash" element={<ForgetPasswordCheckPage />} />
       <Route path="/register" element={<RegisterPage />}></Route>
       <Route path="/*" element={<ErrorPage></ErrorPage>}></Route>
 

@@ -1,4 +1,8 @@
+import {ForgetPassword} from "../../../components/ForgetPassword/ForgetPassword";
+
 const ChangePasswordPage = () => {
-  return <h1> ChangePasswordPage</h1>;
+  return (
+      <>Forget password</>
+  )
 };
 export default ChangePasswordPage;
