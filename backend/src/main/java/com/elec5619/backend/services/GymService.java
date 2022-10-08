@@ -11,12 +11,16 @@ import com.elec5619.backend.jwt.JwtTokenUtil;
 import com.elec5619.backend.mappers.GymMapper;
 import com.elec5619.backend.repositories.GymRepository;
 import com.elec5619.backend.repositories.UserRepository;
+import com.elec5619.backend.utils.FileUploadUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpSession;
 import javax.annotation.security.RolesAllowed;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -53,7 +57,6 @@ public class GymService {
         Gym foundGym = gymRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(String.format("Unknown id %s", id)));
         return gymMapper.fromEntity(foundGym);
     }
-
     public GymResponseDto create(GymRequestDto gymRequestDto, HttpSession session) throws AuthenticationError {
         User user = userService.getUserByToken(session);
         Gym gym = gymMapper.toEntity(gymRequestDto);
@@ -61,8 +64,21 @@ public class GymService {
         gym.setGymApplicationType(GymApplicationType.CREATE);
         user.addGyms(gym);
         userRepository.save(user);
-        gymRepository.save(gym);
-        return gymMapper.fromEntity(gym);
+        Gym savedGym = gymRepository.save(gym);
+        return gymMapper.fromEntity(savedGym);
+    }
+    public String savePhoto(HttpSession session, MultipartFile imageFile) throws AuthenticationError {
+        User user = userService.getUserByToken(session);
+        String fileName = StringUtils.cleanPath(imageFile.getOriginalFilename());
+        UUID uuid =  UUID.randomUUID();
+        String uploadDir = "gym-photos/" + uuid.toString();
+        try {
+            FileUploadUtil.saveFile(uploadDir, fileName, imageFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        String imageUrl = uploadDir + "/" +fileName;
+        return imageUrl;
     }
 
     public GymResponseDto update(UUID id, GymRequestDto gymRequestDto) {

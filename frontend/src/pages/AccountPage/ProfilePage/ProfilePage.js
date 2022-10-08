@@ -13,16 +13,36 @@ import {
   DragDropProvider,
 } from "@devexpress/dx-react-scheduler-material-ui";
 import { Avatar, Row, Spin } from "antd";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { CalendarOutlined, MailOutlined } from "@ant-design/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { appointments } from "../../../utils/appointmentsMock.js";
 import "./ProfilePage.scss";
-
+import { handleActionToGetUserAppointments } from "../../../state/appointments/appointments.action.js";
+const processData = (data) => {
+  const result = data.map((item) => {
+    return {
+      title: item.gymName,
+      startDate: new Date(item.startTime),
+      endDate: new Date(item.endTime),
+      id: item.id,
+      note: item.note,
+    };
+  });
+  console.log({ result });
+  return result;
+};
 export default function ProfilePage() {
-  let [appointmentsList, setAppointments] = useState(appointments);
-  const [currentDate, setCurrentDate] = useState(new Date("2018-06-27"));
+  const dispatch = useDispatch();
+  useEffect(() => {
+    //fetch all appointment create by user
+    dispatch(handleActionToGetUserAppointments());
+    setAppointments(processData(userAppointments.appointmentList));
+  }, []);
+  const { userAppointments } = useSelector((state) => state.appointments);
+  let [appointmentsList, setAppointments] = useState();
+  const [currentDate, setCurrentDate] = useState(new Date());
   const { userInfo, isSuccess, isLoading } = useSelector(
     (state) => state.login.loginPage
   );
@@ -42,12 +62,13 @@ export default function ProfilePage() {
     }
 
     if (changed) {
-      console.log("changed");
+      console.log("changedx");
       appointmentsList = appointmentsList.map((appointment) =>
         changed[appointment.id]
           ? { ...appointment, ...changed[appointment.id] }
           : appointment
       );
+      //update change:
     }
     if (deleted !== undefined) {
       appointmentsList = appointmentsList.filter(
@@ -85,7 +106,7 @@ export default function ProfilePage() {
             <ViewState currentDate={currentDate} />
             <EditingState onCommitChanges={commitChanges} />
             <IntegratedEditing />
-            <DayView startDayHour={9} endDayHour={14} />
+            <DayView startDayHour={0} endDayHour={24} />
             <ConfirmationDialog />
             <Appointments />
             <AppointmentTooltip showOpenButton showDeleteButton />

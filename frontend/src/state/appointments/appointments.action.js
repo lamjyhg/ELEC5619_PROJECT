@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
-  handleRequestToCreateAppointment,
   handleRequestToGetAppointmentsByUser,
   handleRequestToCancelAppointmentByGymOwner,
   handleRequestToGetGymAppointmentsByGymOwner,
@@ -41,13 +40,13 @@ export const handleActionToCancelAppointmentByGymOwner = createAsyncThunk(
   }
 );
 
-export const handleActionToCreateAppointment = createAsyncThunk(
-  "CREATE_APPOINTMENT",
-  async (params, thunkAPI) => {
-    try {
-      return await handleRequestToCreateAppointment(params);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-);
+// export const handleActionToCreateAppointment = createAsyncThunk(
+//   "CREATE_APPOINTMENT",
+//   async (params, thunkAPI) => {
+//     try {
+//       return await handleRequestToCreateAppointment(params);
+//     } catch (error) {
+//       return thunkAPI.rejectWithValue(error);
+//     }
+//   }
+// );
