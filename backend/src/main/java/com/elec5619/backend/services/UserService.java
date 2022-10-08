@@ -120,7 +120,7 @@ public class UserService {
         userRepository.save(user);
 
         AccountVerificationEntity accountVerificationEntity = new AccountVerificationEntity();
-        System.out.println(accountVerificationEntity.getId());
+
         accountVerificationEntity.setUser(user);
         accountVerificationEntityRepository.save(accountVerificationEntity);
 
@@ -132,9 +132,9 @@ public class UserService {
             emailSendingHandler.send(user.getEmail(), "Gymmy account activation", content);
 
         }catch(Exception e){
-            System.out.println(e);
-            userRepository.delete(user);
             accountVerificationEntityRepository.delete(accountVerificationEntity);
+            userRepository.delete(user);
+
             throw new BadRequestException("email send failed");
         }
 

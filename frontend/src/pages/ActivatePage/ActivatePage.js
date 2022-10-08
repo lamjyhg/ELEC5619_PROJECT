@@ -3,13 +3,11 @@ import { useParams } from 'react-router-dom';
 import loading from './../../image/lotties/loading.json';
 import error from './../../image/lotties/error.json';
 import { useNavigate } from 'react-router';
-import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import './ActivatePage.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, notification } from 'antd';
 import { handleActionToActivateAccount } from '../../state/user/user.action';
-import { handleRequestToActivateAccount } from '../../services/auth';
 
 const ActivatePage = () => {
   const { token } = useParams();
@@ -39,15 +37,6 @@ const ActivatePage = () => {
     });
     navigate('/login');
   }
-  //   if (isError) {
-  //     notification.destroy();
-  //     notification['error']({
-  //       message: 'Error',
-  //       description: 'Activate failed',
-  //     });
-  //     navigate('/login');
-  //   }
-
   return (
     <div className="activatePage">
       {isLoading ? <Lottie animationData={loading} /> : null}
