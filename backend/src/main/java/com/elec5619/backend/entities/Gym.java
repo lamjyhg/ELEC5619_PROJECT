@@ -82,6 +82,10 @@ public class Gym {
         appointments.add(appointment);
     }
 
-
+    @Transient
+    public String getPhotosImagePath() {
+        if (imageUrl == null || id == null) return null;
+        return "/gym-photos/" + id + "/" + imageUrl;
+    }
 
 }
