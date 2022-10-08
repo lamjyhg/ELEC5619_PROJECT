@@ -44,8 +44,6 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) {
         //log.debug("doFilterInternal() started");
         HttpSession session = request.getSession();
-        //System.out.println("session  "+session.getAttribute("token"));
-//
 //        Authentication authentication = new UsernamePasswordAuthenticationToken(
 //                jwtTokenUtil.getTokenEmail(token),
 //                null,

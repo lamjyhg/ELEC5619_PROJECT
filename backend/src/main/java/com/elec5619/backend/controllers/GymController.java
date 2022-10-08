@@ -3,13 +3,17 @@ package com.elec5619.backend.controllers;
 import com.elec5619.backend.dtos.AppointmentResponseDto;
 import com.elec5619.backend.dtos.GymRequestDto;
 import com.elec5619.backend.dtos.GymResponseDto;
+import com.elec5619.backend.entities.Gym;
 import com.elec5619.backend.exceptions.AuthenticationError;
 import com.elec5619.backend.services.GymService;
 import com.elec5619.backend.utils.EmailSendingHandler;
 import com.elec5619.backend.utils.EmailSendingHanlderImple;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletRequest;
@@ -18,10 +22,13 @@ import javax.servlet.http.HttpSession;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.RequestParam;
 import javax.annotation.security.RolesAllowed;
 import javax.validation.*;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
@@ -51,19 +58,30 @@ public class GymController {
     public ResponseEntity<GymResponseDto> findOneGymById(@PathVariable UUID gymId) {
         return ResponseEntity.ok(gymService.findOneById(gymId));
     }
-
-    @PostMapping("")
+    @PostMapping(value ="")
     public ResponseEntity<GymResponseDto> createGym(@Valid @RequestBody GymRequestDto gymRequestDtoBody, HttpServletRequest request) throws AuthenticationError {
-
+        System.out.println("hk");
+//        System.out.println(gymRequestDtoBody);
+        System.out.println(request);
+//        System.out.println(imageFile);
         HttpSession session = request.getSession();
-        return ResponseEntity.ok(gymService.create(gymRequestDtoBody,session));
+        return ResponseEntity.ok(gymService.create(gymRequestDtoBody, session));
     }
+    @PostMapping(value ="/gym-photos",consumes = "multipart/form-data")
+    public ResponseEntity createGym(HttpServletRequest request ,@RequestParam(name = "imageFile", required = false) MultipartFile imageFile) throws AuthenticationError {
+        System.out.println("hk");
+//        System.out.println(gymRequestDtoBody);
+        System.out.println(request);
+        System.out.println(imageFile);
+        HttpSession session = request.getSession();
+        return ResponseEntity.ok(gymService.savePhoto(session, imageFile));
+    }
+
 
     @PutMapping("/{gymId}")
     public ResponseEntity<GymResponseDto> updateGym(@PathVariable UUID gymId, @Valid @RequestBody GymRequestDto gymRequestDtoBody) {
         return ResponseEntity.ok(gymService.update(gymId, gymRequestDtoBody));
     }
-
 
 
 
