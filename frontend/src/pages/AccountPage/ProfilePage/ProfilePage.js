@@ -30,6 +30,7 @@ const processData = (data) => {
       note: item.note,
     };
   });
+  console.log({ result });
   return result;
 };
 export default function ProfilePage() {
@@ -105,7 +106,7 @@ export default function ProfilePage() {
             <ViewState currentDate={currentDate} />
             <EditingState onCommitChanges={commitChanges} />
             <IntegratedEditing />
-            <DayView startDayHour={9} endDayHour={14} />
+            <DayView startDayHour={0} endDayHour={24} />
             <ConfirmationDialog />
             <Appointments />
             <AppointmentTooltip showOpenButton showDeleteButton />

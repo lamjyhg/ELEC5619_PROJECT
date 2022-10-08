@@ -36,6 +36,7 @@ export const handleRequestToSaveGymPhoto = (data) => {
     method: POST,
     data,
   };
+  return request(config).then((res) => res.data);
 };
 export const handleRequestToGetNearbyGyms = (lat, lng) => {
   const config = {

@@ -1,14 +1,12 @@
 import { Avatar, Modal, Rate } from "antd";
 import React, { useEffect, useState } from "react";
 import temp_gym from "../../image/temp_gym_img.jpg";
-import "./SingleGym.scss";
 import SingleGymMap from "./SingleGymMap/SingleGymMap";
 
 import { EditFilled } from "@ant-design/icons";
 
 import { Button, Form, Input, notification, Select, TreeSelect } from "antd";
 import "antd/dist/antd.css";
-import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { handleRequestToCreateAppointment } from "../../services/appointments";
@@ -190,7 +188,7 @@ const SingleGym = () => {
   const onCreate = (values) => {
     const startTime = values.startTime.format("YYYY-MM-DD HH:MM:SS");
     const endTime = values.endTime.format("YYYY-MM-DD HH:MM:SS");
-    setIsModalOpen(false);
+
     handleRequestToCreateAppointment({
       ...values,
       startTime,
@@ -203,12 +201,13 @@ const SingleGym = () => {
           message: "Success",
           description: "Appointment created.",
         });
+        setIsAppointmentModalOpen(false);
       })
       .catch((error) => {
         console.log({ error });
         notification.success({
           message: "Failed",
-          description: error.message,
+          description: error.errors,
         });
       });
   };
