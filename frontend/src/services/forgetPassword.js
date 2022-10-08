@@ -13,9 +13,6 @@ export const handleRequestToPostForgetPassword = (user) => {
 
 
 export const handleRequestToPostForgetPasswordCheck = (hash) => {
-
-
-
     const config = {
         url: URL_PREFIX + 'forget_password/check',
         method: POST,
@@ -24,4 +21,18 @@ export const handleRequestToPostForgetPasswordCheck = (hash) => {
     return request(config).then((res) => res.data);
 };
 
+
+export const handleRequestToResetPassword = (hash, password) => {
+
+    console.log(hash, password)
+    const config = {
+        url: URL_PREFIX + 'forget_password/reset',
+        method:POST,
+        data:{
+            "hash":hash,
+            "password":password
+        },
+    };
+    return request(config).then((res) => res.data)
+}
 

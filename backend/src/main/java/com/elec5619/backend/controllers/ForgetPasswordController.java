@@ -1,10 +1,7 @@
 package com.elec5619.backend.controllers;
 
 
-import com.elec5619.backend.dtos.ForgetPasswordCheckRequest;
-import com.elec5619.backend.dtos.ForgetPasswordRequest;
-import com.elec5619.backend.dtos.ReviewRequest;
-import com.elec5619.backend.dtos.ReviewResponse;
+import com.elec5619.backend.dtos.*;
 import com.elec5619.backend.services.ForgetPasswordService;
 import com.elec5619.backend.utils.EmailHtmlHandlers;
 import com.elec5619.backend.utils.EmailSendingHandler;
@@ -34,4 +31,11 @@ public class ForgetPasswordController {
     public ResponseEntity checkHash(@RequestBody ForgetPasswordCheckRequest request) throws IOException {
         return forgetPasswordService.checkHash(request.getHash());
     }
+
+
+    @PostMapping("/forget_password/reset")
+    public ResponseEntity resetPassword(@RequestBody ForgetPasswordResetRequest request){
+        return forgetPasswordService.resetPassword(request.getHash(), request.getPassword());
+    }
+
 }

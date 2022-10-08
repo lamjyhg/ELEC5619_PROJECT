@@ -8,6 +8,7 @@ import userSlice from "./user/user.slice";
 import reviewSlice from "./Review/review.slice";
 import currentUserSlice from "./currentUser/currentUser.slice";
 import forgetPasswordSlice from "./forgetPassword/forgetPassword.slice";
+import forgetPasswordResetSlice from "./forgetPassword/forgetPasswordReset.slice";
 
 
 export const store = configureStore({
@@ -21,6 +22,7 @@ export const store = configureStore({
     reviews: reviewSlice,
     currentUser: currentUserSlice,
     forgetPassword: forgetPasswordSlice,
+    forgetPasswordReset:forgetPasswordResetSlice
   },
 });
 export default store;

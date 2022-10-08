@@ -87,7 +87,7 @@ const LoginBody = () => {
 
                 <div className="login-item" id='login-links'>
                     <p>
-                        <a href="#">Forget Password</a>
+                        <a href="/forget_password">Forget Password</a>
                     </p>
                     <p>
                         <a href="/Register">Register</a>
