@@ -8,7 +8,7 @@ import { Rate } from 'antd';
 
 
 
-const MainLayout = () => {
+const MainPage = () => {
 
     return(
 
@@ -139,4 +139,4 @@ const MainLayout = () => {
 
     )
 };
-export default MainLayout;
+export default MainPage;

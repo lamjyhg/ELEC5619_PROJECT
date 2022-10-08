@@ -64,6 +64,7 @@ const NavBar = () => {
     setIsModalVisible(false);
     clearSessionStorage();
     navigate('/login');
+    window.location.reload();
   };
 
   return (

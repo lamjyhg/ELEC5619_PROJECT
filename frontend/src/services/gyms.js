@@ -56,7 +56,7 @@ export const handleRequestToSubmitReview = (rating, comment, gym_id, user_id) =>
     data: data,
   }
 
-  return request(config).then((res) => res.data).catch(err => console.log(err));
+  return request(config).then((res) => res.data);
 
 };
 
@@ -67,6 +67,6 @@ export const handleRequestToGetReview = (gym_id) => {
     method: GET,
   };
 
-  return request(config).then((res) => res.data).catch(err => console.log(err));
+  return request(config).then((res) => res.data);
 
 };

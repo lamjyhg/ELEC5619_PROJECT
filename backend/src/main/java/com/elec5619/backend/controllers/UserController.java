@@ -1,17 +1,15 @@
 package com.elec5619.backend.controllers;
 
-import com.elec5619.backend.dtos.LoginRequest;
-import com.elec5619.backend.dtos.RegisterRequest;
-import com.elec5619.backend.dtos.UserResponse;
+import com.elec5619.backend.dtos.*;
 import com.elec5619.backend.exceptions.AuthenticationError;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.elec5619.backend.entities.User;
 import com.elec5619.backend.services.UserService;
 import com.elec5619.backend.dtos.UserResponse;
-import com.elec5619.backend.dtos.DeleteUserRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -94,5 +92,18 @@ public class UserController {
     @PutMapping("/activate/{token}")
     public ResponseEntity activateUser(@PathVariable  UUID token) {
         return ResponseEntity.ok(userService.activateAccount(token));
+    }
+
+
+    @PostMapping("/reset")
+    public ResponseEntity resetPassword(@RequestBody ResetPasswordRequest request, HttpSession session)  {
+
+        try{
+            User user = userService.getUserByToken(session);
+            return userService.resetPassword(user.getId(), request.getPassword(), request.getOldPassword());
+        }catch (AuthenticationError e){
+            return new ResponseEntity<>("Invalid session", HttpStatus.BAD_REQUEST);
+        }
+
     }
 }

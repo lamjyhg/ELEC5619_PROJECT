@@ -21,11 +21,12 @@ const LoginBody = () => {
 
     const navigate = useNavigate();
 
-    if (isSuccess){
-        // const t = getToken()
-        // console.log(t);
-        navigate("/")
-    }
+    useEffect( () => {
+        if (isSuccess){
+            navigate("/")
+        }
+    }, [isSuccess])
+
 
     const dispatch = useDispatch();
 

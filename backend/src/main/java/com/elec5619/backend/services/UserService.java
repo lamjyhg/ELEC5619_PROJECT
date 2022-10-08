@@ -253,4 +253,30 @@ public class UserService {
         }
         return ResponseEntity.ok("activate successfully");
     }
+
+
+    public ResponseEntity resetPassword(UUID id, String password, String oldPassword){
+
+        Optional<User> userOptional = userRepository.findById(id);
+
+
+        if(userOptional.isPresent() == false){
+            return new ResponseEntity("invalid user id", HttpStatus.BAD_REQUEST);
+        }
+        User user = userOptional.get();
+
+
+        boolean isMatch = hashUtil.matchPassword(oldPassword,user.getPassword());
+
+        if(isMatch){
+            String hashedPassword = hashUtil.encrypy(password);
+            user.setPassword(hashedPassword);
+            userRepository.save(user);
+            return new ResponseEntity<>("change password success", HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>("invalid old password", HttpStatus.BAD_REQUEST);
+
+
+    }
 }

@@ -1,8 +1,11 @@
-import {ForgetPassword} from "../../../components/ForgetPassword/ForgetPassword";
+
+import {ChangePassword} from "../../../components/ChangePassword/ChangePassword";
 
 const ChangePasswordPage = () => {
   return (
-      <>Forget password</>
+
+
+      <ChangePassword />
   )
 };
 export default ChangePasswordPage;
