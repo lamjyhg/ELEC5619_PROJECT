@@ -1,47 +1,63 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import {handleRequestToGetAllUsers, handleRequestToDeleteUser, handleRequestToGetUser, handleRequestToUpdateRole} from "../../services/admin";
-
+import {
+  handleRequestToGetAllUsers,
+  handleRequestToDeleteUser,
+  handleRequestToGetUser,
+  handleRequestToUpdateRole,
+} from '../../services/admin';
+import { handleRequestToActivateAccount } from '../../services/auth';
 
 export const handleActionToGetAllUsers = createAsyncThunk(
-    'GET_ALL_USERS',
-    async (params, thunkAPI) => {
-        try {
-            return await handleRequestToGetAllUsers();
-        } catch (error) {
-            return thunkAPI.rejectWithValue(error);
-        }
+  'GET_ALL_USERS',
+  async (params, thunkAPI) => {
+    try {
+      return await handleRequestToGetAllUsers();
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
     }
+  }
 );
 
 export const handleActionToDeleteUser = createAsyncThunk(
-    'DELETE_USERS',
-    async (params, thunkAPI) => {
-        try {
-            return await handleRequestToDeleteUser(params);
-        } catch (error) {
-            return thunkAPI.rejectWithValue(error);
-        }
+  'DELETE_USERS',
+  async (params, thunkAPI) => {
+    try {
+      return await handleRequestToDeleteUser(params);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
     }
+  }
 );
 
 export const handleActionToGetUser = createAsyncThunk(
-    'GET_USER',
-    async (params, thunkAPI) => {
-        try {
-            return await handleRequestToGetUser(params);
-        } catch (error) {
-            return thunkAPI.rejectWithValue(error);
-        }
+  'GET_USER',
+  async (params, thunkAPI) => {
+    try {
+      return await handleRequestToGetUser(params);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
     }
-)
+  }
+);
 
 export const handleActionToUpdateRole = createAsyncThunk(
-    'GET_USER',
-    async (params, thunkAPI) => {
-        try {
-            return await handleRequestToUpdateRole(params);
-        } catch (error) {
-            return thunkAPI.rejectWithValue(error);
-        }
+  'GET_USER',
+  async (params, thunkAPI) => {
+    try {
+      return await handleRequestToUpdateRole(params);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
     }
-)
+  }
+);
+
+export const handleActionToActivateAccount = createAsyncThunk(
+  'ACTIVATE_ACCOUNT',
+  async (params, thunkAPI) => {
+    try {
+      return await handleRequestToActivateAccount(params);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);

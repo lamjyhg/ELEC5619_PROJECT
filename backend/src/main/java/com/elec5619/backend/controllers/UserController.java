@@ -90,4 +90,9 @@ public class UserController {
     public ResponseEntity<UserResponse> getCurrentUser(HttpSession session) throws AuthenticationError {
         return ResponseEntity.ok(userService.getUserResponseByToken(session));
     }
+
+    @PutMapping("/activate/{token}")
+    public ResponseEntity activateUser(@PathVariable  UUID token) {
+        return ResponseEntity.ok(userService.activateAccount(token));
+    }
 }

@@ -9,7 +9,7 @@ import GymsPage from '../pages/GymsPage/GymsPage';
 import LoginPage from '../pages/LoginPage/LoginPage';
 import RegisterPage from '../pages/RegisterPage/RegisterPage';
 import UserManagementPage from '../pages/UsersManagementPage/UsersManagementPage';
-import UserEditPage from "../pages/UsersManagementPage/UserEditPage";
+import UserEditPage from '../pages/UsersManagementPage/UserEditPage';
 import ProfilePage from '../pages/AccountPage/ProfilePage/ProfilePage';
 import ChangePasswordPage from '../pages/AccountPage/ChangePasswordPage/ChangePasswordPage';
 import AppointmentsPage from '../pages/AccountPage/AppointmentsPage/AppointmentsPage';
@@ -18,16 +18,20 @@ import SingleGymPage from '../pages/SingleGymPage/SingleGymPage';
 import AdminMainPage from '../pages/AccountPage/AdminMainPage/AdminMainPage';
 import MainPage from '../pages/MainPage/MainPage';
 import ErrorPage from '../pages/ErrorPage/ErrorPage';
-import ForgetPasswordPage from "../pages/ForgetPasswordPage/ForgetPasswordPage";
-import ForgetPasswordCheckPage from "../pages/ForgetPasswordPage/ForgetPasswordCheckPage";
-
+import ForgetPasswordPage from '../pages/ForgetPasswordPage/ForgetPasswordPage';
+import ForgetPasswordCheckPage from '../pages/ForgetPasswordPage/ForgetPasswordCheckPage';
+import ActivatePage from '../pages/ActivatePage/ActivatePage';
 
 const Router = () => {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
-        <Route path="/forget_password" element={<ForgetPasswordPage />} />
-        <Route path="/forget_password/:hash" element={<ForgetPasswordCheckPage />} />
+      <Route path="/forget_password" element={<ForgetPasswordPage />} />
+      <Route path="/activate/:token" element={<ActivatePage />} />
+      <Route
+        path="/forget_password/:hash"
+        element={<ForgetPasswordCheckPage />}
+      />
       <Route path="/register" element={<RegisterPage />}></Route>
       <Route path="/*" element={<ErrorPage></ErrorPage>}></Route>
 
@@ -42,19 +46,16 @@ const Router = () => {
           <Route
             path="userManagement"
             element={<UserManagementPage></UserManagementPage>}
-          >
-          </Route>
-            <Route
-                path="userManagement/edit/:id"
-                element={<UserEditPage />}
-            >
-            </Route>
-          <Route path="gymRequests" element={<GymRequestsPage />}>
-            </Route>
-            <Route
-                path="gymRequests/:id"
-                element={<GymRequestPage></GymRequestPage>}
-            ></Route>
+          ></Route>
+          <Route
+            path="userManagement/edit/:id"
+            element={<UserEditPage />}
+          ></Route>
+          <Route path="gymRequests" element={<GymRequestsPage />}></Route>
+          <Route
+            path="gymRequests/:id"
+            element={<GymRequestPage></GymRequestPage>}
+          ></Route>
         </Route>
       </Route>
       <Route path="/account" element={<ProtectedLayout />}>
