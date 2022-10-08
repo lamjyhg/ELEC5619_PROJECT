@@ -1,4 +1,6 @@
 import { Button, Input } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
+import { Button, Form, Input, InputNumber, Modal, Upload } from "antd";
 import { useState } from "react";
 import GymForm from "../../../components/GymForm/GymForm";
 import { handleRequestToCreateGym } from "../../../services/gyms";
