@@ -3,8 +3,6 @@ package com.elec5619.backend.controllers;
 import com.elec5619.backend.dtos.AppointmentResponseDto;
 import com.elec5619.backend.dtos.GymRequestDto;
 import com.elec5619.backend.dtos.GymResponseDto;
-
-import com.elec5619.backend.entities.Gym;
 import com.elec5619.backend.exceptions.AuthenticationError;
 
 import com.elec5619.backend.dtos.ReviewRequest;

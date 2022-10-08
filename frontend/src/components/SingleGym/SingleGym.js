@@ -1,45 +1,26 @@
+import { Avatar, Modal, Rate } from "antd";
 import React, { useEffect, useState } from "react";
-import "./SingleGym.scss";
 import temp_gym from "../../image/temp_gym_img.jpg";
-import { Avatar, Rate, Modal } from "antd";
+import "./SingleGym.scss";
 import SingleGymMap from "./SingleGymMap/SingleGymMap";
 
 import { EditFilled } from "@ant-design/icons";
 
+import { Button, Form, Input, notification, Select, TreeSelect } from "antd";
 import "antd/dist/antd.css";
-import { Form, Input, Button, DatePicker, TreeSelect, Select } from "antd";
-import GymsMap from "../GymsMap/GymsMap";
-import { useNavigate, useParams } from "react-router-dom";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { handleRequestToCreateAppointment } from "../../services/appointments";
+import { handleActionToGetCurrentUser } from "../../state/currentUser/currentUser.action";
 import { handleActionToGetSingleGym } from "../../state/gyms/singleGym.action";
-import { handleLoginRequest } from "../../state/auth/login.action";
 import {
   handleActionToGetReviews,
   handleActionToSubmitReview,
 } from "../../state/Review/review.action";
-import { handleActionToGetCurrentUser } from "../../state/currentUser/currentUser.action";
-import { current } from "@reduxjs/toolkit";
-import React, { useEffect, useState } from "react";
-import "./SingleGym.scss";
-import temp_gym from "../../image/temp_gym_img.jpg";
-import { EditFilled } from "@ant-design/icons";
-import "antd/dist/antd.css";
-import {
-  Form,
-  Input,
-  Button,
-  DatePicker,
-  TreeSelect,
-  Select,
-  notification,
-} from "antd";
-import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { handleActionToGetSingleGym } from "../../state/gyms/singleGym.action";
-import SingleGymMap from "./SingleGymMap/SingleGymMap";
 import { baseURL } from "../../utils/request";
 import AppointmentForm from "../AppointmentForm/AppointmentForm";
-import { handleRequestToCreateAppointment } from "../../services/appointments";
+import "./SingleGym.scss";
 const { TextArea } = Input;
 
 const SingleGym = () => {
@@ -204,7 +185,7 @@ const SingleGym = () => {
   };
   const [isAppointmentModalOpen, setIsAppointmentModalOpen] = useState(false);
   const showAppointmnetModal = () => {
-    setIsModalOpen(true);
+    setIsAppointmentModalOpen(true);
   };
   const onCreate = (values) => {
     const startTime = values.startTime.format("YYYY-MM-DD HH:MM:SS");
@@ -271,7 +252,7 @@ const SingleGym = () => {
         <AppointmentForm
           open={isAppointmentModalOpen}
           onCancel={() => {
-            setIsModalOpen(false);
+            setIsAppointmentModalOpen(false);
           }}
           onCreate={onCreate}
           acitonType={"CREATE"}
