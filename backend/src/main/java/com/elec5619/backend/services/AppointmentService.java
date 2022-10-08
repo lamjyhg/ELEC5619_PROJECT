@@ -35,7 +35,7 @@ public class AppointmentService {
     private final AppointmentMapper appointmentMapper;
     private final UserRepository userRepository;
     private final EmailSendingHandler emailSendingHandler = new EmailSendingHanlderImple("lamjh1999@gmail.com");
-private final EmailHtmlHandlers emailHtmlHandlers = new EmailHtmlHandlers();
+    private final EmailHtmlHandlers emailHtmlHandlers = new EmailHtmlHandlers();
     public List<AppointmentResponseDto> listAppointmentByUser(HttpSession session) {
         UUID userId = userService.getUserId(session);
         System.out.println(userId);
@@ -145,7 +145,7 @@ private final EmailHtmlHandlers emailHtmlHandlers = new EmailHtmlHandlers();
             String endTime = appointment.getEndTime().toString();
             String note = comment;
             String content = emailHtmlHandlers.getCancellationEmailHtml(appointmentId,gymName,startTime,endTime,note);
-            emailSendingHandler.send(toEmail, String.format("appointment %s cancelled", "sss"), content);
+            emailSendingHandler.send(toEmail, String.format("appointment %s cancelled", appointmentId), content);
 
         }catch(Exception e){
 

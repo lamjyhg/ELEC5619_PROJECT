@@ -1,84 +1,115 @@
-import {createSlice} from "@reduxjs/toolkit";
-import {handleActionToGetAllUsers, handleActionToGetUser} from "./user.action";
+import { createSlice } from '@reduxjs/toolkit';
+import {
+  handleActionToActivateAccount,
+  handleActionToGetAllUsers,
+  handleActionToGetUser,
+} from './user.action';
 
 const userSlice = createSlice({
-    name: 'user',
-    initialState: {
+  name: 'user',
+  initialState: {
+    userList: {
+      users: null,
+      isError: false,
+      isLoading: false,
+      isSuccess: false,
+    },
+    user: {
+      users: null,
+      isError: false,
+      isLoading: false,
+      isSuccess: false,
+    },
+    activatePage: {
+      isError: false,
+      isLoading: false,
+      isSuccess: false,
+    },
+  },
+
+  extraReducers: (builder) => {
+    builder
+      .addCase(handleActionToGetAllUsers.pending, (state, action) => ({
+        ...state,
         userList: {
-            users: null,
-            isError: false,
-            isLoading: false,
-            isSuccess: false,
+          ...state.userList,
+          isLoading: true,
+          isError: false,
+          isSuccess: false,
         },
+      }))
+      .addCase(handleActionToGetAllUsers.fulfilled, (state, action) => ({
+        ...state,
+        userList: {
+          ...state.userList,
+          isLoading: false,
+          isError: false,
+          isSuccess: true,
+          users: action.payload,
+        },
+      }))
+      .addCase(handleActionToGetAllUsers.rejected, (state, action) => ({
+        ...state,
+        userList: {
+          ...state.userList,
+          isLoading: false,
+          isError: true,
+          isSuccess: false,
+        },
+      }))
+      .addCase(handleActionToGetUser.pending, (state, action) => ({
+        ...state,
         user: {
-            users: null,
-            isError: false,
-            isLoading: false,
-            isSuccess: false,
-        }
-    },
-
-
-    extraReducers: (builder) => {
-        builder
-            .addCase(handleActionToGetAllUsers.pending, (state, action) => ({
-                ...state,
-                userList: {
-                    ...state.userList,
-                    isLoading: true,
-                    isError: false,
-                    isSuccess: false,
-                },
-            }))
-            .addCase(handleActionToGetAllUsers.fulfilled, (state, action) => ({
-                ...state,
-                userList: {
-                    ...state.userList,
-                    isLoading: false,
-                    isError: false,
-                    isSuccess: true,
-                    users: action.payload,
-                },
-            }))
-            .addCase(handleActionToGetAllUsers.rejected, (state, action) => ({
-                ...state,
-                userList: {
-                    ...state.userList,
-                    isLoading: false,
-                    isError: true,
-                    isSuccess: false,
-
-                },
-            }))
-            .addCase(handleActionToGetUser.pending, (state, action) => ({
-                ...state,
-                user: {
-                    ...state.user,
-                    isLoading: true,
-                    isError: false,
-                    isSuccess: false,
-                    users: action.payload,
-                },
-            }))
-            .addCase(handleActionToGetUser.fulfilled, (state, action) => ({
-                ...state,
-                user: {
-                    ...state.user,
-                    isLoading: false,
-                    isError: false,
-                    isSuccess: true,
-                    users: action.payload,
-                },
-            }))
-            .addCase(handleActionToGetUser.rejected, (state, action) => ({
-                ...state,
-                user: {
-                    ...state.user,
-                    isLoading: false,
-                    isError: true,
-                    isSuccess: false,
-                },
-            }));
-    },
+          ...state.user,
+          isLoading: true,
+          isError: false,
+          isSuccess: false,
+          users: action.payload,
+        },
+      }))
+      .addCase(handleActionToGetUser.fulfilled, (state, action) => ({
+        ...state,
+        user: {
+          ...state.user,
+          isLoading: false,
+          isError: false,
+          isSuccess: true,
+          users: action.payload,
+        },
+      }))
+      .addCase(handleActionToGetUser.rejected, (state, action) => ({
+        ...state,
+        user: {
+          ...state.user,
+          isLoading: false,
+          isError: true,
+          isSuccess: false,
+        },
+      }))
+      .addCase(handleActionToActivateAccount.pending, (state, action) => ({
+        ...state,
+        activatePage: {
+          isLoading: true,
+          isError: false,
+          isSuccess: false,
+        },
+      }))
+      .addCase(handleActionToActivateAccount.fulfilled, (state, action) => ({
+        ...state,
+        activatePage: {
+          isLoading: false,
+          isError: false,
+          isSuccess: true,
+        },
+      }))
+      .addCase(handleActionToActivateAccount.rejected, (state, action) => ({
+        ...state,
+        activatePage: {
+          isLoading: false,
+          isError: true,
+          isSuccess: false,
+        },
+      }));
+  },
 });
-export default userSlice.reducer
+export default userSlice.reducer;

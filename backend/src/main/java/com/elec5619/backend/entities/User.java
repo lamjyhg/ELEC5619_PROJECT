@@ -2,9 +2,11 @@ package com.elec5619.backend.entities;
 
 import javax.persistence.*;
 
+import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.TypeDef;
 
 import java.util.*;
 
@@ -37,6 +39,11 @@ public class User {
 
     @Column(name = "type", unique = false, nullable = false)
     private String type;
+
+    @Column(name = "active", nullable = false)
+    private Boolean active = false;
+
+
 
     @Override
     public String toString(){

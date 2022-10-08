@@ -12,7 +12,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "activation")
 @TypeDef(name = "json", typeClass = JsonType.class)
-public class AccountActivationEntity {
+public class AccountVerificationEntity {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(

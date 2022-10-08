@@ -29,8 +29,7 @@ public class AppointmentRequestDto {
     @Email(message = "email should be valid")
     private String customerEmail;
 
-    @PositiveOrZero(message = "duration should be positive (hr)")
-    private Double duration;
+
 
     @Future(message="startTime should be future")
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
