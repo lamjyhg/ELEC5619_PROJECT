@@ -32,11 +32,6 @@ const LoginBody = () => {
 
   const navigate = useNavigate();
 
-  if (token) {
-    removeToken();
-    removeAdminAuthorityToken();
-  }
-
   if (isSuccess) {
     if (adminAuthorityToken) {
       navigate('/admin');
