@@ -13,10 +13,12 @@ import com.elec5619.backend.mappers.GymMapper;
 import com.elec5619.backend.repositories.GymRepository;
 import com.elec5619.backend.repositories.UserRepository;
 import com.elec5619.backend.utils.FileUploadUtil;
+import com.elec5619.backend.entities.gymEnums.GymApplicationStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+
 
 import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpSession;
@@ -92,9 +94,21 @@ public class GymService {
     }
 
     public List<GymApplicationResponseDto> getAllRequest() {
-        List<Gym> gymList = gymRepository.findAll();
-        return gymList.stream().map(gym -> gymMapper.toEntityAppRes(gym)).collect(Collectors.toList());
+        List<Gym> gymList = gymRepository.getPendingGymRequests();
+        return gymList.stream().map(gym -> gymMapper.fromEntityAppRes(gym)).collect(Collectors.toList());
     }
 
+    public Gym approveApplication(UUID id){
+        Gym gym = gymRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(String.format("Unknown id %s", id)));
+        gym.setGymApplicationStatus(GymApplicationStatus.APPROVED);
+        Gym savedGym = gymRepository.save(gym);
+        return savedGym;
+    }
+    public Gym disapproveApplication(UUID id){
+        Gym gym = gymRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(String.format("Unknown id %s", id)));
+        gym.setGymApplicationStatus(GymApplicationStatus.DISAPPROVED);
+        Gym savedGym = gymRepository.save(gym);
+        return savedGym;
+    }
 
 }

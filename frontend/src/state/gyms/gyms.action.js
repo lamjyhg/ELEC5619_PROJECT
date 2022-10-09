@@ -2,7 +2,9 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
   handleRequestToGetGyms,
   handleRequestToGetNearbyGyms,
-    handleRequestToGetAllApplication
+    handleRequestToGetAllApplication,
+    handleRequestToApproveApplication,
+    handleRequestToDisapproveApplication,
 } from "../../services/gyms";
 
 export const handleActionToGetGyms = createAsyncThunk(
@@ -32,6 +34,28 @@ export const handleActionToGetAllGymApplication = createAsyncThunk(
     async (params, thunkAPI) => {
         try {
             return await handleRequestToGetAllApplication();
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error);
+        }
+    }
+);
+
+export const handleActionToApproveApplication= createAsyncThunk(
+    "APPROVE_GYM_APPLICATION",
+    async (params, thunkAPI) => {
+        try {
+            return await handleRequestToApproveApplication(params);
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error);
+        }
+    }
+);
+
+export const handleActionToDisapproveApplication= createAsyncThunk(
+    "DISAPPROVE_GYM_APPLICATION",
+    async (params, thunkAPI) => {
+        try {
+            return await handleRequestToDisapproveApplication(params);
         } catch (error) {
             return thunkAPI.rejectWithValue(error);
         }

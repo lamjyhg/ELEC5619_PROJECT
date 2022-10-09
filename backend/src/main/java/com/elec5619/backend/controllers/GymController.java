@@ -106,10 +106,18 @@ public class GymController {
     }
 
     @GetMapping("/getAllRequest")
-    public ResponseEntity<List<GymApplicationResponseDto>> getAllRequest() {
+    public ResponseEntity getAllRequest() {
         return ResponseEntity.ok(gymService.getAllRequest());
+        //return ResponseEntity.ok("ok");
     }
 
+    @PostMapping("/application/{gym_id}/approve")
+    public ResponseEntity approveApplication(@PathVariable(name = "gym_id")UUID gym_id) {
+        return ResponseEntity.ok(gymService.approveApplication(gym_id));
+    }
 
-
+    @PostMapping("/application/{gym_id}/disapprove")
+    public ResponseEntity disapproveApplication(@PathVariable(name = "gym_id")UUID gym_id) {
+        return ResponseEntity.ok(gymService.disapproveApplication(gym_id));
+    }
 }

@@ -3,15 +3,19 @@ package com.elec5619.backend.dtos;
 import com.elec5619.backend.entities.gymEnums.GymApplicationStatus;
 import com.elec5619.backend.entities.gymEnums.GymApplicationType;
 import com.elec5619.backend.entities.gymEnums.GymStatus;
+import lombok.Data;
 
 import java.util.Date;
+import java.sql.Time;
 import java.util.Map;
 import java.util.UUID;
-
+@Data
 public class GymApplicationResponseDto {
     private UUID id;
 
     private String name;
+
+    private String description;
 
     private String imageUrl;
 
@@ -19,11 +23,11 @@ public class GymApplicationResponseDto {
 
     private Map<String, Double> geoLocation;
 
-    private Map<String, Map<String, String>> tradingHours;
+    private Map<Integer, Map<String, Time>> tradingHours;
 
     private String address;
 
-    private GymStatus status;
+    private GymStatus gymStatus;
 
     private GymApplicationType gymApplicationType;
 

@@ -6,18 +6,6 @@ import {handleActionToGetAllGymApplication} from "../../state/gyms/gyms.action";
 import {handleActionToGetUser} from "../../state/user/user.action";
 
 // generate user list
-const data1 = [];
-let len = 50;
-while(len--) {
-  data1.unshift({
-    id: len,
-    key: len,
-    time: Date(),
-    title: 'title' + len,
-    tags: ['Solved'],
-})
-}
-data1.push({ id: 50, key: 50, time:  Date(), title: 'DAO BI LE', tags: ['Unsolved'],})
 
 // function
 function RequestTable () {
@@ -26,16 +14,17 @@ function RequestTable () {
   const navigate = useNavigate();
 
   const { gymsList, isSuccess, isLoading, isError } = useSelector(
-      (state) => state.gyms.gymsPage
+      (state) => state.gyms.gymApp
   );
+  let data1 = [];
 
   const onSelectChange = (newSelectedRowKeys) => {
     setSelectedRowKeys(newSelectedRowKeys);
   };
 
   const handleView = (item) => {
-    console.log("id is " + item.id);
-    navigate("/admin/gymRequests/"+item.id);
+    console.log("id is " + item.gymID);
+    navigate("/admin/gymRequests/"+item.gymID);
   }
   const columns = [
     {
@@ -45,33 +34,35 @@ function RequestTable () {
       sorter: (a, b) => a.id - b.id,
     },
     {
+      title: 'Gym ID',
+      dataIndex: 'gymID',
+    },
+    {
+      title: 'name',
+      dataIndex: 'name',
+    },
+    {
       title: 'time',
       dataIndex: 'time',
       defaultSortOrder: 'ascend',
       sorter: (a, b) => a.id - b.id,
     },
     {
-      title: 'Title',
-      dataIndex: 'title',
-    },
-    {
       title: 'Status',
       dataIndex: 'tags',
-      render: (_, { tags }) => (
-          <>
-            {tags.map((tag) => {
-              let color = 'green';
-              if (tag === 'Unsolved') {
-                color = 'red';
-              }
-
-              return (
-                  <Tag color={color} key={tag}>
-                    {tag.toUpperCase()}
-                  </Tag>
-              );
-            })}
-          </>
+      render: (_, { status }) => (
+          <Tag color={'red'} key={status}>
+            {status}
+          </Tag>
+      ),
+    },
+    {
+      title: 'Type',
+      dataIndex: 'type',
+      render: (_, { type }) => (
+          <Tag color={'orange'} key={type}>
+            {type}
+          </Tag>
       ),
     },
     {
@@ -84,7 +75,6 @@ function RequestTable () {
             <a onClick={() => handleView(item)}>View</a>
             <a>Approve</a>
             <a>Decline</a>
-            <a>Remove</a>
           </Space>
       ),
     },
@@ -104,10 +94,21 @@ function RequestTable () {
     getAllRequest();
   } , []);
 
-  if(isSuccess){
-    console.log("all request is ");
-    console.log(gymsList);
+  if (isSuccess) {
+    for(let index = 0; index < gymsList.length; index++){
+      data1.push({
+        id: index + 1,
+        gymID: gymsList[index].id,
+        key: index,
+        name: gymsList[index].name,
+        time: gymsList[index].lastUpdatedTime,
+        status: gymsList[index].gymApplicationStatus,
+        type: gymsList[index].gymApplicationType,
+      })
+    }
   }
+
+
 
   return <Table dataSource={data1} columns={columns} rowSelection={rowSelection} pagination={{ pageSize: 8 }}/> ;
   

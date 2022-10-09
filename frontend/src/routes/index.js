@@ -58,7 +58,7 @@ const Router = () => {
           ></Route>
           <Route path="gymRequests" element={<GymRequestsPage />}></Route>
           <Route
-            path="gymRequests/:id"
+            path="gymRequests/:gym_id"
             element={<GymRequestPage></GymRequestPage>}
           ></Route>
           <Route

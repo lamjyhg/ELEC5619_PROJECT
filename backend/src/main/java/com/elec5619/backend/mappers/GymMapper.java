@@ -12,7 +12,7 @@ public interface GymMapper {
     Gym toEntity(GymRequestDto gymRequestDto);
 
     GymResponseDto fromEntity(Gym gym);
-    GymApplicationResponseDto toEntityAppRes(Gym gym);
+    GymApplicationResponseDto fromEntityAppRes(Gym gym);
 
 
 }

@@ -155,11 +155,11 @@ public class UserService {
             boolean isMatch = hashUtil.matchPassword(user.getPassword(), checkUser.get().getPassword());
 
             if (isMatch) {
-                /*
+
                 if(!checkUser.get().getActive()){
                     throw new BadRequestException("account is not activated");
                 }
-                */
+
                 String token = jwtTokenUtil.generateToken(userRequest);
                 session.setAttribute("token", token);
                 Map<String, Object> response = new HashMap<String, Object>();
@@ -229,7 +229,7 @@ public class UserService {
         UserNew u = userNewRepository.findByEmail(email);
         u.updateRole(role);
         userNewRepository.save(u);
-        return ResponseEntity.ok("user deleted");
+        return ResponseEntity.ok("user updated");
     }
 
     public ResponseEntity activateAccount(UUID token){

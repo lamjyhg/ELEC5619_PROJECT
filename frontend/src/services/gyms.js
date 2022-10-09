@@ -1,5 +1,6 @@
 import { GET, POST } from "../constants/requests";
 import request from "../utils/request";
+import {handleActionToApproveApplication} from "../state/gyms/gyms.action";
 const URL_PREFIX = "gyms";
 
 export const handleRequestToGetGyms = () => {
@@ -85,6 +86,24 @@ export const handleRequestToGetAllApplication = () => {
   const config = {
     url: URL_PREFIX + "/getAllRequest",
     method: GET,
+  };
+
+  return request(config).then((res) => res.data);
+};
+
+export const handleRequestToApproveApplication = (gym_id) => {
+  const config = {
+    url: URL_PREFIX + "/application/" + gym_id + "/approve",
+    method: POST,
+  };
+
+  return request(config).then((res) => res.data);
+};
+
+export const handleRequestToDisapproveApplication = (gym_id) => {
+  const config = {
+    url: URL_PREFIX + "/application/" + gym_id + "/disapprove",
+    method: POST,
   };
 
   return request(config).then((res) => res.data);
