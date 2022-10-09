@@ -155,10 +155,11 @@ public class UserService {
             boolean isMatch = hashUtil.matchPassword(user.getPassword(), checkUser.get().getPassword());
 
             if (isMatch) {
-
+                /*
                 if(!checkUser.get().getActive()){
                     throw new BadRequestException("account is not activated");
                 }
+                */
                 String token = jwtTokenUtil.generateToken(userRequest);
                 session.setAttribute("token", token);
                 Map<String, Object> response = new HashMap<String, Object>();

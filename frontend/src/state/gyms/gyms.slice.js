@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
   handleActionToGetGyms,
-  handleActionToGetNearbyGyms, handleActionToGetSingleGym,
+  handleActionToGetNearbyGyms,
+  handleActionToGetAllGymApplication,
 } from './gyms.action';
 
 const gymsSlice = createSlice({
@@ -13,6 +14,12 @@ const gymsSlice = createSlice({
       isLoading: false,
       isSuccess: false,
     },
+    gymApp: {
+      gymsList: [],
+      isError: false,
+      isLoading: false,
+      isSuccess: false,
+    }
   },
 
   extraReducers: (builder) => {
@@ -68,6 +75,34 @@ const gymsSlice = createSlice({
         ...state,
         gymsPage: {
           ...state.gymsPage,
+          isLoading: false,
+          isError: true,
+          isSuccess: false,
+        },
+      }))
+      .addCase(handleActionToGetAllGymApplication.pending, (state, action) => ({
+        ...state,
+        gymApp: {
+          ...state.gymApp,
+          isLoading: true,
+          isError: false,
+          isSuccess: false,
+        },
+      }))
+      .addCase(handleActionToGetAllGymApplication.fulfilled, (state, action) => ({
+        ...state,
+        gymApp: {
+          ...state.gymApp,
+          isLoading: false,
+          isError: false,
+          isSuccess: true,
+          gymsList: action.payload,
+        },
+      }))
+      .addCase(handleActionToGetAllGymApplication.rejected, (state, action) => ({
+        ...state,
+        gymApp: {
+          ...state.gymApp,
           isLoading: false,
           isError: true,
           isSuccess: false,

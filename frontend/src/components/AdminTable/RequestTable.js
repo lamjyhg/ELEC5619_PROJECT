@@ -1,7 +1,9 @@
 import { Space, Table, Tag } from 'antd';
-import React, { useState } from 'react';
-import {useDispatch} from "react-redux";
+import React, { useEffect, useState } from 'react';
+import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
+import {handleActionToGetAllGymApplication} from "../../state/gyms/gyms.action";
+import {handleActionToGetUser} from "../../state/user/user.action";
 
 // generate user list
 const data1 = [];
@@ -22,6 +24,10 @@ function RequestTable () {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { gymsList, isSuccess, isLoading, isError } = useSelector(
+      (state) => state.gyms.gymsPage
+  );
 
   const onSelectChange = (newSelectedRowKeys) => {
     setSelectedRowKeys(newSelectedRowKeys);
@@ -89,6 +95,19 @@ function RequestTable () {
     selectedRowKeys,
     onChange: onSelectChange,
   };
+
+  useEffect(() => {
+    const getAllRequest = async () => {
+      await dispatch(handleActionToGetAllGymApplication());
+    }
+
+    getAllRequest();
+  } , []);
+
+  if(isSuccess){
+    console.log("all request is ");
+    console.log(gymsList);
+  }
 
   return <Table dataSource={data1} columns={columns} rowSelection={rowSelection} pagination={{ pageSize: 8 }}/> ;
   

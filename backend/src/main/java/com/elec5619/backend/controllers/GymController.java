@@ -3,6 +3,7 @@ package com.elec5619.backend.controllers;
 import com.elec5619.backend.dtos.AppointmentResponseDto;
 import com.elec5619.backend.dtos.GymRequestDto;
 import com.elec5619.backend.dtos.GymResponseDto;
+import com.elec5619.backend.dtos.GymApplicationResponseDto;
 import com.elec5619.backend.exceptions.AuthenticationError;
 
 import com.elec5619.backend.dtos.ReviewRequest;
@@ -104,7 +105,10 @@ public class GymController {
         return ResponseEntity.ok(gymService.update(gymId, gymRequestDtoBody));
     }
 
-
+    @GetMapping("/getAllRequest")
+    public ResponseEntity<List<GymApplicationResponseDto>> getAllRequest() {
+        return ResponseEntity.ok(gymService.getAllRequest());
+    }
 
 
 

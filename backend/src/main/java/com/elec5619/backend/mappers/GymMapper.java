@@ -1,6 +1,7 @@
 package com.elec5619.backend.mappers;
 import com.elec5619.backend.dtos.GymRequestDto;
 import com.elec5619.backend.dtos.GymResponseDto;
+import com.elec5619.backend.dtos.GymApplicationResponseDto;
 import com.elec5619.backend.entities.Gym;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
@@ -11,5 +12,7 @@ public interface GymMapper {
     Gym toEntity(GymRequestDto gymRequestDto);
 
     GymResponseDto fromEntity(Gym gym);
+    GymApplicationResponseDto toEntityAppRes(Gym gym);
+
 
 }

@@ -3,6 +3,7 @@ package com.elec5619.backend.services;
 
 import com.elec5619.backend.dtos.GymRequestDto;
 import com.elec5619.backend.dtos.GymResponseDto;
+import com.elec5619.backend.dtos.GymApplicationResponseDto;
 import com.elec5619.backend.entities.Gym;
 import com.elec5619.backend.entities.User;
 import com.elec5619.backend.entities.gymEnums.GymApplicationType;
@@ -88,6 +89,11 @@ public class GymService {
         newGym.setGymApplicationType(GymApplicationType.UPDATE);
         gymRepository.save(newGym);
         return gymMapper.fromEntity(newGym);
+    }
+
+    public List<GymApplicationResponseDto> getAllRequest() {
+        List<Gym> gymList = gymRepository.findAll();
+        return gymList.stream().map(gym -> gymMapper.toEntityAppRes(gym)).collect(Collectors.toList());
     }
 
 

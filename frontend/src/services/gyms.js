@@ -80,3 +80,13 @@ export const handleRequestToGetReview = (gym_id) => {
 
   return request(config).then((res) => res.data);
 };
+
+export const handleRequestToGetAllApplication = () => {
+  const config = {
+    url: URL_PREFIX + "/getAllRequest",
+    method: GET,
+  };
+
+  return request(config).then((res) => res.data);
+};
+
