@@ -1,16 +1,12 @@
-import { Layout, Spin } from 'antd';
-import { Content, Footer, Header } from 'antd/lib/layout/layout';
-import Sider from 'antd/lib/layout/Sider';
+import { Spin } from 'antd';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useNavigate } from 'react-router-dom';
 import {
-  getToken,
-  clearSessionStorage,
   getAdminAuthorityToken,
+  getToken,
 } from '../../services/sessionStorage';
-import { handleActionToCheckAdminAuthority } from '../../state/auth/login.action';
-const ProtectedLayout = () => {
+const AdminProtectedLayout = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,8 +15,12 @@ const ProtectedLayout = () => {
       navigate('/login', { replace: true });
     }
     const adminAuthorityToken = getAdminAuthorityToken();
-    if (adminAuthorityToken) {
-      navigate('/admin/error');
+    if (!adminAuthorityToken) {
+      if (token) {
+        navigate('/error');
+      } else {
+        navigate('/admin/error');
+      }
     }
   }, []);
 
@@ -30,4 +30,4 @@ const ProtectedLayout = () => {
     </>
   );
 };
-export default ProtectedLayout;
+export default AdminProtectedLayout;
