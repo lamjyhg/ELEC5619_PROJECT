@@ -27,7 +27,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.elec5619.backend.entities.User;
+import com.elec5619.backend.entities.UserNew;
 import com.elec5619.backend.repositories.UserRepository;
+import com.elec5619.backend.repositories.UserNewRepository;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -37,6 +39,7 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserNewRepository userNewRepository;
 
     private final RegisterMapper registerMapper;
     private final RoleRepository roleRepository;
@@ -97,7 +100,6 @@ public class UserService {
         } else {
             userRole = checkUserRole.get();
         }
-        user.addRole(userRole);
         Optional<User> repeatEmail = userRepository.getUserByEmail(user.getEmail());
         Optional<User> repeatUsername = userRepository.getUserByUsername(user.getUsername());
 
@@ -220,23 +222,18 @@ public class UserService {
     }
 
     public ResponseEntity updateRole(String role, String email){
-        System.out.println("--------------------------------");
-        System.out.println(role);
-        System.out.println(email);
-        User u = userRepository.findByEmail(email);
-        System.out.println("u.username: ");
+        UserNew u = userNewRepository.findByEmail(email);
+        System.out.println("new role is " + role);
+        System.out.println("--------------Before add new role------------------");
+        System.out.println(u.getRole());
         System.out.println(u.getUsername());
-        System.out.println("u.role");
-        Set<Role> roles = u.getRoles();
-        Role[] roleArray = roles.toArray(new Role[roles.size()]);
-        System.out.println(roles.size());
-        System.out.println("--------------add new role------------------");
-        Role userRole = new Role("Customer");
-        u.addRole(userRole);
-        roles = u.getRoles();
-        System.out.println(roles.size());
-        //userRepository.save(u);
-        //u.role = role;
+
+        u.updateUsername("test1");
+        u.updateRole(role);
+        System.out.println("--------------After add new role------------------");
+        System.out.println(u.getRole());
+        System.out.println(u.getUsername());
+        userNewRepository.save(u);
         return ResponseEntity.ok("user deleted");
     }
 

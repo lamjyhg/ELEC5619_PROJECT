@@ -48,11 +48,11 @@ function UserEditPage() {
         type = value;
         setType(value);
     };
-    const handleSave = () => {
+    const handleSave = (value) => {
         console.log("new role is " + newType);
         console.log("email is " + email);
         const userInput = {
-            role: type,
+            role: newType,
             email: email,
         }
         const updateRole = async () => {
@@ -60,7 +60,7 @@ function UserEditPage() {
         }
 
         updateRole();
-        //navigate("/admin/userManagement");
+        navigate("/admin/userManagement");
     }
 
     return(

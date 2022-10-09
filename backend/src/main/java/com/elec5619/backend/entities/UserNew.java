@@ -14,7 +14,7 @@ import java.util.*;
 @Setter
 @Entity
 @Table(name = "user")
-public class User {
+public class UserNew {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -38,7 +38,7 @@ public class User {
     private String name;
 
     @Column(name = "type", unique = false, nullable = false)
-    private String type;
+    private String role;
 
     @Column(name = "active", nullable = false)
     private Boolean active = false;
@@ -52,7 +52,7 @@ public class User {
                 "\npassword: " + this.password +
                 "\nusername: " + this.username +
                 "\nname: " + this.name +
-                "\ntype: " + this.type;
+                "\ntype: " + this.role;
     }
 
     @OneToMany(mappedBy = "owner")
@@ -60,32 +60,16 @@ public class User {
 //    @OneToMany(mappedBy = "user")
 //    private List<Gym> gyms;
 
-    @ManyToMany
-    @JoinTable(
-            name = "UserRole",
-            joinColumns = @JoinColumn(name = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles = new HashSet<>();
-
-
-
-
-    public void addRole(Role role){
-        this.roles.add(role);
-    }
-
     public String getUsername(){
         return this.username;
     }
 
-    public Set<Role> getRole(){
-            return this.roles;
+    public String getRole(){
+        return this.role;
     }
-    public void updateRole(Role role) {
-        Set<Role> newRoles = new HashSet<>();
-        newRoles.add(role);
-        this.roles = newRoles;
+
+    public void updateRole(String role) {
+        this.role = role;
     }
 
     public void updateUsername(String username) {

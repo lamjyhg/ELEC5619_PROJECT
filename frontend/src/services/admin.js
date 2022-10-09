@@ -22,7 +22,6 @@ export const handleRequestToDeleteUser = (selectedUser) => {
 };
 
 export const handleRequestToGetUser = (id) => {
-    console.log("!!!!!!!!!!!!!!!!!!! "+ id);
     const config = {
         url: URL_PREFIX + '/getOne/' + id,
         method: GET,
