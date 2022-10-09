@@ -1,19 +1,90 @@
 import {
   EditingState,
-  IntegratedEditing, ViewState
+  IntegratedEditing,
+  ViewState,
 } from "@devexpress/dx-react-scheduler";
 import {
-  AppointmentForm, Appointments, AppointmentTooltip, ConfirmationDialog, DateNavigator, MonthView, Scheduler, Toolbar
+  AppointmentForm,
+  Appointments,
+  AppointmentTooltip,
+  ConfirmationDialog,
+  DateNavigator,
+  MonthView,
+  Scheduler,
+  DragDropProvider,
+  Toolbar,
 } from "@devexpress/dx-react-scheduler-material-ui";
-import { Select } from "antd";
+import { notification } from "antd";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { appointments } from "../../../utils/appointmentsMock";
-const { Option } = Select;
+
+import moment from "moment";
+import { useEffect } from "react";
+import { handleRequestToUpdateAppointment } from "../../../services/appointments.js";
+import { handleActionToGetUserAppointments } from "../../../state/appointments/appointments.action.js";
+
+const processData = (data) => {
+  console.log({ data });
+  const result = data.map((item) => {
+    return {
+      title: item.gymName,
+      startDate: new Date(item.startTime.slice(0, -10)),
+      endDate: new Date(item.endTime.slice(0, -10)),
+      id: item.id,
+      note: item.note,
+    };
+  });
+  return result;
+};
 
 export default function AppointmentsPage() {
-  let [appointmentsList, setAppointments] = useState(appointments);
-  const [currentDate, setCurrentDate] = useState(new Date("2018-06-27"));
+  const dispatch = useDispatch();
+  const { userAppointments } = useSelector((state) => state.appointments);
+  let [appointmentsList, setAppointments] = useState();
+  const [changedAppointment, setChangedAppointment] = useState();
+  const [currentDate, setCurrentDate] = useState(new Date());
+  useEffect(() => {
+    //fetch all appointment create by user
+    dispatch(handleActionToGetUserAppointments());
+  }, []);
 
+  useEffect(() => {
+    setAppointments(processData(userAppointments.appointmentList));
+  }, [userAppointments]);
+
+  useEffect(() => {
+    if (changedAppointment) {
+      //update change:
+      const requestData = {
+        id: changedAppointment.id,
+        startTime: moment(changedAppointment.startDate).format(
+          "YYYY-MM-DD HH:mm:ss"
+        ),
+        endTime: moment(changedAppointment.endDate).format(
+          "YYYY-MM-DD HH:mm:ss"
+        ),
+      };
+      console.log({ changedAppointment });
+      handleRequestToUpdateAppointment(requestData)
+        .then(() => {
+          notification.success({
+            message: "Updated",
+            description: "Appointment updated.",
+          });
+        })
+        .catch((error) => {
+          notification.success({
+            message: "Fail",
+            description: error.errors,
+          });
+        });
+    }
+  }, [changedAppointment]);
+
+  const { userInfo, isSuccess, isLoading } = useSelector(
+    (state) => state.login.loginPage
+  );
   const commitChanges = ({ added, changed, deleted }) => {
     if (added) {
       const startingAddedId =
@@ -26,11 +97,20 @@ export default function AppointmentsPage() {
       ];
     }
     if (changed) {
-      appointmentsList = appointmentsList.map((appointment) =>
-        changed[appointment.id]
-          ? { ...appointment, ...changed[appointment.id] }
-          : appointment
-      );
+      console.log({ changed });
+      appointmentsList = appointmentsList.map((appointment) => {
+        if (changed[appointment.id]) {
+          const newAppointment = {
+            ...appointment,
+            ...changed[appointment.id],
+          };
+          console.log({ appointment });
+          setChangedAppointment(newAppointment);
+          return newAppointment;
+        } else {
+          return appointment;
+        }
+      });
     }
     if (deleted !== undefined) {
       appointmentsList = appointmentsList.filter(
@@ -50,7 +130,7 @@ export default function AppointmentsPage() {
         <IntegratedEditing />
         <Toolbar />
         <DateNavigator />
-        <MonthView startDayHour={9} endDayHour={14} />
+        <MonthView startDayHour={0} endDayHour={24} />
         <ConfirmationDialog />
         <Appointments />
         <AppointmentTooltip showOpenButton showDeleteButton />

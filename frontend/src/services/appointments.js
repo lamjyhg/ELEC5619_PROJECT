@@ -1,4 +1,4 @@
-import { GET, POST, PUT } from "../constants/requests";
+import { GET, POST, PUT, DELETE } from "../constants/requests";
 import request from "../utils/request";
 const URL_PREFIX = "appointments";
 
@@ -31,6 +31,23 @@ export const handleRequestToCreateAppointment = (appointment) => {
     url: URL_PREFIX,
     method: POST,
     data: appointment,
+  };
+  return request(config).then((res) => res.data);
+};
+
+export const handleRequestToUpdateAppointment = (newAppointment) => {
+  const config = {
+    url: URL_PREFIX + "/" + newAppointment.id,
+    method: PUT,
+    data: newAppointment,
+  };
+  return request(config).then((res) => res.data);
+};
+
+export const handleRequestToDeleteAppointment = (appointment) => {
+  const config = {
+    url: URL_PREFIX + "/" + appointment.id,
+    method: DELETE,
   };
   return request(config).then((res) => res.data);
 };

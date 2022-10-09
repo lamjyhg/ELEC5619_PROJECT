@@ -94,7 +94,7 @@ export default function AppointmentForm({
         >
           <DatePicker
             showTime
-            format="YYYY-MM-DD HH:mm"
+            format="YYYY-MM-DD hh:mm"
             onChange={onStartTimeChange}
             onOk={onStarTimeOk}
           />
@@ -113,7 +113,7 @@ export default function AppointmentForm({
             showTime
             onChange={onEndTimeChange}
             onOk={onEndTimeOk}
-            format="YYYY-MM-DD HH:mm"
+            format="YYYY-MM-DD hh:mm"
           />
         </Form.Item>
         <Form.Item label="Note" name="note">

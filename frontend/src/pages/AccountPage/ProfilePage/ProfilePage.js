@@ -10,9 +10,11 @@ import {
   ConfirmationDialog,
   DayView,
   Scheduler,
+  DateNavigator,
   DragDropProvider,
+  Toolbar,
 } from "@devexpress/dx-react-scheduler-material-ui";
-import { Avatar, Row, Spin } from "antd";
+import { Avatar, notification, Row, Spin } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 
 import { CalendarOutlined, MailOutlined } from "@ant-design/icons";
@@ -20,33 +22,68 @@ import { useEffect, useState } from "react";
 import { appointments } from "../../../utils/appointmentsMock.js";
 import "./ProfilePage.scss";
 import { handleActionToGetUserAppointments } from "../../../state/appointments/appointments.action.js";
+import { handleRequestToUpdateAppointment } from "../../../services/appointments.js";
+import moment from "moment";
 const processData = (data) => {
+  console.log({ data });
   const result = data.map((item) => {
     return {
       title: item.gymName,
-      startDate: new Date(item.startTime),
-      endDate: new Date(item.endTime),
+      startDate: new Date(item.startTime.slice(0, -10)),
+      endDate: new Date(item.endTime.slice(0, -10)),
       id: item.id,
       note: item.note,
     };
   });
-  console.log({ result });
   return result;
 };
 export default function ProfilePage() {
   const dispatch = useDispatch();
+
+  const { userAppointments } = useSelector((state) => state.appointments);
+  let [appointmentsList, setAppointments] = useState();
+  const [changedAppointment, setChangedAppointment] = useState();
+  const [currentDate, setCurrentDate] = useState(new Date());
   useEffect(() => {
     //fetch all appointment create by user
     dispatch(handleActionToGetUserAppointments());
-    setAppointments(processData(userAppointments.appointmentList));
   }, []);
-  const { userAppointments } = useSelector((state) => state.appointments);
-  let [appointmentsList, setAppointments] = useState();
-  const [currentDate, setCurrentDate] = useState(new Date());
+
+  useEffect(() => {
+    setAppointments(processData(userAppointments.appointmentList));
+  }, [userAppointments]);
+
+  useEffect(() => {
+    if (changedAppointment) {
+      //update change:
+      const requestData = {
+        id: changedAppointment.id,
+        startTime: moment(changedAppointment.startDate).format(
+          "YYYY-MM-DD HH:mm:ss"
+        ),
+        endTime: moment(changedAppointment.endDate).format(
+          "YYYY-MM-DD HH:mm:ss"
+        ),
+      };
+      console.log({ changedAppointment });
+      handleRequestToUpdateAppointment(requestData)
+        .then(() => {
+          notification.success({
+            message: "Updated",
+            description: "Appointment updated.",
+          });
+        })
+        .catch((error) => {
+          notification.success({
+            message: "Fail",
+            description: error.errors,
+          });
+        });
+    }
+  }, [changedAppointment]);
   const { userInfo, isSuccess, isLoading } = useSelector(
     (state) => state.login.loginPage
   );
-
   const commitChanges = ({ added, changed, deleted }) => {
     console.log({ added, changed, deleted });
     if (added) {
@@ -58,17 +95,22 @@ export default function ProfilePage() {
         ...appointmentsList,
         { id: startingAddedId, ...added },
       ];
-      console.log("add");
     }
 
     if (changed) {
-      console.log("changedx");
-      appointmentsList = appointmentsList.map((appointment) =>
-        changed[appointment.id]
-          ? { ...appointment, ...changed[appointment.id] }
-          : appointment
-      );
-      //update change:
+      appointmentsList = appointmentsList.map((appointment) => {
+        if (changed[appointment.id]) {
+          const newAppointment = {
+            ...appointment,
+            ...changed[appointment.id],
+          };
+
+          setChangedAppointment(newAppointment);
+          return newAppointment;
+        } else {
+          return appointment;
+        }
+      });
     }
     if (deleted !== undefined) {
       appointmentsList = appointmentsList.filter(
@@ -87,8 +129,8 @@ export default function ProfilePage() {
           <Row style={{ marginBottom: "10px" }}>
             <Avatar size={50}>{userInfo.username}</Avatar>
             <div className="center_text">
-              <span>Welcome,</span>
-              <span>{userInfo.name}</span>
+              <span>Welcome</span>
+              <span>,{userInfo.name}</span>
             </div>
           </Row>
           <Row align="middle">
@@ -103,9 +145,14 @@ export default function ProfilePage() {
             <span className="center_text">Your Today's Appointments</span>
           </Row>
           <Scheduler data={appointmentsList}>
-            <ViewState currentDate={currentDate} />
+            <ViewState
+              currentDate={currentDate}
+              onCurrentDateChange={setCurrentDate}
+            />
             <EditingState onCommitChanges={commitChanges} />
             <IntegratedEditing />
+            <Toolbar />
+            <DateNavigator />
             <DayView startDayHour={0} endDayHour={24} />
             <ConfirmationDialog />
             <Appointments />

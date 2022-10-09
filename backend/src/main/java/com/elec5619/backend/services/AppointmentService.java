@@ -3,6 +3,7 @@ package com.elec5619.backend.services;
 import com.elec5619.backend.dtos.AppointmentRequestDto;
 import com.elec5619.backend.dtos.AppointmentResponseDto;
 
+import com.elec5619.backend.dtos.AppointmentUpdateTimeRequestDto;
 import com.elec5619.backend.entities.Appointment;
 import com.elec5619.backend.entities.AppointmentStatus;
 import com.elec5619.backend.entities.Gym;
@@ -98,11 +99,12 @@ public class AppointmentService {
 //    }
 
 
-    public AppointmentResponseDto update(UUID id, AppointmentRequestDto appointmentRequest) {
+    public AppointmentResponseDto update(UUID id, AppointmentUpdateTimeRequestDto appointmentRequest) {
         Appointment appointment = appointmentRepository
                 .findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Unknown id"));
-
+        appointment.setStartTime(appointmentRequest.getStartTime());
+        appointment.setEndTime(appointmentRequest.getEndTime());
         appointmentRepository.save(appointment);
         // get user email to send
         return appointmentMapper.fromEntity(appointment);

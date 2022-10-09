@@ -2,6 +2,7 @@ package com.elec5619.backend.controllers;
 
 import com.elec5619.backend.dtos.AppointmentRequestDto;
 import com.elec5619.backend.dtos.AppointmentResponseDto;
+import com.elec5619.backend.dtos.AppointmentUpdateTimeRequestDto;
 import com.elec5619.backend.dtos.GymRequestDto;
 import com.elec5619.backend.entities.AppointmentStatus;
 import com.elec5619.backend.exceptions.AuthenticationError;
@@ -64,7 +65,7 @@ public class AppointmentController {
 //        return ResponseEntity.ok(appointmentService.create(session,appointmentInfo));
 //    }
     @PutMapping("/{appointmentId}")
-    public  ResponseEntity<AppointmentResponseDto> updateAppointment(@PathVariable UUID appointmentId, @RequestBody AppointmentRequestDto appointmentInfo){
+    public  ResponseEntity<AppointmentResponseDto> updateAppointment(@PathVariable UUID appointmentId, @RequestBody AppointmentUpdateTimeRequestDto appointmentInfo){
         return ResponseEntity.ok(appointmentService.update(appointmentId,appointmentInfo));
     }
 }
