@@ -15,7 +15,7 @@ export default function GymForm({ open, onCreate, onCancel, acitonType }) {
   const clearAddress = () => {
     setAddress("");
   };
-  const handleAddressSelect = (address, placeID) => {
+  const handleAddressSelect = (address) => {
     form.setFieldValue("address", address);
     geocodeByAddress(address)
       .then(async (results) => {
