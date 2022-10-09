@@ -3,6 +3,7 @@ package com.elec5619.backend.controllers;
 import com.elec5619.backend.dtos.*;
 import com.elec5619.backend.exceptions.AuthenticationError;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -105,5 +106,12 @@ public class UserController {
             return new ResponseEntity<>("Invalid session", HttpStatus.BAD_REQUEST);
         }
 
+    }
+
+    @GetMapping("/checkAdminAuthority")
+    public  ResponseEntity checkAdminAuthority(HttpServletRequest request) throws AuthenticationError {
+        System.out.println(111111);
+        HttpSession session = request.getSession();
+        return userService.checkAdminAuthority(session);
     }
 }

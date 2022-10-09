@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router';
 import {
   clearSessionStorage,
   getToken,
+  removeAdminAuthorityToken,
   removeToken,
 } from '../../services/sessionStorage';
 import { useEffect, useState } from 'react';
@@ -15,6 +16,7 @@ const LogoutButton = ({ buttonClassName }) => {
     setIsModalVisible(false);
     clearSessionStorage();
     navigate('/login');
+    removeAdminAuthorityToken();
   };
 
   useEffect(() => {

@@ -1,58 +1,55 @@
-
-import {createSlice} from "@reduxjs/toolkit";
-import {handleLoginRequest} from "./login.action";
+import { createSlice } from '@reduxjs/toolkit';
+import { setAdminAuthorityToken } from '../../services/sessionStorage';
+import {
+  handleActionToCheckAdminAuthority,
+  handleLoginRequest,
+} from './login.action';
 
 const loginSlice = createSlice({
-    name:"login",
-    initialState:{
-       
-        loginPage:{
-            isSuccess:false,
-            isLoading:false,
-            isError:false,
-            userInfo:{},
-            errors:"",
-        },
+  name: 'login',
+  initialState: {
+    loginPage: {
+      isSuccess: false,
+      isLoading: false,
+      isError: false,
+      userInfo: {},
+      errors: '',
     },
-    extraReducers:(builder) => {
-        builder.addCase(
-            handleLoginRequest.pending, (state,action) => ({
-                ...state,
-                loginPage: {
-                    ...state.loginPage,
-                    isSuccess:false,
-                    isLoading:true,
-                    isError:false,
-                }
-
-            })
-        ).addCase(
-            handleLoginRequest.fulfilled, (state,action) => ({
-                ...state,
-                loginPage: {
-                    ...state.loginPage,
-                    userInfo:action.payload.user,
-                    isSuccess:true,
-                    isLoading:false,
-                    isError:false,
-                }
-
-            })
-        ).addCase(
-            handleLoginRequest.rejected, (state,action) => ({
-                ...state,
-                loginPage: {
-                    ...state.loginPage,
-                    isSuccess:false,
-                    isLoading:false,
-                    isError:true,
-                }
-
-            })
-        )
-
-    }
-
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(handleLoginRequest.pending, (state, action) => ({
+        ...state,
+        loginPage: {
+          ...state.loginPage,
+          isSuccess: false,
+          isLoading: true,
+          isError: false,
+        },
+      }))
+      .addCase(handleLoginRequest.fulfilled, (state, action) => {
+        setAdminAuthorityToken(action.payload.adminAuthorityToken);
+        return {
+          ...state,
+          loginPage: {
+            ...state.loginPage,
+            userInfo: action.payload.user,
+            isSuccess: true,
+            isLoading: false,
+            isError: false,
+          },
+        };
+      })
+      .addCase(handleLoginRequest.rejected, (state, action) => ({
+        ...state,
+        loginPage: {
+          ...state.loginPage,
+          isSuccess: false,
+          isLoading: false,
+          isError: true,
+        },
+      }));
+  },
 });
 
 export default loginSlice.reducer;

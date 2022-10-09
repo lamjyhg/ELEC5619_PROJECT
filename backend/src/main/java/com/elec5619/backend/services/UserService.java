@@ -162,6 +162,9 @@ public class UserService {
                 Map<String, Object> response = new HashMap<String, Object>();
                 response.put("token", token);
                 response.put("user", loginMapper.fromEntity(checkUser.get()));
+                if(user.isAdmin()){
+                    response.put("adminAuthorityToken", token);
+                }
                 return new ResponseEntity<>(response, HttpStatus.OK);
             }
 
@@ -278,5 +281,15 @@ public class UserService {
         return new ResponseEntity<>("invalid old password", HttpStatus.BAD_REQUEST);
 
 
+    }
+    public ResponseEntity checkAdminAuthority(HttpSession session) throws AuthenticationError {
+        User user = getUserByToken(session);
+        //JsonObject object
+        if(!user.isAdmin()){
+            throw new AuthenticationError("Unauthorized to be admin");
+        }
+        Map<String, Object> response = new HashMap<String, Object>();
+        response.put("adminAuthorityToken", session.getAttribute("token"));
+        return ResponseEntity.ok(response);
     }
 }

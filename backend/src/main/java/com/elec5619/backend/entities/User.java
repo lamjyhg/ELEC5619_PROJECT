@@ -22,7 +22,7 @@ public class User {
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
-    @Column(name = "id", columnDefinition = "BINARY(16)",updatable = false, nullable = false)
+    @Column(name = "id", columnDefinition = "BINARY(16)", updatable = false, nullable = false)
     private UUID id;
 
     @Column(name = "email", unique = false, nullable = false)
@@ -44,9 +44,8 @@ public class User {
     private Boolean active = false;
 
 
-
     @Override
-    public String toString(){
+    public String toString() {
         return "\nid: " + this.id +
                 "\nemail: " + this.email +
                 "\npassword: " + this.password +
@@ -69,26 +68,30 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
 
-
-
-    public void addRole(Role role){
+    public void addRole(Role role) {
         this.roles.add(role);
     }
 
-    public String getUsername(){
+    public String getUsername() {
         return this.username;
     }
 
-    public Set<Role> getRole(){
-            return this.roles;
+    public Set<Role> getRole() {
+        return this.roles;
     }
+
     public void updateRole(Role role) {
         Set<Role> newRoles = new HashSet<>();
         newRoles.add(role);
         this.roles = newRoles;
     }
-    public void addGyms(Gym gym){
+
+    public void addGyms(Gym gym) {
         gyms.add(gym);
+    }
+
+    public Boolean isAdmin() {
+        return false;
     }
 
 }

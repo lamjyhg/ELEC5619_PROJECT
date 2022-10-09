@@ -1,19 +1,22 @@
-import { Button, Layout } from "antd";
-import { Header, Footer } from "antd/lib/layout/layout";
-import { Outlet, useNavigate } from "react-router-dom";
-import AccountPageMenu from "../../components/AccountPageMenu/AccountPageMenu";
-import LogoutButton from "../../components/LogoutButton/LogoutButton";
-import "./AccountPage.scss";
-import logo from "./../../image/gymmy.png";
+import { Button, Layout } from 'antd';
+import { Header, Footer } from 'antd/lib/layout/layout';
+import { Outlet, useNavigate } from 'react-router-dom';
+import AccountPageMenu from '../../components/AccountPageMenu/AccountPageMenu';
+import LogoutButton from '../../components/LogoutButton/LogoutButton';
+import './AccountPage.scss';
+import logo from './../../image/gymmy.png';
 import {
   MenuFoldOutlined,
   CloseOutlined,
   MenuUnfoldOutlined,
-} from "@ant-design/icons";
-import { useEffect, useState } from "react";
+} from '@ant-design/icons';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { getAdminAuthorityToken } from '../../services/sessionStorage';
 const { Sider, Content } = Layout;
 const AccountPage = () => {
   const navigate = useNavigate();
+  const adminAuthorityToken = getAdminAuthorityToken();
 
   const [disPlaySiderBar, setDisPlaySiderBar] = useState(false);
 
@@ -31,7 +34,11 @@ const AccountPage = () => {
             alt="logo"
             className="accountPage__siderBar__logo"
             onClick={() => {
-              navigate("/");
+              if (adminAuthorityToken) {
+                navigate('/admin');
+              } else {
+                navigate('/');
+              }
             }}
           ></img>
           <AccountPageMenu></AccountPageMenu>
@@ -51,7 +58,7 @@ const AccountPage = () => {
             <LogoutButton buttonClassName="accountPage__header__logoutButton"></LogoutButton>
           </Header>
           <Content className="accountPage__content">
-            {" "}
+            {' '}
             <Outlet></Outlet>
           </Content>
         </Layout>

@@ -14,6 +14,7 @@ import { clearSessionStorage, getToken } from '../../services/sessionStorage';
 import { getItem } from '../../utils/antdHandlers';
 import logo from '../../image/gymmy.png';
 import './NavBar.scss';
+import { useSelector } from 'react-redux';
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -35,14 +36,12 @@ const usersAccountItems = [
 //   getItem('Users', 'users'),
 //   getItem('Gym Requests', 'gym-requests'),
 // ];
-
 const guestAccountItems = [
   getItem('', 'login', <UserOutlined id="navbar__container__account__logo" />),
 ];
 
 const NavBar = () => {
   const navigate = useNavigate();
-  const [theme, setTheme] = useState('dark');
   const [items, setItems] = useState(
     getToken() ? usersAccountItems : guestAccountItems
   );
@@ -54,10 +53,6 @@ const NavBar = () => {
       return;
     }
     navigate(e.keyPath.join('/'));
-  };
-
-  const changeTheme = (value) => {
-    setTheme(value ? 'dark' : 'light');
   };
 
   const logout = () => {

@@ -1,7 +1,10 @@
 import { Menu } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getToken } from '../../services/sessionStorage';
+import {
+  getAdminAuthorityToken,
+  getToken,
+} from '../../services/sessionStorage';
 import { getItem } from '../../utils/antdHandlers';
 import {
   SolutionOutlined,
@@ -11,6 +14,7 @@ import {
   UserSwitchOutlined,
   AuditOutlined,
 } from '@ant-design/icons';
+import { useSelector } from 'react-redux';
 
 const userItems = [
   getItem('Profile', 'profile', <UserOutlined />),
@@ -34,14 +38,19 @@ const adminItems = [
     getItem('Log out', 'logout'),
   ]*/
 const AccountPageMenu = () => {
-  const isUser = true;
-  const [items, setItems] = useState(isUser ? userItems : adminItems);
+  const [items, setItems] = useState(userItems);
   const navigate = useNavigate();
 
   const onClick = (e) => {
     console.log(e.keyPath);
     navigate(e.keyPath.reverse().join('/'));
   };
+  useEffect(() => {
+    const adminAuthorityToken = getAdminAuthorityToken();
+    if (adminAuthorityToken) {
+      setItems(adminItems);
+    }
+  }, []);
 
   return (
     <Menu

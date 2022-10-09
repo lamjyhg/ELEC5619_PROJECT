@@ -21,6 +21,7 @@ import ErrorPage from '../pages/ErrorPage/ErrorPage';
 import ForgetPasswordPage from '../pages/ForgetPasswordPage/ForgetPasswordPage';
 import ForgetPasswordCheckPage from '../pages/ForgetPasswordPage/ForgetPasswordCheckPage';
 import ActivatePage from '../pages/ActivatePage/ActivatePage';
+import AdminProtectedLayout from '../components/AdminProtectedLayout/AdminProtectedLayout';
 
 const Router = () => {
   return (
@@ -33,14 +34,18 @@ const Router = () => {
         element={<ForgetPasswordCheckPage />}
       />
       <Route path="/register" element={<RegisterPage />}></Route>
-      <Route path="/*" element={<ErrorPage></ErrorPage>}></Route>
+      <Route
+        path="/*"
+        element={<ErrorPage isAdmin={false}></ErrorPage>}
+      ></Route>
 
       <Route path="/" element={<MainLayout />}>
         <Route path="" element={<MainPage></MainPage>}></Route>
         <Route path="gyms" element={<GymsPage />} />
         <Route path="gyms/:GID" element={<SingleGymPage />} />
       </Route>
-      <Route path="/admin" element={<ProtectedLayout />}>
+
+      <Route path="/admin" element={<AdminProtectedLayout />}>
         <Route path="" element={<AccountPage />}>
           <Route path="" element={<AdminMainPage />}></Route>
           <Route
@@ -56,6 +61,10 @@ const Router = () => {
             path="gymRequests/:id"
             element={<GymRequestPage></GymRequestPage>}
           ></Route>
+          <Route
+            path="error"
+            element={<ErrorPage isAdmin={true}></ErrorPage>}
+          />
         </Route>
       </Route>
       <Route path="/account" element={<ProtectedLayout />}>
