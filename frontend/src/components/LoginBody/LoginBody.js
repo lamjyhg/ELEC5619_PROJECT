@@ -7,9 +7,11 @@ import {
 } from '@ant-design/icons';
 import { Input } from 'antd';
 import { PoweroffOutlined } from '@ant-design/icons';
-import { Button, Space } from 'antd';
+import { Button, Space,notification } from 'antd';
+
 
 import React, { useEffect, useState } from 'react';
+import {FrownTwoTone} from "@ant-design/icons"
 
 import './LoginBody.scss';
 import logo from '../../image/gymmy.png';
@@ -24,7 +26,7 @@ import {
 } from '../../services/sessionStorage';
 
 const LoginBody = () => {
-  const { isSuccess, isLoading, isError } = useSelector(
+  const { isSuccess, isLoading, isError, errors } = useSelector(
     (state) => state.login.loginPage
   );
   const adminAuthorityToken = getAdminAuthorityToken();
@@ -32,18 +34,13 @@ const LoginBody = () => {
 
   const navigate = useNavigate();
 
-  if (isSuccess) {
-    if (adminAuthorityToken) {
-      navigate('/admin');
-    } else {
-      navigate('/');
-    }
-  }
 
   const dispatch = useDispatch();
 
   const [submitText, setSubmitText] = useState('Login');
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
+  const [emailText, setEmailText] = useState("");
+  const [passwordText, setPasswordText] = useState("");
 
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -56,18 +53,65 @@ const LoginBody = () => {
     setPassword(evt.target.value);
   };
 
+
+const openNotification = () => {
+  notification.destroy();
+  notification.open({
+    message: 'Wrong password!',
+    description:
+        'Email does not exist or password is incorrect, please try again.',
+    icon: <FrownTwoTone twoToneColor="#FF0000" />,
+  });
+};
+
   const submit = () => {
+
+    setEmailText("");
+    setPasswordText("")
+
+    var isErr = false;
+
+    if(!email){
+      setEmailText("Email cannot be empty")
+      isErr = true
+    }
+
+    if(!password){
+      setPasswordText("password cannot be empty")
+      isErr = true
+    }
+
     const userInput = {
       email: email,
       password: password,
     };
 
-    const handleLogin = async () => {
-      await dispatch(handleLoginRequest(userInput));
-    };
 
-    handleLogin();
+    if(!isErr){
+      const handleLogin = async () => {
+        await dispatch(handleLoginRequest(userInput));
+      };
+
+      handleLogin();
+    }
+
+
   };
+
+  useEffect( () => {
+    if (isSuccess) {
+      if (adminAuthorityToken) {
+        navigate('/admin');
+      } else {
+        navigate('/');
+      }
+    }
+
+    if(isError){
+
+      openNotification();
+    }
+  }, [isSuccess, isError])
 
   return (
     <div className="login-container">
@@ -78,6 +122,7 @@ const LoginBody = () => {
 
         <div className="login-item" onChange={emailOnchange}>
           <Input id="username" placeholder="email" prefix={<UserOutlined />} />
+          <div className="login-item-error">{emailText}</div>
         </div>
 
         <div className="login-item" id="password" onChange={passwordOnchange}>
@@ -89,6 +134,8 @@ const LoginBody = () => {
               visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
             }
           />
+
+          <div className="login-item-error">{passwordText}</div>
         </div>
 
         <div className="login-item" id="buttonItem" onClick={submit}>

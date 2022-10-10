@@ -22,8 +22,8 @@ public class ForgetPasswordController {
     private final ForgetPasswordService forgetPasswordService;
 
     @PostMapping("/forget_password")
-    public  void sendEmail(@RequestBody ForgetPasswordRequest request) throws IOException {
-        forgetPasswordService.sendEmail(request.getEmail());
+    public  ResponseEntity sendEmail(@RequestBody ForgetPasswordRequest request) throws IOException {
+        return forgetPasswordService.sendEmail(request.getEmail());
     }
 
 

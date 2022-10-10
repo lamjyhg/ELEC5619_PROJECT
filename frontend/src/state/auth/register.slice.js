@@ -43,6 +43,7 @@ const registerSlice = createSlice({
                     isSuccess:false,
                     isLoading:false,
                     isError:true,
+                    errors:action.payload
                 }
 
             })

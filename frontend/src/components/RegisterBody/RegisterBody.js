@@ -15,6 +15,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {handleRegisterRequest} from "../../state/auth/register.action";
 import {isPending} from "@reduxjs/toolkit";
 import {useNavigate} from "react-router-dom";
+import {isContainSpecialCharts, isSameString} from "../../utils/inputUtiles";
 
 const RegisterBody = () => {
 
@@ -38,7 +39,15 @@ const RegisterBody = () => {
     const fullnameOnchange = (evt) => {setName(evt.target.value)}
 
 
-    const {isSuccess, isLoading, isError } = useSelector(
+    const [emailText, setEmailText] = useState(" ");
+    const [usernameText, setUsernameText] = useState(" ");
+    const [passwordText, setPassowrdText] = useState(" ");
+    const [rePasswordText, setRepasswordText] = useState(" ");
+    const [nameText, setNameText] = useState(" ")
+
+
+
+    const {isSuccess, isLoading, isError, errors } = useSelector(
         (state) => state.register.registerPage
     );
 
@@ -49,30 +58,138 @@ const RegisterBody = () => {
 
 
     const submit = () => {
-        const userInput = {
-            "email":email,
-            "password":password,
-            "username":username,
-            "name":name,
-            "type":"unset",
+
+        var isErr = false;
+
+        setRepasswordText("");
+        setEmailText("");
+        setUsernameText("");
+        setPassowrdText("");
+        setRepasswordText("");
+        setNameText("");
+
+
+        if(password && password.length < 8){
+            setPassowrdText(" Password must have more than 8 characters.");
+            isErr = true
+        }
+
+        if(isContainSpecialCharts(password)){
+            isErr = true
+            setPassowrdText("Special characters are not allowed")
+        }
+
+        if(isContainSpecialCharts(username)){
+            isErr = true
+            setUsernameText("Special characters are not allowed")
         }
 
 
-        // registerService(userInput)
-        //     .then(res => console.log(res))
-        //     .catch(err => console.log(err))
-        const handleRegister = async () => {
-            await dispatch(handleRegisterRequest(userInput));
-        };
+        if(isContainSpecialCharts(name)){
+            isErr = true
+            setNameText("Special characters are not allowed")
+        }
+
+        if(isContainSpecialCharts(email)){
+            isErr = true
+            setEmailText("Special characters are not allowed")
+        }
 
 
-        handleRegister()
+
+
+
+        if(!isSameString(password, rePassword)){
+            isErr = true;
+            setRepasswordText("2 passwords must be same");
+        }
+
+        if(!email || email===" "){
+            isErr = true;
+            setEmailText("Email cannot be empty");
+        }
+
+        if(!username || email===" "){
+            isErr = true
+            setUsernameText("Username cannot be empty");
+        }
+
+        if(!password || email===" "){
+            isErr = true
+            setPassowrdText("Password cannot be empty");
+        }
+
+        if(!rePassword){
+            isErr = true
+            setRepasswordText("Re-entered password cannot be empty");
+        }
+
+        if(!name){
+            isErr = true
+            setNameText("Name cannot be empty")
+        }
+
+
+
+        if(!isErr){
+
+            const userInput = {
+                "email":email,
+                "password":password,
+                "username":username,
+                "name":name,
+                "type":"unset",
+            }
+
+            const handleRegister = async () => {
+                await dispatch(handleRegisterRequest(userInput));
+            };
+
+
+            handleRegister()
+        }
+
     }
 
 
-    if(isSuccess){
-        navigate("/login")
-    }
+    useEffect( () =>{
+        if(isSuccess){
+            navigate("/login")
+        }
+
+        if(isError){
+            console.log(errors)
+
+            if(errors){
+                if(errors.errors){
+                    if (errors.errors[0] === 'Invalid email format') {
+                        setEmailText("Invalid email format")
+                    }
+                }
+            }
+
+            if(errors === "This email has been registered."){
+                setEmailText(errors)
+            }
+
+            if(errors === "This email has been registered."){
+                setEmailText(errors)
+            }
+
+            if(errors === "This username has been registered."){
+                setUsernameText(errors)
+            }
+
+
+            if(errors === "This username has been registered."){
+                setUsernameText(errors)
+            }
+        }
+    }, [isSuccess, isError])
+
+
+
+
 
 
 
@@ -86,28 +203,36 @@ const RegisterBody = () => {
 
                 <div className='register-item' id='logo'>
                     <img id="register-logo" src={logo}></img>
+
                 </div>
 
 
                 <div className="register-item" onChange={emailOnchange}>
-                    <Input  id='email' placeholder="email" prefix={<UserOutlined />} />
+                    <Input id='email' placeholder="email" prefix={<UserOutlined />} />
+                    <div className="register-item-error">{emailText}</div>
                 </div>
+
+
 
                 <div className="register-item" onChange={usernameOnchange}>
                     <Input  id='username' placeholder="username" prefix={<UserOutlined />} />
+                    <div className="register-item-error">{usernameText}</div>
                 </div>
 
 
                 <div className="register-item" onChange={fullnameOnchange}>
                     <Input  id='fullname' placeholder="full name" prefix={<UserOutlined />} />
+                    <div className="register-item-error">{nameText}</div>
                 </div>
 
                 <div className="register-item" id='password' onChange={passwordOnchange}>
                     <Input.Password id='password' placeholder="Password" prefix={<FileTextOutlined />} iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}/>
+                    <div className="register-item-error">{passwordText}</div>
                 </div>
 
                 <div className="register-item" onChange={rePasswordOnchange}>
                     <Input.Password id='re_password' placeholder="Re-enter Password" prefix={<FileTextOutlined />} iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}/>
+                    <div className="register-item-error">{rePasswordText}</div>
                 </div>
 
                 <div className="register-item" id='buttonItem' onClick={submit}>
