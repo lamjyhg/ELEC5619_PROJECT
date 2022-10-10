@@ -1,11 +1,14 @@
 import React, {useCallback, useEffect, useState} from "react"
 import { Button } from 'antd';
-import { MailOutlined } from '@ant-design/icons';
-import { Input } from 'antd';
+import {FrownTwoTone, MailOutlined} from '@ant-design/icons';
+import { Input, notification } from 'antd';
 
 import "./ForgetPassword.scss"
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+
+
+import validator from "validator"
 
 
 
@@ -15,13 +18,46 @@ export const ForgetPassword = () => {
     const [email, setEmail] = useState();
     const navigate = useNavigate();
 
+    const openNotification = (error) => {
+        notification.destroy();
+        notification.open({
+            message: 'Invalid email',
+            description:
+                error,
+            icon: <FrownTwoTone twoToneColor="#FF0000" />,
+        });
+    };
+
+
+    const toLogin = () => {
+        navigate("/Login")
+    }
+
+
+
+
     const sendEmail = () => {
-        console.log(email)
+
+
+
+
+
+
         if(email){
-            console.log("send")
-            axios.post("http://localhost:8080/forget_password", {"email":email})
-                .then(res => console.log(res))
-                .catch(err => console.log(err))
+
+            if(!validator.isEmail(email)){
+                openNotification("Invalid email format")
+            }else{
+                axios.post("http://localhost:8080/forget_password", {"email":email})
+                    .then(res => navigate("/email_sent"))
+                    .catch(err => {
+                        openNotification(err.response.data)
+                    })
+            }
+
+
+        }else{
+            openNotification("Email cannot be empty")
         }
     }
 
@@ -43,9 +79,16 @@ export const ForgetPassword = () => {
 
 
 
-            <div className="change-password-item" onClick={sendEmail}>
-                <Button  type="primary">Send</Button>
+            <div className="same-line-wrapper">
+                <div className="change-password-item" onClick={sendEmail}>
+                    <Button  type="primary">Send</Button>
+                </div>
+
+                <div className="change-password-item" onClick={toLogin}>
+                    <a href="#">To login</a>
+                </div>
             </div>
+
 
         </div>
     )

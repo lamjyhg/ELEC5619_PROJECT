@@ -22,10 +22,12 @@ import ForgetPasswordPage from '../pages/ForgetPasswordPage/ForgetPasswordPage';
 import ForgetPasswordCheckPage from '../pages/ForgetPasswordPage/ForgetPasswordCheckPage';
 import ActivatePage from '../pages/ActivatePage/ActivatePage';
 import AdminProtectedLayout from '../components/AdminProtectedLayout/AdminProtectedLayout';
+import EmailSentPage from "../pages/EmailSentPage/EmailSentPage";
 
 const Router = () => {
   return (
     <Routes>
+        <Route path="/email_sent" element={<EmailSentPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/forget_password" element={<ForgetPasswordPage />} />
       <Route path="/activate/:token" element={<ActivatePage />} />

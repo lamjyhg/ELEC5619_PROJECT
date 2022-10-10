@@ -74,14 +74,20 @@ public class ForgetPasswordService {
         return new ResponseEntity<>("reset failed", HttpStatus.BAD_REQUEST);
     }
 
-    public void sendEmail(String email) throws IOException {
+    public ResponseEntity sendEmail(String email) throws IOException {
         Optional<User> userOptional = userRepository.getUserByEmail(email);
 
         if(userOptional.isPresent()){
             User user = userOptional.get();
             String hash = hashGenerator.generateHash();
             String html = emailHtmlHandlers.getForgetPasswordEmailHtml(hash);
-            emailSendingHanlderImple.send(email, "Gymmy: Reset password", html);
+
+            try{
+                emailSendingHanlderImple.send(email, "Gymmy: Reset password", html);
+            }catch (Exception e){
+                return new ResponseEntity<>("Send email failed, internal server error", HttpStatus.BAD_REQUEST);
+            }
+
 
 
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -91,7 +97,6 @@ public class ForgetPasswordService {
 
             Optional<UserForgetPassword> check = userForgetPasswordRepository.getUserForgetPasswordByUid(user.getId());
 
-            System.out.println("\n\n" + check.isPresent() +" " + user.getId());
 
             if(check.isPresent()){
                 UserForgetPassword userForgetPassword = check.get();
@@ -106,8 +111,14 @@ public class ForgetPasswordService {
                 userForgetPasswordRepository.save(newObj);
             }
 
+            return new ResponseEntity<>("Send email success", HttpStatus.OK);
 
         }
+
+//        return new ResponseEntity<>("Invalid user email, login status error", HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<>("Send email success", HttpStatus.OK);
     }
+
 
 }

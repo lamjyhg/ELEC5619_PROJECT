@@ -47,6 +47,7 @@ const loginSlice = createSlice({
           isSuccess: false,
           isLoading: false,
           isError: true,
+          errors: action.payload
         },
       }));
   },

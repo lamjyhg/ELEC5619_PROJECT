@@ -5,8 +5,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {handleActionToGetReviews} from "../../state/Review/review.action";
 import {handleActionToCheckHash} from "../../state/forgetPassword/forgetPassword.action";
 import "./ForgetPasswordCheck.scss"
-import { Input, Space } from 'antd';
-import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
+import {Input, notification, Space} from 'antd';
+import {EyeInvisibleOutlined, EyeTwoTone, FrownTwoTone} from '@ant-design/icons';
 import gymmy from '../../image/gymmy.png'
 import { Button } from 'antd';
 import {handleActionToResetPassword} from "../../state/forgetPassword/forgetPasswordReset.action";
@@ -34,26 +34,62 @@ export const ForgetPasswordCheck = () => {
         navigate("/")
     }
 
-    const navigateToForgetPassword = () => {
-        navigate("/localhost")
-    }
+    const openNotification = (error) => {
+        notification.destroy();
+        notification.open({
+            message: 'Invalid Password',
+            description:
+            error,
+            icon: <FrownTwoTone twoToneColor="#FF0000" />,
+        });
+    };
 
 
-    if(isSuc){
-        navigate("/Login")
-    }
+    useEffect(() => {
+
+        if(isSuc){
+            navigate("/Login")
+        }
+
+        if(isError){
+
+            return(
+                <div className="errorPage">
+                    <h1>Link is invalid or expired</h1>
+                    <Lottie animationData={error} />
+                    <Button type="primary" shape="round" onClick={navigateToHome}>
+                        Home Page
+                    </Button>
+                </div>
+            )
+        }
+
+
+    }, [isSuc, isSuccess, isError])
+
 
 
 
     const sendPassword = () => {
 
+
+
         if(password){
-            const handleResetPassword = async () => {
-                await dispatch(handleActionToResetPassword({hash, password}))
+            if(password.length < 8){
+                openNotification("The length of the password must be longer than 8 characters!")
+            }else{
+                const handleResetPassword = async () => {
+                    await dispatch(handleActionToResetPassword({hash, password}))
+                }
+
+                handleResetPassword();
             }
 
-            handleResetPassword();
+        }else{
+            openNotification("Password cannot be empty!")
         }
+
+
     }
 
 
@@ -92,18 +128,7 @@ export const ForgetPasswordCheck = () => {
         )
     }
 
-    if(isError){
 
-        return(
-            <div className="errorPage">
-                <h1>Link is invalid or expired</h1>
-                <Lottie animationData={error} />
-                <Button type="primary" shape="round" onClick={navigateToHome}>
-                    Home Page
-                </Button>
-            </div>
-        )
-    }
 
 
     // if(isError){
