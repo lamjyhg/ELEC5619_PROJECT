@@ -125,3 +125,11 @@ export const handleRequestToDisapproveApplication = (gym_id) => {
 
   return request(config).then((res) => res.data);
 };
+
+export const handleRequestToGetGymsBySearchWord = (searchWord) => {
+  const config = {
+    url: URL_PREFIX + '?searchWord=' + searchWord,
+    method: GET,
+  };
+  return request(config).then((res) => res.data);
+};

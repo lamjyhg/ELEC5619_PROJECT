@@ -8,6 +8,7 @@ import {
   handleRequestToDisapproveApplication,
   handleRequestToGetOwnerGyms,
   handleRequestToUpdateGym,
+  handleRequestToGetGymsBySearchWord,
 } from '../../services/gyms';
 
 export const handleActionToGetGyms = createAsyncThunk(
@@ -93,6 +94,17 @@ export const handleActionToUpdateGym = createAsyncThunk(
   async (params, thunkAPI) => {
     try {
       return await handleRequestToUpdateGym(params.gymId, params.body);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const handleActionToGetGymsBySearchWord = createAsyncThunk(
+  'GET_GYMS_BY_SEARCH_WORD',
+  async (params, thunkAPI) => {
+    try {
+      return await handleRequestToGetGymsBySearchWord(params);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }

@@ -32,4 +32,6 @@ public interface GymRepository extends JpaRepository<Gym, UUID> {
 
     public List<Gym> findAllByOwnerId(UUID ownerId);
 
+    @Query(value = "SELECT * FROM gym WHERE name like ?1 ;" , nativeQuery = true)
+    public List<Gym> findAllGymBySearchWord(@Param("searchWord") String searchWord);
 }

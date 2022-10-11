@@ -62,9 +62,15 @@ public class GymController {
         return ResponseEntity.ok(review);
     }
 
-    @GetMapping
-    public ResponseEntity<List<GymResponseDto>> findAllGyms(HttpSession session) throws IOException {
-        return ResponseEntity.ok(gymService.findAll(session));
+    @GetMapping("")
+    public ResponseEntity<List<GymResponseDto>> findAllGyms(@RequestParam(name = "searchWord", required = false) String searchWord) throws IOException {
+        if(searchWord!= null){
+            System.out.println("searchword is " + searchWord);
+            return ResponseEntity.ok(gymService.findAllBySearchWord(searchWord));
+        }else{
+            System.out.println("NULL searchword");
+            return ResponseEntity.ok(gymService.findAll());
+        }
     }
 
 

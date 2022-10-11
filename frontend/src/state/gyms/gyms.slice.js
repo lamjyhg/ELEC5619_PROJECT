@@ -9,6 +9,7 @@ import {
   handleActionToGetOwnerGyms,
   handleActionToGetSingleGym,
   handleActionToUpdateGym,
+  handleActionToGetGymsBySearchWord,
 } from './gyms.action';
 
 const gymsSlice = createSlice({
@@ -223,6 +224,37 @@ const gymsSlice = createSlice({
           isError: true,
           isSuccess: false,
           requestType: POST,
+        },
+      }))
+      .addCase(handleActionToGetGymsBySearchWord.pending, (state, action) => ({
+        ...state,
+        gymsPage: {
+          ...state.gymsPage,
+          isLoading: true,
+          isError: false,
+          isSuccess: false,
+        },
+      }))
+      .addCase(
+        handleActionToGetGymsBySearchWord.fulfilled,
+        (state, action) => ({
+          ...state,
+          gymsPage: {
+            ...state.gymsPage,
+            isLoading: false,
+            isError: false,
+            isSuccess: true,
+            gymsList: action.payload,
+          },
+        })
+      )
+      .addCase(handleActionToGetGymsBySearchWord.rejected, (state, action) => ({
+        ...state,
+        gymsPage: {
+          ...state.gymsPage,
+          isLoading: false,
+          isError: true,
+          isSuccess: false,
         },
       }));
     //
