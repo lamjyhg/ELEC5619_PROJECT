@@ -44,7 +44,7 @@ public class Gym {
     private String imageUrl;
 
     @Column(name = "maximum_of_appointments")
-    private String maximumOfAppointments;
+    private Integer maximumOfAppointments;
 
     @Type(type = "json")
     @Column(columnDefinition = "json", name = "geoLocation")

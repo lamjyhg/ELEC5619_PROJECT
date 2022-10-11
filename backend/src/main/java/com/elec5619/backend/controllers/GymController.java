@@ -81,16 +81,12 @@ public class GymController {
         return ResponseEntity.ok(gymService.findOneById(gymId));
     }
     @PostMapping(value ="")
-    public ResponseEntity<GymResponseDto> createGym(@Valid @RequestBody GymRequestDto gymRequestDtoBody, HttpServletRequest request) throws AuthenticationError {
-        System.out.println("hk");
-//        System.out.println(gymRequestDtoBody);
-        System.out.println(request);
-//        System.out.println(imageFile);
+    public ResponseEntity<GymApplicationResponseDto> createGym(@Valid @RequestBody GymRequestDto gymRequestDtoBody, HttpServletRequest request) throws AuthenticationError {
         HttpSession session = request.getSession();
         return ResponseEntity.ok(gymService.create(gymRequestDtoBody, session));
     }
     @PostMapping(value ="/gym-photos",consumes = "multipart/form-data")
-    public ResponseEntity createGym(HttpServletRequest request ,@RequestParam(name = "imageFile", required = false) MultipartFile imageFile) throws AuthenticationError {
+    public ResponseEntity uploadImage(HttpServletRequest request ,@RequestParam(name = "imageFile", required = false) MultipartFile imageFile) throws AuthenticationError {
         System.out.println("hk");
 //        System.out.println(gymRequestDtoBody);
         System.out.println(request);
@@ -101,7 +97,7 @@ public class GymController {
 
 
     @PutMapping("/{gymId}")
-    public ResponseEntity<GymResponseDto> updateGym(@PathVariable UUID gymId, @Valid @RequestBody GymRequestDto gymRequestDtoBody) {
+    public ResponseEntity<GymApplicationResponseDto> updateGym(@PathVariable UUID gymId, @Valid @RequestBody GymRequestDto gymRequestDtoBody) {
         return ResponseEntity.ok(gymService.update(gymId, gymRequestDtoBody));
     }
 
@@ -110,6 +106,13 @@ public class GymController {
         return ResponseEntity.ok(gymService.getAllRequest());
         //return ResponseEntity.ok("ok");
     }
+    
+    @GetMapping("/gymOwner")
+    public ResponseEntity<List<GymApplicationResponseDto>> findOwnerGyms(HttpServletRequest request) throws AuthenticationError{
+        HttpSession session = request.getSession();
+        return ResponseEntity.ok(gymService.findAllOwnerGyms(session));
+    }
+
 
     @PostMapping("/application/{gym_id}/approve")
     public ResponseEntity approveApplication(@PathVariable(name = "gym_id")UUID gym_id) {

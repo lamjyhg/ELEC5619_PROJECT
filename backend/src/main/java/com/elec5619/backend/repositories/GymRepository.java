@@ -29,4 +29,7 @@ public interface GymRepository extends JpaRepository<Gym, UUID> {
 
     @Query(value = "SELECT * FROM gym WHERE gym_application_status=0;" , nativeQuery = true)
     public List<Gym> getPendingGymRequests();
+
+    public List<Gym> findAllByOwnerId(UUID ownerId);
+
 }

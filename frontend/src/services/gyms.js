@@ -1,11 +1,11 @@
-import { GET, POST } from "../constants/requests";
-import request from "../utils/request";
-import {handleActionToApproveApplication} from "../state/gyms/gyms.action";
-const URL_PREFIX = "gyms";
+import { handleActionToApproveApplication } from '../state/gyms/gyms.action';
+import { GET, POST, PUT, UPDATE } from '../constants/requests';
+import request from '../utils/request';
+const URL_PREFIX = 'gyms';
 
 export const handleRequestToGetGyms = () => {
   const config = {
-    url: URL_PREFIX + "",
+    url: URL_PREFIX + '',
     method: GET,
   };
 
@@ -14,7 +14,7 @@ export const handleRequestToGetGyms = () => {
 
 export const handleRequestToGetSingleGym = (UUID) => {
   const config = {
-    url: URL_PREFIX + "/" + UUID,
+    url: URL_PREFIX + '/' + UUID,
     method: GET,
   };
 
@@ -33,7 +33,7 @@ export const handleRequestToCreateGym = (data) => {
 
 export const handleRequestToSaveGymPhoto = (data) => {
   const config = {
-    url: URL_PREFIX + "/gym-photos",
+    url: URL_PREFIX + '/gym-photos',
     method: POST,
     data,
   };
@@ -41,7 +41,7 @@ export const handleRequestToSaveGymPhoto = (data) => {
 };
 export const handleRequestToGetNearbyGyms = (lat, lng) => {
   const config = {
-    url: URL_PREFIX + "/findAllNearby?latitude=" + lat + "&longitude=" + lng,
+    url: URL_PREFIX + '/findAllNearby?latitude=' + lat + '&longitude=' + lng,
     method: GET,
   };
 
@@ -54,7 +54,7 @@ export const handleRequestToSubmitReview = (
   gym_id,
   user_id
 ) => {
-  const date = new Date().toJSON().slice(0, 10).replace(/-/g, "/");
+  const date = new Date().toJSON().slice(0, 10).replace(/-/g, '/');
 
   const data = {
     comment: comment,
@@ -65,7 +65,7 @@ export const handleRequestToSubmitReview = (
   };
 
   const config = {
-    url: URL_PREFIX + "/" + gym_id + "/create_review",
+    url: URL_PREFIX + '/' + gym_id + '/create_review',
     method: POST,
     data: data,
   };
@@ -75,7 +75,7 @@ export const handleRequestToSubmitReview = (
 
 export const handleRequestToGetReview = (gym_id) => {
   const config = {
-    url: URL_PREFIX + "/" + gym_id + "/reviews" + "?gym_id=" + gym_id,
+    url: URL_PREFIX + '/' + gym_id + '/reviews' + '?gym_id=' + gym_id,
     method: GET,
   };
 
@@ -84,17 +84,34 @@ export const handleRequestToGetReview = (gym_id) => {
 
 export const handleRequestToGetAllApplication = () => {
   const config = {
-    url: URL_PREFIX + "/getAllRequest",
+    url: URL_PREFIX + '/getAllRequest',
     method: GET,
   };
 
   return request(config).then((res) => res.data);
 };
 
+export const handleRequestToGetOwnerGyms = () => {
+  const config = {
+    url: URL_PREFIX + '/gymOwner',
+    method: GET,
+  };
+  return request(config).then((res) => res.data);
+};
+
 export const handleRequestToApproveApplication = (gym_id) => {
   const config = {
-    url: URL_PREFIX + "/application/" + gym_id + "/approve",
+    url: URL_PREFIX + '/application/' + gym_id + '/approve',
     method: POST,
+  };
+  return request(config).then((res) => res.data);
+};
+
+export const handleRequestToUpdateGym = (gym_id, body) => {
+  const config = {
+    url: URL_PREFIX + '/' + gym_id,
+    method: PUT,
+    data: body,
   };
 
   return request(config).then((res) => res.data);
@@ -102,10 +119,9 @@ export const handleRequestToApproveApplication = (gym_id) => {
 
 export const handleRequestToDisapproveApplication = (gym_id) => {
   const config = {
-    url: URL_PREFIX + "/application/" + gym_id + "/disapprove",
+    url: URL_PREFIX + '/application/' + gym_id + '/disapprove',
     method: POST,
   };
 
   return request(config).then((res) => res.data);
 };
-

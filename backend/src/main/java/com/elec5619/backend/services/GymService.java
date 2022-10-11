@@ -6,7 +6,9 @@ import com.elec5619.backend.dtos.GymResponseDto;
 import com.elec5619.backend.dtos.GymApplicationResponseDto;
 import com.elec5619.backend.entities.Gym;
 import com.elec5619.backend.entities.User;
+import com.elec5619.backend.entities.gymEnums.GymApplicationStatus;
 import com.elec5619.backend.entities.gymEnums.GymApplicationType;
+import com.elec5619.backend.entities.gymEnums.GymStatus;
 import com.elec5619.backend.exceptions.AuthenticationError;
 import com.elec5619.backend.jwt.JwtTokenUtil;
 import com.elec5619.backend.mappers.GymMapper;
@@ -86,11 +88,29 @@ public class GymService {
 
     public GymResponseDto update(UUID id, GymRequestDto gymRequestDto) {
         Gym foundGym = gymRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(String.format("Unknown id %s", id)));
-        Gym newGym = gymMapper.toEntity(gymRequestDto);
-        newGym.setId(foundGym.getId());
-        newGym.setGymApplicationType(GymApplicationType.UPDATE);
-        gymRepository.save(newGym);
-        return gymMapper.fromEntity(newGym);
+
+        foundGym.setName(gymRequestDto.getName());
+        foundGym.setAddress(gymRequestDto.getAddress());
+        foundGym.setDescription(gymRequestDto.getDescription());
+        foundGym.setGeoLocation(gymRequestDto.getGeoLocation());
+        foundGym.setImageUrl(gymRequestDto.getImageUrl());
+        foundGym.setMaximumOfAppointments(gymRequestDto.getMaximumOfAppointments());
+        foundGym.setTradingHours(gymRequestDto.getTradingHours());
+        foundGym.setLastUpdatedTime(new Date());
+        foundGym.setGymStatus(GymStatus.PRIVATE);
+        if(!foundGym.getGymApplicationStatus().equals(GymApplicationType.CREATE)){
+            foundGym.setGymApplicationType(GymApplicationType.UPDATE);
+        }
+        foundGym.setGymApplicationStatus(GymApplicationStatus.PENDING);
+
+        gymRepository.save(foundGym);
+        return gymMapper.fromEntity(foundGym);
+    }
+
+    public List<GymResponseDto> findAllOwnerGyms(HttpSession session) throws AuthenticationError {
+        User user = userService.getUserByToken(session);
+        List<Gym> gymList = gymRepository.findAllByOwnerId(user.getId());
+        return gymList.stream().map(gym -> gymMapper.fromEntity(gym)).collect(Collectors.toList());
     }
 
     public List<GymApplicationResponseDto> getAllRequest() {
