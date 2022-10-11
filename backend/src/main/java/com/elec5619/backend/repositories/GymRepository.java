@@ -29,4 +29,7 @@ public interface GymRepository extends JpaRepository<Gym, UUID> {
 
     @Query(value = "SELECT * FROM gym WHERE gym_application_status=0;" , nativeQuery = true)
     public List<Gym> getPendingGymRequests();
+
+    @Query(value = "SELECT * FROM gym WHERE name like ?1 ;" , nativeQuery = true)
+    public List<Gym> findAllGymBySearchWord(@Param("searchWord") String searchWord);
 }

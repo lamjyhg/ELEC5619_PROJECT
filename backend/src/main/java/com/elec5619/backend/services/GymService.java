@@ -40,12 +40,8 @@ public class GymService {
 
     private final UserService userService;
 
-    public List<GymResponseDto> findAll(HttpSession session) {
+    public List<GymResponseDto> findAll() {
         List<Gym> gymList = gymRepository.findAll();
-
-        System.out.println("***********************************");
-        userService.getUserRole(session);
-
 
         return gymList.stream().map(gym -> gymMapper.fromEntity(gym)).collect(Collectors.toList());
     }
@@ -109,6 +105,18 @@ public class GymService {
         gym.setGymApplicationStatus(GymApplicationStatus.DISAPPROVED);
         Gym savedGym = gymRepository.save(gym);
         return savedGym;
+    }
+
+    public List<GymResponseDto> findAllBySearchWord(String searchWord) {
+        List<Gym> gymList = gymRepository.findAllGymBySearchWord("%"+searchWord+"%");
+        System.out.println("searchWord is ");
+        System.out.println(searchWord);
+        System.out.println("-------------------------------");
+        for (Gym g : gymList) {
+            System.out.println("Gym" + g.getName());
+        }
+        System.out.println("-------------------------------");
+        return gymList.stream().map(gym -> gymMapper.fromEntity(gym)).collect(Collectors.toList());
     }
 
 }

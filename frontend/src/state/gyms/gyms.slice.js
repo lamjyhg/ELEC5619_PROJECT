@@ -3,6 +3,7 @@ import {
   handleActionToGetGyms,
   handleActionToGetNearbyGyms,
   handleActionToGetAllGymApplication,
+  handleActionToGetGymsBySearchWord,
 } from './gyms.action';
 
 const gymsSlice = createSlice({
@@ -103,6 +104,37 @@ const gymsSlice = createSlice({
         ...state,
         gymApp: {
           ...state.gymApp,
+          isLoading: false,
+          isError: true,
+          isSuccess: false,
+        },
+      }))
+      .addCase(handleActionToGetGymsBySearchWord.pending, (state, action) => ({
+        ...state,
+        gymsPage: {
+          ...state.gymsPage,
+          isLoading: true,
+          isError: false,
+          isSuccess: false,
+        },
+      }))
+      .addCase(
+          handleActionToGetGymsBySearchWord.fulfilled,
+          (state, action) => ({
+            ...state,
+            gymsPage: {
+              ...state.gymsPage,
+              isLoading: false,
+              isError: false,
+              isSuccess: true,
+              gymsList: action.payload,
+            },
+          })
+      )
+      .addCase(handleActionToGetGymsBySearchWord.rejected, (state, action) => ({
+        ...state,
+        gymsPage: {
+          ...state.gymsPage,
           isLoading: false,
           isError: true,
           isSuccess: false,

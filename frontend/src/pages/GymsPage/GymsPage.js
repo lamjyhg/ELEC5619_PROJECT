@@ -1,18 +1,31 @@
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState, useMemo } from 'react';
 import {
   handleActionToGetGyms,
+  handleActionToGetGymsBySearchWord,
   handleActionToGetNearbyGyms,
-} from "../../state/gyms/gyms.action";
+} from '../../state/gyms/gyms.action';
 import { Input, Button, Row } from "antd";
 import GymsMap from "../../components/GymsMap/GymsMap";
 import { Content } from "antd/lib/layout/layout";
 import "./GymsPage.scss";
+import { useLocation, useNavigate } from 'react-router-dom';
 import GymCardList from "../../components/GymCardList/GymCardList";
+import Search from 'antd/lib/input/Search';
+
+function useQuery() {
+  const { search } = useLocation();
+
+  return useMemo(() => new URLSearchParams(search), [search]);
+}
+
 const GymsPage = () => {
-  const { gymsList, isError, isLoading, isSuccess } = useSelector((state) => {
-    return state.gyms.gymsPage;
-  });
+  let query = useQuery();
+  console.log(query.get('searchWord'));
+
+  const [isSearching, setIsSearching] = useState(false);
+  const [searchWord, setSearchWord] = useState('');
+  const navigate = useNavigate();
 
   const [isShowingList, setIsShowingList] = useState(true);
   const [currentGeoLocation, setCurrentGeoLocation] = useState({
@@ -20,6 +33,20 @@ const GymsPage = () => {
     lng: 0,
   });
   const dispatch = useDispatch();
+
+
+  const { gymsList, isError, isLoading, isSuccess } = useSelector((state) => {
+    return state.gyms.gymsPage;
+  });
+
+  const handleSearchWordOnchange = (evt) => {
+    setSearchWord(evt.target.value);
+  };
+
+  const handleOnSearch = async () => {
+    console.log(1111666666);
+    navigate('/gyms?searchWord=' + searchWord);
+  };
 
   useEffect(() => {
     var newCenter = currentGeoLocation;
@@ -36,52 +63,83 @@ const GymsPage = () => {
     //getGyms by current center location
     const handleGetGyms = async () => {
       await dispatch(
-        handleActionToGetNearbyGyms({ lat: newCenter.lat, lng: newCenter.lng })
+          handleActionToGetNearbyGyms({ lat: newCenter.lat, lng: newCenter.lng })
       );
     };
 
-    handleGetGyms();
+    if (query.get('searchWord') === null) {
+      console.log(111);
+      handleGetGyms();
+      setIsSearching(false);
+    }
   }, []);
 
+  useEffect(() => {
+    const handleSearch = async () => {
+      await dispatch(handleActionToGetGymsBySearchWord(searchWord));
+    };
+
+    console.log('in effect the query body is ');
+    console.log(query)
+    if (query.get('searchWord') !== null) {
+      console.log(111111);
+      handleSearch();
+      setIsSearching(true);
+    }
+  }, [query.get('searchWord')]);
+
+  if(isSuccess){
+    console.log("Success and the the gymLIst is ");
+    console.log(gymsList);
+  }
   return (
     <Content className="gymsPage">
-      <Input.Search
-        allowClear
-        style={{
-          width: "40%",
-        }}
-        id="gymsPage__search"
-        placeholder="search gyms by name"
+      <Search
+          style={{
+            width: '40%',
+          }}
+          value={searchWord}
+          onSearch={handleOnSearch}
+          onChange={handleSearchWordOnchange}
+          id="gymsPage__search"
+          placeholder="search gyms by name"
       />
+      {isSearching ? null : (
       <Row className="gymsPage__buttonsHeader">
         <Button
-          size="large"
-          onClick={() => {
-            setIsShowingList(true);
-          }}
+            size="large"
+            onClick={() => {
+              setIsShowingList(true);
+            }}
         >
           List View
         </Button>
         <Button
-          size="large"
-          onClick={() => {
-            setIsShowingList(false);
-          }}
+            size="large"
+            onClick={() => {
+              setIsShowingList(false);
+            }}
         >
           Map View
         </Button>
       </Row>
+      )}
 
-      <>
-        {isShowingList ? (
-          <GymCardList />
+        {isSearching ? (
+            <GymCardList></GymCardList>
         ) : (
-          <GymsMap
-            currentLatitude={currentGeoLocation.lat}
-            currentLongitude={currentGeoLocation.lng}
-          ></GymsMap>
+            <>
+              <h1>Nearby Gyms</h1>
+              {isShowingList ? (
+                  <GymCardList />
+              ) : (
+                  <GymsMap
+                      currentLatitude={currentGeoLocation.lat}
+                      currentLongitude={currentGeoLocation.lng}
+                  ></GymsMap>
+              )}
+            </>
         )}
-      </>
     </Content>
   );
 };
