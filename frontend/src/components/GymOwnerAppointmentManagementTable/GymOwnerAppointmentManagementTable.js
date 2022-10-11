@@ -21,30 +21,6 @@ const GymOwnerAppointmentManagementTable = () => {
       return state.appointments.gymOwner;
     });
 
-  if (isError) {
-    notification.destroy();
-    notification['error']({
-      message: 'Error',
-      description: 'There is error to get appointments ',
-    });
-  }
-
-  if (cancel.isError) {
-    notification.destroy();
-    notification['error']({
-      message: 'Error',
-      description: 'Cancel failed ',
-    });
-  }
-
-  if (cancel.isSuccess) {
-    notification.destroy();
-    notification['success']({
-      message: 'Success',
-      description: 'Cancel Successfully ',
-    });
-  }
-
   const dispatch = useDispatch();
 
   const columns = [
@@ -162,6 +138,32 @@ const GymOwnerAppointmentManagementTable = () => {
 
     getAppointments();
   }, []);
+
+  useEffect(() => {
+    if (isError) {
+      notification.destroy();
+      notification['error']({
+        message: 'Error',
+        description: 'There is error to get appointments ',
+      });
+    }
+
+    if (cancel.isError) {
+      notification.destroy();
+      notification['error']({
+        message: 'Error',
+        description: 'Cancel failed ',
+      });
+    }
+
+    if (cancel.isSuccess) {
+      notification.destroy();
+      notification['success']({
+        message: 'Success',
+        description: 'Cancel Successfully ',
+      });
+    }
+  }, [isError, cancel]);
 
   return (
     <Spin spinning={isLoading}>

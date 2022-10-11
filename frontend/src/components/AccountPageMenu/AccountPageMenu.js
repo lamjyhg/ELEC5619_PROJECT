@@ -42,7 +42,6 @@ const AccountPageMenu = () => {
   const navigate = useNavigate();
 
   const onClick = (e) => {
-    console.log(e.keyPath);
     navigate(e.keyPath.reverse().join('/'));
   };
   useEffect(() => {

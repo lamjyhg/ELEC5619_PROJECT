@@ -62,7 +62,7 @@ public class GymService {
         Gym foundGym = gymRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(String.format("Unknown id %s", id)));
         return gymMapper.fromEntity(foundGym);
     }
-    public GymResponseDto create(GymRequestDto gymRequestDto, HttpSession session) throws AuthenticationError {
+    public GymApplicationResponseDto create(GymRequestDto gymRequestDto, HttpSession session) throws AuthenticationError {
         User user = userService.getUserByToken(session);
         Gym gym = gymMapper.toEntity(gymRequestDto);
         gym.setOwner(user);
@@ -70,7 +70,7 @@ public class GymService {
         user.addGyms(gym);
         userRepository.save(user);
         Gym savedGym = gymRepository.save(gym);
-        return gymMapper.fromEntity(savedGym);
+        return gymMapper.fromEntityAppRes(savedGym);
     }
     public String savePhoto(HttpSession session, MultipartFile imageFile) throws AuthenticationError {
         User user = userService.getUserByToken(session);
@@ -86,7 +86,7 @@ public class GymService {
         return imageUrl;
     }
 
-    public GymResponseDto update(UUID id, GymRequestDto gymRequestDto) {
+    public GymApplicationResponseDto update(UUID id, GymRequestDto gymRequestDto) {
         Gym foundGym = gymRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(String.format("Unknown id %s", id)));
 
         foundGym.setName(gymRequestDto.getName());
@@ -104,13 +104,13 @@ public class GymService {
         foundGym.setGymApplicationStatus(GymApplicationStatus.PENDING);
 
         gymRepository.save(foundGym);
-        return gymMapper.fromEntity(foundGym);
+        return gymMapper.fromEntityAppRes(foundGym);
     }
 
-    public List<GymResponseDto> findAllOwnerGyms(HttpSession session) throws AuthenticationError {
+    public List<GymApplicationResponseDto> findAllOwnerGyms(HttpSession session) throws AuthenticationError {
         User user = userService.getUserByToken(session);
         List<Gym> gymList = gymRepository.findAllByOwnerId(user.getId());
-        return gymList.stream().map(gym -> gymMapper.fromEntity(gym)).collect(Collectors.toList());
+        return gymList.stream().map(gym -> gymMapper.fromEntityAppRes(gym)).collect(Collectors.toList());
     }
 
     public List<GymApplicationResponseDto> getAllRequest() {
@@ -121,6 +121,7 @@ public class GymService {
     public Gym approveApplication(UUID id){
         Gym gym = gymRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(String.format("Unknown id %s", id)));
         gym.setGymApplicationStatus(GymApplicationStatus.APPROVED);
+        gym.setGymStatus(GymStatus.PUBLIC);
         Gym savedGym = gymRepository.save(gym);
         return savedGym;
     }

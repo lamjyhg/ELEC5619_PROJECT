@@ -19,53 +19,18 @@ const OwnerGymsPage = () => {
   const { gymsList, isSuccess, isLoading, isError, requestType } = useSelector(
     (state) => state.gyms.ownerGymsPage
   );
-
-  if (isSuccess) {
-    switch (requestType) {
-      case PUT:
-        notification.destroy();
-        notification['success']({
-          message: 'Success',
-          description: 'Update successfully ',
-        });
-        break;
-      case POST:
-        notification.destroy();
-        notification['success']({
-          message: 'Success',
-          description: 'Create successfully ',
-        });
-        break;
-      default:
-    }
-  }
-
-  if (isError) {
-    switch (requestType) {
-      case PUT:
-        notification.destroy();
-        notification['error']({
-          message: 'Success',
-          description: 'Update failed ',
-        });
-        break;
-      case POST:
-        notification.destroy();
-        notification['error']({
-          message: 'Success',
-          description: 'Create failed ',
-        });
-        break;
-      default:
-    }
-  }
   const dispatch = useDispatch();
 
   const showModal = () => {
     setIsModalOpen(true);
   };
 
+  const setGymNull = () => {
+    setGym(null);
+  };
+
   const onCreate = async (values) => {
+    console.log(values);
     setIsModalOpen(false);
     if (gym) {
       await dispatch(
@@ -77,7 +42,7 @@ const OwnerGymsPage = () => {
     } else {
       await dispatch(handleActionToCreateGym(values));
     }
-    setGym(null);
+    setGymNull();
   };
 
   const swicthToEditGym = (gym) => {
@@ -93,6 +58,48 @@ const OwnerGymsPage = () => {
     getOwnerGyms();
   }, []);
 
+  useEffect(() => {
+    if (isSuccess) {
+      switch (requestType) {
+        case PUT:
+          notification.destroy();
+          notification['success']({
+            message: 'Success',
+            description: 'Update successfully ',
+          });
+          break;
+        case POST:
+          notification.destroy();
+          notification['success']({
+            message: 'Success',
+            description: 'Create successfully ',
+          });
+          break;
+        default:
+      }
+    }
+
+    if (isError) {
+      switch (requestType) {
+        case PUT:
+          notification.destroy();
+          notification['error']({
+            message: 'Success',
+            description: 'Update failed ',
+          });
+          break;
+        case POST:
+          notification.destroy();
+          notification['error']({
+            message: 'Success',
+            description: 'Create failed ',
+          });
+          break;
+        default:
+      }
+    }
+  }, [isError, isSuccess]);
+
   return (
     <Spin spinning={isLoading}>
       <div className="gym_list_contianer">
@@ -100,6 +107,7 @@ const OwnerGymsPage = () => {
           Create gym
         </Button>
         <GymForm
+          setGymNull={setGymNull}
           open={isModalOpen}
           onCreate={onCreate}
           gym={gym}

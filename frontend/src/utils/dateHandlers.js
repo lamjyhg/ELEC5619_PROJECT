@@ -62,3 +62,37 @@ export const dayObjects = [
     value: '6',
   },
 ];
+
+export const tradingHoursFromListToObject = (list) => {
+  var result = {};
+  if (list && list.length > 0) {
+    list.forEach((each) => {
+      result = {
+        ...result,
+        [`${each.day}`]: {
+          startTime: each.startTime,
+          endTime: each.endTime,
+        },
+      };
+    });
+  }
+  return result;
+};
+
+export const tradingHoursFromObjectToList = (object) => {
+  var result = [];
+  if (object) {
+    const keys = Object.keys(object).sort();
+    keys.forEach((each) => {
+      result = [
+        ...result,
+        {
+          day: each,
+          startTime: object[each].startTime,
+          endTime: object[each].endTime,
+        },
+      ];
+    });
+  }
+  return result;
+};
