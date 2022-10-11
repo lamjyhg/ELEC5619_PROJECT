@@ -1,13 +1,13 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { replaceAppointmentInList } from '../../utils/appointmentsHandlers';
+import { createSlice } from "@reduxjs/toolkit";
+import { replaceAppointmentInList } from "../../utils/appointmentsHandlers";
 import {
   handleActionToCancelAppointmentByGymOwner,
   handleActionToGetGymsAppointmentsByGymOwner,
   handleActionToGetUserAppointments,
-} from './appointments.action';
+} from "./appointments.action";
 
 const appointmentsSlice = createSlice({
-  name: 'appointments',
+  name: "appointments",
   initialState: {
     gymOwner: {
       appointmentList: [],

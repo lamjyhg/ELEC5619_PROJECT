@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
-  handleRequestToGetAppointmentsByUser,
   handleRequestToCancelAppointmentByGymOwner,
+  handleRequestToGetAppointmentsByUser,
   handleRequestToGetGymAppointmentsByGymOwner,
 } from "../../services/appointments";
 

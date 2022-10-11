@@ -1,6 +1,5 @@
 import { DatePicker, Form, Input, Modal } from "antd";
-import React, { useEffect } from "react";
-// import "./AppointmentForm.scss";
+import React from "react";
 const { TextArea } = Input;
 
 export default function AppointmentForm({
@@ -11,20 +10,20 @@ export default function AppointmentForm({
 }) {
   const [form] = Form.useForm();
   const onStartTimeChange = (value, dateString) => {
-    console.log("Started Time: ", value);
-    console.log("Formatted Selected Time: ", dateString);
+    
+    
   };
 
   const onStarTimeOk = (value) => {
-    console.log("onStartOk: ", value.toDate().toJSON());
+    
   };
   const onEndTimeChange = (value, dateString) => {
-    console.log("End Time: ", value);
-    console.log("Formatted Selected Time: ", dateString);
+    
+    
   };
 
   const onEndTimeOk = (value) => {
-    console.log("onEndOk: ", value.toDate().toJSON());
+    
   };
 
   return (
@@ -48,7 +47,7 @@ export default function AppointmentForm({
             onCreate(values);
           })
           .catch((info) => {
-            console.log("Validate Failed:", info);
+            
           });
       }}
     >

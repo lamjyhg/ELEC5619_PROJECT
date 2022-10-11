@@ -1,7 +1,6 @@
-import logo from './logo.svg';
-import './App.css';
-import Router from './routes';
-import 'antd/dist/antd.css';
+import "antd/dist/antd.css";
+import "./App.css";
+import Router from "./routes";
 
 function App() {
   return (

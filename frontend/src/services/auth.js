@@ -1,10 +1,10 @@
-import { GET, POST, PUT } from '../constants/requests';
-import request from '../utils/request';
-const URL_PREFIX = 'user';
+import { POST, PUT } from "../constants/requests";
+import request from "../utils/request";
+const URL_PREFIX = "user";
 
 export const registerService = (user) => {
   const config = {
-    url: URL_PREFIX + '/Register',
+    url: URL_PREFIX + "/Register",
     method: POST,
     data: user,
   };
@@ -14,7 +14,7 @@ export const registerService = (user) => {
 
 export const loginService = (userInput) => {
   const config = {
-    url: URL_PREFIX + '/Login',
+    url: URL_PREFIX + "/Login",
     method: POST,
     data: userInput,
   };
@@ -24,7 +24,7 @@ export const loginService = (userInput) => {
 
 export const handleRequestToActivateAccount = (token) => {
   const config = {
-    url: URL_PREFIX + '/activate/' + token,
+    url: URL_PREFIX + "/activate/" + token,
     method: PUT,
   };
 

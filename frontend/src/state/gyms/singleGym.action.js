@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import { handleRequestToGetSingleGym } from "../../services/gyms";
 
 export const handleActionToGetSingleGym = createAsyncThunk(
