@@ -1,0 +1,16 @@
+.ownerGymsTable{
+  width: 1200px;
+  overflow: auto;
+  margin: auto;
+}
+.tradingHours{
+  width: 100px;
+  height: 40px;
+  
+  overflow: auto;
+  &_hour{
+   padding: 5px 10px 5px 10px;
+    text-align: center;
+    font-size: 15px;
+  }
+}

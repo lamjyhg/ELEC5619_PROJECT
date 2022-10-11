@@ -1,5 +1,7 @@
 package com.elec5619.backend.dtos;
 
+import com.elec5619.backend.entities.gymEnums.GymApplicationStatus;
+import com.elec5619.backend.entities.gymEnums.GymApplicationType;
 import com.elec5619.backend.entities.gymEnums.GymStatus;
 import lombok.Data;
 
@@ -25,5 +27,9 @@ public class GymResponseDto {
 
     private String address;
 
-    private GymStatus status;
+    private GymStatus gymStatus;
+
+    private GymApplicationType gymApplicationType;
+
+    private GymApplicationStatus gymApplicationStatus;
 }

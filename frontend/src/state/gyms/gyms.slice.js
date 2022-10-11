@@ -1,7 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { GET, POST, PUT } from '../../constants/requests';
+import { replaceGymList } from '../../utils/gymHandlers';
 import {
+  handleActionToCreateGym,
   handleActionToGetGyms,
-  handleActionToGetNearbyGyms, handleActionToGetSingleGym,
+  handleActionToGetNearbyGyms,
+  handleActionToGetOwnerGyms,
+  handleActionToGetSingleGym,
+  handleActionToUpdateGym,
 } from './gyms.action';
 
 const gymsSlice = createSlice({
@@ -12,6 +18,13 @@ const gymsSlice = createSlice({
       isError: false,
       isLoading: false,
       isSuccess: false,
+    },
+    ownerGymsPage: {
+      gymsList: [],
+      isError: false,
+      isLoading: false,
+      isSuccess: false,
+      requestType: GET,
     },
   },
 
@@ -73,7 +86,103 @@ const gymsSlice = createSlice({
           isSuccess: false,
         },
       }))
-      ;
+      .addCase(handleActionToGetOwnerGyms.pending, (state, action) => ({
+        ...state,
+        ownerGymsPage: {
+          ...state.ownerGymsPage,
+          isLoading: true,
+          isError: false,
+          isSuccess: false,
+        },
+      }))
+      .addCase(handleActionToGetOwnerGyms.fulfilled, (state, action) => ({
+        ...state,
+        ownerGymsPage: {
+          ...state.ownerGymsPage,
+          isLoading: false,
+          isError: false,
+          isSuccess: true,
+          gymsList: action.payload,
+          requestType: GET,
+        },
+      }))
+      .addCase(handleActionToGetOwnerGyms.rejected, (state, action) => ({
+        ...state,
+        ownerGymsPage: {
+          ...state.ownerGymsPage,
+          isLoading: false,
+          isError: true,
+          isSuccess: false,
+          requestType: GET,
+        },
+      }))
+      .addCase(handleActionToUpdateGym.pending, (state, action) => ({
+        ...state,
+        ownerGymsPage: {
+          ...state.ownerGymsPage,
+          isLoading: true,
+          isError: false,
+          isSuccess: false,
+          requestType: GET,
+        },
+      }))
+      .addCase(handleActionToUpdateGym.fulfilled, (state, action) => {
+        return {
+          ...state,
+          ownerGymsPage: {
+            ...state.ownerGymsPage,
+            requestType: PUT,
+            isLoading: false,
+            isError: false,
+            isSuccess: true,
+            gymsList: replaceGymList(
+              action.payload,
+              state.ownerGymsPage.gymsList
+            ),
+          },
+        };
+      })
+      .addCase(handleActionToUpdateGym.rejected, (state, action) => ({
+        ...state,
+        ownerGymsPage: {
+          ...state.ownerGymsPage,
+          isLoading: false,
+          isError: true,
+          isSuccess: false,
+          requestType: PUT,
+        },
+      }))
+      .addCase(handleActionToCreateGym.pending, (state, action) => ({
+        ...state,
+        ownerGymsPage: {
+          ...state.ownerGymsPage,
+          isLoading: true,
+          isError: false,
+          isSuccess: false,
+          requestType: POST,
+        },
+      }))
+      .addCase(handleActionToCreateGym.fulfilled, (state, action) => ({
+        ...state,
+        ownerGymsPage: {
+          ...state.ownerGymsPage,
+          isLoading: false,
+          isError: false,
+          isSuccess: true,
+          gymsList: [...state.ownerGymsPage.gymsList, action.payload],
+          requestType: POST,
+        },
+      }))
+      .addCase(handleActionToCreateGym.rejected, (state, action) => ({
+        ...state,
+        ownerGymsPage: {
+          ...state.ownerGymsPage,
+          isLoading: false,
+          isError: true,
+          isSuccess: false,
+          requestType: POST,
+        },
+      }));
     //
   },
 });

@@ -32,8 +32,8 @@ public class GymRequestDto {
     @GeoLocationConstraint
     private Map<String, Double> geoLocation;
 
-//    @TradingHoursConstraint
-//    private Map<Integer, Map<String, Time>> tradingHours;
+    @TradingHoursConstraint
+    private Map<Integer, Map<String, Time>> tradingHours;
 
     @NotBlank(message = "address should not be blank")
     private String address;

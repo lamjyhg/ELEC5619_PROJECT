@@ -104,6 +104,12 @@ public class GymController {
         return ResponseEntity.ok(gymService.update(gymId, gymRequestDtoBody));
     }
 
+    @GetMapping("/gymOwner")
+    public ResponseEntity<List<GymResponseDto>> findOwnerGyms(HttpServletRequest request) throws AuthenticationError{
+        HttpSession session = request.getSession();
+        return ResponseEntity.ok(gymService.findAllOwnerGyms(session));
+    }
+
 
 
 
