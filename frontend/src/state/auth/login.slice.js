@@ -1,19 +1,16 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { setAdminAuthorityToken } from '../../services/sessionStorage';
-import {
-  handleActionToCheckAdminAuthority,
-  handleLoginRequest,
-} from './login.action';
+import { createSlice } from "@reduxjs/toolkit";
+import { setAdminAuthorityToken } from "../../services/sessionStorage";
+import { handleLoginRequest } from "./login.action";
 
 const loginSlice = createSlice({
-  name: 'login',
+  name: "login",
   initialState: {
     loginPage: {
       isSuccess: false,
       isLoading: false,
       isError: false,
       userInfo: {},
-      errors: '',
+      errors: "",
     },
   },
   extraReducers: (builder) => {
@@ -47,7 +44,7 @@ const loginSlice = createSlice({
           isSuccess: false,
           isLoading: false,
           isError: true,
-          errors: action.payload
+          errors: action.payload,
         },
       }));
   },

@@ -1,26 +1,26 @@
-.gymsMap{
-    width: 90%;
-    height: 600px;
-    margin: auto;
-    margin-top: 20px;
-    margin-bottom: 100px;
-    .gymCard{
-        display: flex;
-        flex-direction: column;
-        position: relative;
-        padding: 0;
-        margin: 0;
-        &__header{
-            background-color: red;
-            width: 100%;
-            margin: 0;
-            position: absolute;
-        }
-        &__title{
-            font-size: 20px;
-            margin: auto;
-            float: left;
-            font-weight: bold;
-        }
+.gymsMap {
+  width: 90%;
+  height: 600px;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 100px;
+  .gymCard {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    &__header {
+      background-color: red;
+      width: 100%;
+      margin: 0;
+      position: absolute;
     }
+    &__title {
+      font-size: 20px;
+      margin: auto;
+      float: left;
+      font-weight: bold;
+    }
+  }
 }

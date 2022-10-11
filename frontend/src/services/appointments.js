@@ -1,4 +1,4 @@
-import { GET, POST, PUT, DELETE } from "../constants/requests";
+import { DELETE, GET, POST, PUT } from "../constants/requests";
 import request from "../utils/request";
 const URL_PREFIX = "appointments";
 

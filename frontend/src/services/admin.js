@@ -1,10 +1,10 @@
-import { GET, POST } from '../constants/requests';
-import request from '../utils/request';
-const URL_PREFIX = 'user';
+import { GET, POST } from "../constants/requests";
+import request from "../utils/request";
+const URL_PREFIX = "user";
 
 export const handleRequestToGetAllUsers = () => {
   const config = {
-    url: URL_PREFIX + '/getAll',
+    url: URL_PREFIX + "/getAll",
     method: GET,
   };
 
@@ -13,7 +13,7 @@ export const handleRequestToGetAllUsers = () => {
 
 export const handleRequestToDeleteUser = (selectedUser) => {
   const config = {
-    url: URL_PREFIX + '/deleteUser',
+    url: URL_PREFIX + "/deleteUser",
     method: POST,
     data: selectedUser,
   };
@@ -23,7 +23,7 @@ export const handleRequestToDeleteUser = (selectedUser) => {
 
 export const handleRequestToGetUser = (id) => {
   const config = {
-    url: URL_PREFIX + '/getOne/' + id,
+    url: URL_PREFIX + "/getOne/" + id,
     method: GET,
   };
 
@@ -32,7 +32,7 @@ export const handleRequestToGetUser = (id) => {
 
 export const handleRequestToUpdateRole = (input) => {
   const config = {
-    url: URL_PREFIX + '/updateRole/' + input.role + '/' + input.email,
+    url: URL_PREFIX + "/updateRole/" + input.role + "/" + input.email,
     method: POST,
   };
 
@@ -41,7 +41,7 @@ export const handleRequestToUpdateRole = (input) => {
 
 export const handleRequestToGetCurrentUser = () => {
   const config = {
-    url: URL_PREFIX + '/current_user',
+    url: URL_PREFIX + "/current_user",
     method: GET,
   };
 
@@ -49,7 +49,7 @@ export const handleRequestToGetCurrentUser = () => {
 };
 export const handleRequestToCheckAdminAuthority = () => {
   const config = {
-    url: URL_PREFIX + '/checkAdminAuthority',
+    url: URL_PREFIX + "/checkAdminAuthority",
     method: GET,
   };
 

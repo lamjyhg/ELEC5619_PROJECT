@@ -1,19 +1,18 @@
-import React from 'react';
-import { Layout } from 'antd';
-import "./GymRequestsPage.scss"
-import { RequestTable } from '../../components/AdminTable';
+import React from "react";
+import { Layout } from "antd";
+import "./GymRequestsPage.scss";
+import { RequestTable } from "../../components/AdminTable";
 
-const { Content} = Layout;
-
+const { Content } = Layout;
 
 function GymRequestsPage() {
-  return(
+  return (
     <Layout>
       <Layout className="header">
-        <h2>Gym Request Page</h2>  
+        <h2>Gym Request Page</h2>
       </Layout>
       <Content className="content">
-          <RequestTable />
+        <RequestTable />
       </Content>
     </Layout>
   );

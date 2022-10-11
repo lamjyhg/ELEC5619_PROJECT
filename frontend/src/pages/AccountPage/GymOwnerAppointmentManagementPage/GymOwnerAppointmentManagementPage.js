@@ -1,4 +1,4 @@
-import GymOwnerAppointmentManagementTable from '../../../components/GymOwnerAppointmentManagementTable/GymOwnerAppointmentManagementTable';
+import GymOwnerAppointmentManagementTable from "../../../components/GymOwnerAppointmentManagementTable/GymOwnerAppointmentManagementTable";
 
 const GymOwnerAppointmentManagementPage = () => {
   return (

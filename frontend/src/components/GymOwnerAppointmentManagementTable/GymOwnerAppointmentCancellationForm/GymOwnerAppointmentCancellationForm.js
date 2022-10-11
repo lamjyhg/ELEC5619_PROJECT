@@ -1,6 +1,6 @@
-import { Col, Modal, Row, Spin } from 'antd';
-import TextArea from 'antd/lib/input/TextArea';
-import { displayDate } from '../../../utils/dateHandlers';
+import { Modal, Row, Spin } from "antd";
+import TextArea from "antd/lib/input/TextArea";
+import { displayDate } from "../../../utils/dateHandlers";
 
 const GymOwnerAppointmentCancellationForm = ({
   cancelledAppointment,

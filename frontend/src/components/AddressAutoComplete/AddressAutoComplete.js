@@ -1,13 +1,8 @@
-import { useEffect, useState } from "react";
 import { Input } from "antd";
-import PlacesAutocomplete, { Suggestion } from "react-places-autocomplete";
+import { useEffect, useState } from "react";
+import PlacesAutocomplete from "react-places-autocomplete";
 import "./AddressAutoComplete.scss";
-export default function AddressAutoComplete({
-  address,
-  clearAddress,
-  onChange,
-  onAddressSelect,
-}) {
+export default function AddressAutoComplete({ address, onAddressSelect }) {
   const [addressInfo, setAddress] = useState(address);
   const handleAddressChange = (address) => {
     setAddress(address);

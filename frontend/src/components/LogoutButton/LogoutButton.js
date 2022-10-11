@@ -1,12 +1,11 @@
-import { useNavigate } from 'react-router';
+import { Button, Modal } from "antd";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import {
   clearSessionStorage,
   getToken,
   removeAdminAuthorityToken,
-  removeToken,
-} from '../../services/sessionStorage';
-import { useEffect, useState } from 'react';
-import { Modal, Button } from 'antd';
+} from "../../services/sessionStorage";
 const LogoutButton = ({ buttonClassName }) => {
   const navigate = useNavigate();
 
@@ -15,13 +14,13 @@ const LogoutButton = ({ buttonClassName }) => {
   const logout = () => {
     setIsModalVisible(false);
     clearSessionStorage();
-    navigate('/login');
+    navigate("/login");
     removeAdminAuthorityToken();
   };
 
   useEffect(() => {
     if (!getToken()) {
-      navigate('/');
+      navigate("/");
     }
   }, []);
 

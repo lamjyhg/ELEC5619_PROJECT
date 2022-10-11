@@ -1,16 +1,15 @@
-import { configureStore } from '@reduxjs/toolkit';
-import appointmentsSlice from './appointments/appointments.slice';
-import gymsSlice from './gyms/gyms.slice';
-import registerSlice from "./auth/register.slice";
+import { configureStore } from "@reduxjs/toolkit";
+import appointmentsSlice from "./appointments/appointments.slice";
 import loginSlice from "./auth/login.slice";
-import singleGymSlice from "./gyms/singleGym.slice";
-import userSlice from "./user/user.slice";
-import reviewSlice from "./Review/review.slice";
+import registerSlice from "./auth/register.slice";
 import currentUserSlice from "./currentUser/currentUser.slice";
 import forgetPasswordSlice from "./forgetPassword/forgetPassword.slice";
 import forgetPasswordResetSlice from "./forgetPassword/forgetPasswordReset.slice";
-import changePasswordPagesSlice from "./resetPassword/resetPassword.slice"
-
+import gymsSlice from "./gyms/gyms.slice";
+import singleGymSlice from "./gyms/singleGym.slice";
+import changePasswordPagesSlice from "./resetPassword/resetPassword.slice";
+import reviewSlice from "./Review/review.slice";
+import userSlice from "./user/user.slice";
 
 export const store = configureStore({
   reducer: {
@@ -23,7 +22,7 @@ export const store = configureStore({
     reviews: reviewSlice,
     currentUser: currentUserSlice,
     forgetPassword: forgetPasswordSlice,
-    forgetPasswordReset:forgetPasswordResetSlice,
+    forgetPasswordReset: forgetPasswordResetSlice,
     changePassword: changePasswordPagesSlice,
   },
 });

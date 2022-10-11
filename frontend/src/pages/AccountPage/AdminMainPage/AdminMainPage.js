@@ -1,6 +1,6 @@
-import Lottie from 'lottie-react';
-import adminMain from './../../../image/lotties/adminMain.json';
-import './AdminMainPage.scss';
+import Lottie from "lottie-react";
+import adminMain from "./../../../image/lotties/adminMain.json";
+import "./AdminMainPage.scss";
 
 const AdminMainPage = () => {
   return (

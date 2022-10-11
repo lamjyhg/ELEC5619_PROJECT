@@ -1,36 +1,23 @@
-import {
-  Col,
-  Row,
-  Spin,
-  Card,
-  Avatar,
-  Table,
-  Tooltip,
-  Tag,
-  Image,
-  Button,
-} from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
-import Icon, { EditOutlined, EllipsisOutlined } from '@ant-design/icons';
-import './OwnerGymCardList.scss';
-import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
-import { handleActionToGetOwnerGyms } from '../../state/gyms/gyms.action';
-import temp_gym from '../../image/temp_gym_img.jpg';
-import { baseURL } from '../../utils/request';
-import { displayDate, getStringFromNumber } from '../../utils/dateHandlers';
-import moment from 'moment';
+import { EditOutlined, EllipsisOutlined } from "@ant-design/icons";
+import { Button, Card, Image, Table, Tag, Tooltip } from "antd";
+import moment from "moment";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import temp_gym from "../../image/temp_gym_img.jpg";
+import { displayDate, getStringFromNumber } from "../../utils/dateHandlers";
+import { baseURL } from "../../utils/request";
+import "./OwnerGymCardList.scss";
 const { Meta } = Card;
 
 export default function OwnerGymCardList({ swicthToEditGym, gymsList }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const columns = [
-    { title: 'Gym Name', dataIndex: 'name', key: 'name' },
+    { title: "Gym Name", dataIndex: "name", key: "name" },
     {
-      title: 'Image',
-      dataIndex: 'imageUrl',
-      key: 'image',
+      title: "Image",
+      dataIndex: "imageUrl",
+      key: "image",
       render: (imageUrl) => (
         <Image
           width={50}
@@ -40,18 +27,18 @@ export default function OwnerGymCardList({ swicthToEditGym, gymsList }) {
       ),
     },
     {
-      title: 'Last Updated Time',
-      dataIndex: 'lastUpdatedTime',
-      key: 'astUpdatedTime',
+      title: "Last Updated Time",
+      dataIndex: "lastUpdatedTime",
+      key: "astUpdatedTime",
       render: (lastUpdatedTime) => displayDate(lastUpdatedTime),
       sorter: (a, b) =>
         moment(a.lastUpdatedTime).unix() - moment(b.lastUpdatedTime).unix(),
-      defaultSortOrder: 'ascend',
+      defaultSortOrder: "ascend",
     },
     {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
+      title: "Address",
+      dataIndex: "address",
+      key: "address",
       render: (address) => (
         <Tooltip placement="left" title={address}>
           {address}
@@ -62,9 +49,9 @@ export default function OwnerGymCardList({ swicthToEditGym, gymsList }) {
       },
     },
     {
-      title: 'Trading Hours',
-      dataIndex: 'tradingHours',
-      key: 'tradingHours',
+      title: "Trading Hours",
+      dataIndex: "tradingHours",
+      key: "tradingHours",
       render: (tradingHours) => (
         <div className="tradingHours">
           {tradingHours ? getTradingHoursTag(tradingHours) : null}
@@ -76,9 +63,9 @@ export default function OwnerGymCardList({ swicthToEditGym, gymsList }) {
     },
 
     {
-      title: 'Description',
-      dataIndex: 'description',
-      key: 'description',
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
       render: (description) => (
         <Tooltip placement="left" title={description}>
           {description}
@@ -89,51 +76,51 @@ export default function OwnerGymCardList({ swicthToEditGym, gymsList }) {
       },
     },
     {
-      title: 'Status',
-      dataIndex: 'gymStatus',
-      key: 'gymStatus',
-      filterMode: 'tree',
+      title: "Status",
+      dataIndex: "gymStatus",
+      key: "gymStatus",
+      filterMode: "tree",
       filterSearch: true,
       onFilter: (value, record) => record.gymStatus.includes(value),
       render: (status) => {
-        var color = 'yellow';
+        var color = "yellow";
         switch (status) {
-          case 'public':
-            color = 'green';
+          case "public":
+            color = "green";
             break;
           default:
-            color = 'red';
+            color = "red";
         }
         return <Tag color={color}>{status.toUpperCase()}</Tag>;
       },
       filters: [
         {
-          text: 'private',
-          value: 'PRIVATE',
+          text: "private",
+          value: "PRIVATE",
         },
         {
-          text: 'public',
-          value: 'PUBLIC',
+          text: "public",
+          value: "PUBLIC",
         },
       ],
     },
     {
-      title: 'Application Info',
-      dataIndex: 'gymApplicationStatus',
-      key: 'applicationInfo',
-      filterMode: 'tree',
+      title: "Application Info",
+      dataIndex: "gymApplicationStatus",
+      key: "applicationInfo",
+      filterMode: "tree",
       filterSearch: true,
       render: (value, record) => {
-        var color = 'yellow';
+        var color = "yellow";
         switch (value) {
-          case 'APPROVED':
-            color = 'green';
+          case "APPROVED":
+            color = "green";
             break;
-          case 'DISAPPROVED':
-            color = 'red';
+          case "DISAPPROVED":
+            color = "red";
             break;
           default:
-            color = 'yellow';
+            color = "yellow";
         }
         return (
           <Tag color={color}>
@@ -143,10 +130,10 @@ export default function OwnerGymCardList({ swicthToEditGym, gymsList }) {
       },
     },
     {
-      title: 'Actions',
-      key: 'action',
+      title: "Actions",
+      key: "action",
       render: (_, record) =>
-        record.gymStatus === 'PRIVATE' ? (
+        record.gymStatus === "PRIVATE" ? (
           <Button
             type="text"
             shape="round"
@@ -170,7 +157,7 @@ export default function OwnerGymCardList({ swicthToEditGym, gymsList }) {
               shape="round"
               icon={<EllipsisOutlined />}
               onClick={() => {
-                navigate('/gyms/' + record.id);
+                navigate("/gyms/" + record.id);
               }}
             ></Button>
           </>

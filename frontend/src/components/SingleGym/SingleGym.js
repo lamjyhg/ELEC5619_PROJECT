@@ -2,9 +2,7 @@ import { Avatar, Modal, Rate } from "antd";
 import React, { useEffect, useState } from "react";
 import temp_gym from "../../image/temp_gym_img.jpg";
 import SingleGymMap from "./SingleGymMap/SingleGymMap";
-
 import { EditFilled } from "@ant-design/icons";
-
 import { Button, Form, Input, notification, Select, TreeSelect } from "antd";
 import "antd/dist/antd.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,13 +20,9 @@ import "./SingleGym.scss";
 const { TextArea } = Input;
 
 const SingleGym = () => {
-  const { gym, isSuccess, isLoading, isError } = useSelector(
-    (state) => state.singleGym.singleGym
-  );
+  const { gym, isSuccess } = useSelector((state) => state.singleGym.singleGym);
 
-  const { reviewList, isSuc, isLod, isErr } = useSelector(
-    (state) => state.reviews.reviewPage
-  );
+  const { reviewList } = useSelector((state) => state.reviews.reviewPage);
 
   const { currentUser } = useSelector(
     (state) => state.currentUser.currentUserPage

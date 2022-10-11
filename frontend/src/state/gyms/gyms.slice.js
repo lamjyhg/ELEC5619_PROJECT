@@ -1,19 +1,18 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { GET, POST, PUT } from '../../constants/requests';
-import { replaceGymList } from '../../utils/gymHandlers';
+import { createSlice } from "@reduxjs/toolkit";
+import { GET, POST, PUT } from "../../constants/requests";
+import { replaceGymList } from "../../utils/gymHandlers";
 import {
   handleActionToCreateGym,
-  handleActionToGetGyms,
-  handleActionToGetNearbyGyms,
   handleActionToGetAllGymApplication,
-  handleActionToGetOwnerGyms,
-  handleActionToGetSingleGym,
-  handleActionToUpdateGym,
+  handleActionToGetGyms,
   handleActionToGetGymsBySearchWord,
-} from './gyms.action';
+  handleActionToGetNearbyGyms,
+  handleActionToGetOwnerGyms,
+  handleActionToUpdateGym,
+} from "./gyms.action";
 
 const gymsSlice = createSlice({
-  name: 'gyms',
+  name: "gyms",
   initialState: {
     gymsPage: {
       gymsList: [],

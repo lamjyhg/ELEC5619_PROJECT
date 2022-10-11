@@ -1,6 +1,5 @@
 import { DatePicker, Form, Input, Modal } from "antd";
-import React, { useEffect } from "react";
-// import "./AppointmentForm.scss";
+import React from "react";
 const { TextArea } = Input;
 
 export default function AppointmentForm({

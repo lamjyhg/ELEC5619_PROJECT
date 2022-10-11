@@ -1,8 +1,8 @@
-import { Col, Row, Spin, Card, Avatar } from 'antd';
-import { useSelector } from 'react-redux';
-import Icon from '@ant-design/icons';
-import './GymCardList.scss';
-import { useNavigate } from 'react-router-dom';
+import Icon from "@ant-design/icons";
+import { Card, Col, Row, Spin } from "antd";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import "./GymCardList.scss";
 const { Meta } = Card;
 const dumbBell = () => {
   return (
@@ -38,7 +38,7 @@ export default function GymCardList() {
                   <Col span={8} key={index} align="center">
                     <Card
                       onClick={() => {
-                        navigate('/gyms/' + item.id);
+                        navigate("/gyms/" + item.id);
                       }}
                       hoverable
                       className="card_body"
@@ -51,7 +51,7 @@ export default function GymCardList() {
                     >
                       <Meta
                         avatar={<Icon component={dumbBell} />}
-                        style={{ textAlign: 'left' }}
+                        style={{ textAlign: "left" }}
                         title={item.name}
                         description={item.address}
                       />

@@ -11,13 +11,11 @@ import {
   DateNavigator,
   MonthView,
   Scheduler,
-  DragDropProvider,
   Toolbar,
 } from "@devexpress/dx-react-scheduler-material-ui";
 import { notification } from "antd";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { appointments } from "../../../utils/appointmentsMock";
 
 import moment from "moment";
 import { useEffect } from "react";

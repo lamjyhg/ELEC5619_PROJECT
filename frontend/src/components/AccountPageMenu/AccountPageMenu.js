@@ -1,34 +1,30 @@
-import { Menu } from 'antd';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
-  getAdminAuthorityToken,
-  getToken,
-} from '../../services/sessionStorage';
-import { getItem } from '../../utils/antdHandlers';
-import {
+  AuditOutlined,
+  CalendarOutlined,
+  KeyOutlined,
   SolutionOutlined,
   UserOutlined,
-  KeyOutlined,
-  CalendarOutlined,
   UserSwitchOutlined,
-  AuditOutlined,
-} from '@ant-design/icons';
-import { useSelector } from 'react-redux';
+} from "@ant-design/icons";
+import { Menu } from "antd";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getAdminAuthorityToken } from "../../services/sessionStorage";
+import { getItem } from "../../utils/antdHandlers";
 
 const userItems = [
-  getItem('Profile', 'profile', <UserOutlined />),
-  getItem('Change Password', 'change-password', <KeyOutlined />),
-  getItem('Appointments', 'appointments', <CalendarOutlined />),
-  getItem('Gym Owner Portal', 'gymOwner', <SolutionOutlined />, [
-    getItem('Gyms ', 'gyms'),
-    getItem('Gyms Appointments', 'gymsAppointments'),
+  getItem("Profile", "profile", <UserOutlined />),
+  getItem("Change Password", "change-password", <KeyOutlined />),
+  getItem("Appointments", "appointments", <CalendarOutlined />),
+  getItem("Gym Owner Portal", "gymOwner", <SolutionOutlined />, [
+    getItem("Gyms ", "gyms"),
+    getItem("Gyms Appointments", "gymsAppointments"),
   ]),
 ];
 
 const adminItems = [
-  getItem('User Management', 'userManagement', <UserSwitchOutlined />),
-  getItem('Gym requests', 'gymRequests', <AuditOutlined />),
+  getItem("User Management", "userManagement", <UserSwitchOutlined />),
+  getItem("Gym requests", "gymRequests", <AuditOutlined />),
 ];
 /*[
     getItem('Profile', 'profile'),
@@ -42,7 +38,7 @@ const AccountPageMenu = () => {
   const navigate = useNavigate();
 
   const onClick = (e) => {
-    navigate(e.keyPath.reverse().join('/'));
+    navigate(e.keyPath.reverse().join("/"));
   };
   useEffect(() => {
     const adminAuthorityToken = getAdminAuthorityToken();
@@ -55,8 +51,8 @@ const AccountPageMenu = () => {
     <Menu
       theme="dark"
       id="accountPage__sider__menu"
-      defaultSelectedKeys={['1']}
-      defaultOpenKeys={['sub1']}
+      defaultSelectedKeys={["1"]}
+      defaultOpenKeys={["sub1"]}
       mode="inline"
       onClick={onClick}
       items={items}
