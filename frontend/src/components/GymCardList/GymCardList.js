@@ -15,27 +15,16 @@ export default function GymCardList() {
   const { gymsList, isSuccess, isLoading, isError } = useSelector(
     (state) => state.gyms.gymsPage
   );
+
   const navigate = useNavigate();
-  // console.log(
-  //   "111111",
-  //   gyms.reduce((rows, item, index) => {
-  //     if ((index + 1) % 3 == 1) {
-  //       return [...rows, [item]];
-  //     } else {
-  //       return [...rows.slice(0, -1), rows.slice(-1)[0].concat(item)];
-  //     }
-  //   }, [])
-  // );
   return (
     <div>
-      <p>Nearby Gym</p>
       {isLoading ? (
         <Spin />
       ) : (
         //replace with gymList
         gymsList
           .reduce((rows, item, index) => {
-            console.log('s', rows.slice(0, -1));
             if ((index + 1) % 3 == 1) {
               return [...rows, [item]];
             } else {
@@ -43,7 +32,6 @@ export default function GymCardList() {
             }
           }, [])
           .map((row) => {
-            // console.log({ row });
             return (
               <Row style={{ marginBottom: 20 }}>
                 {row.map((item, index) => (
