@@ -123,7 +123,7 @@ export default function GymForm({ open, onCreate, onCancel, gym, setGymNull }) {
 
   useEffect(() => {
     if (gym) {
-      console.log(gym.geoLocation);
+      
       setAddress(gym.address);
       setImageUrl(gym.imageUrl);
       setTradingHours(!gym.tradingHours ? {} : gym.tradingHours);
@@ -157,7 +157,7 @@ export default function GymForm({ open, onCreate, onCancel, gym, setGymNull }) {
             });
           })
           .catch((info) => {
-            console.log("Validate Failed:", info);
+            
           });
       }}
     >

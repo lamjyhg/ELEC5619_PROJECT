@@ -100,7 +100,7 @@ const SingleGym = () => {
       startTime: time,
       note,
     };
-    console.log(application);
+    
   };
 
   useEffect(() => {
@@ -190,7 +190,7 @@ const SingleGym = () => {
       gymId: GID,
     })
       .then((res) => {
-        console.log({ res });
+        
         notification.success({
           message: "Success",
           description: "Appointment created.",
@@ -198,7 +198,7 @@ const SingleGym = () => {
         setIsAppointmentModalOpen(false);
       })
       .catch((error) => {
-        console.log({ error });
+        
         notification.success({
           message: "Failed",
           description: error.errors,

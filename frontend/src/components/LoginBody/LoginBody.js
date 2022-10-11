@@ -96,7 +96,7 @@ const LoginBody = () => {
     }
 
     if (isError) {
-      console.log(errors);
+      
 
       openNotification(errors);
     }

@@ -19,7 +19,7 @@ function RequestTable() {
   };
 
   const handleView = (item) => {
-    console.log("id is " + item.gymID);
+    
     navigate("/admin/gymRequests/" + item.gymID);
   };
   const columns = [

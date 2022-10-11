@@ -78,10 +78,10 @@ export default AccountPage;
 //   const [disPlaySiderBar, setDisPlaySiderBar] = useState(false);
 
 //   if (window.innerWidth > 800) {
-//     console.log(111);
+//     
 //   }
 //   useEffect(() => {
-//     console.log(1111);
+//     
 //   }, [window.screen.width]);
 
 //   var siderBarClassName = disPlaySiderBar

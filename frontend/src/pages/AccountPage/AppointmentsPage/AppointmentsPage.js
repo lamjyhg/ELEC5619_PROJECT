@@ -23,7 +23,7 @@ import { handleRequestToUpdateAppointment } from "../../../services/appointments
 import { handleActionToGetUserAppointments } from "../../../state/appointments/appointments.action.js";
 
 const processData = (data) => {
-  console.log({ data });
+  
   const result = data.map((item) => {
     return {
       title: item.gymName,
@@ -63,7 +63,7 @@ export default function AppointmentsPage() {
           "YYYY-MM-DD HH:mm:ss"
         ),
       };
-      console.log({ changedAppointment });
+      
       handleRequestToUpdateAppointment(requestData)
         .then(() => {
           notification.success({
@@ -95,14 +95,14 @@ export default function AppointmentsPage() {
       ];
     }
     if (changed) {
-      console.log({ changed });
+      
       appointmentsList = appointmentsList.map((appointment) => {
         if (changed[appointment.id]) {
           const newAppointment = {
             ...appointment,
             ...changed[appointment.id],
           };
-          console.log({ appointment });
+          
           setChangedAppointment(newAppointment);
           return newAppointment;
         } else {
