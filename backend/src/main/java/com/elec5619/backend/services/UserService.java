@@ -172,7 +172,7 @@ public class UserService {
             }
 
         }
-        return new ResponseEntity<>("Login failed!", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("Login failed! Please check your password and email", HttpStatus.BAD_REQUEST);
     }
 
     public void getUserRole(HttpSession session) {
@@ -253,7 +253,7 @@ public class UserService {
 
 
         if(userOptional.isPresent() == false){
-            return new ResponseEntity("invalid user id", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity("Invalid user id, please try login again", HttpStatus.BAD_REQUEST);
         }
         User user = userOptional.get();
 
@@ -267,7 +267,7 @@ public class UserService {
             return new ResponseEntity<>("change password success", HttpStatus.OK);
         }
 
-        return new ResponseEntity<>("invalid old password", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("Incorrect old password", HttpStatus.BAD_REQUEST);
 
 
     }

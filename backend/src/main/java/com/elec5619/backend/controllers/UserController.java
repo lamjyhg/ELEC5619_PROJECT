@@ -103,7 +103,7 @@ public class UserController {
             User user = userService.getUserByToken(session);
             return userService.resetPassword(user.getId(), request.getPassword(), request.getOldPassword());
         }catch (AuthenticationError e){
-            return new ResponseEntity<>("Invalid session", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Invalid session or expired session, please try login again", HttpStatus.BAD_REQUEST);
         }
 
     }

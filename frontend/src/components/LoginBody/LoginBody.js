@@ -54,12 +54,12 @@ const LoginBody = () => {
   };
 
 
-const openNotification = () => {
+const openNotification = (error) => {
   notification.destroy();
   notification.open({
-    message: 'Wrong password!',
+    message: 'Login failed',
     description:
-        'Email does not exist or password is incorrect, please try again.',
+        error,
     icon: <FrownTwoTone twoToneColor="#FF0000" />,
   });
 };
@@ -109,7 +109,9 @@ const openNotification = () => {
 
     if(isError){
 
-      openNotification();
+      console.log(errors)
+
+      openNotification(errors);
     }
   }, [isSuccess, isError])
 

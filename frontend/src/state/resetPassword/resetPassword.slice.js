@@ -9,6 +9,7 @@ const changePasswordSlice = createSlice({
             isError: false,
             isLoading: false,
             isSuccess: false,
+            errors: ""
         },
     },
 
@@ -39,6 +40,7 @@ const changePasswordSlice = createSlice({
                     isError: true,
                     isLoading: false,
                     isSuccess: false,
+                    errors: action.payload
                 },
             }));
     },
