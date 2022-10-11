@@ -12,7 +12,7 @@ export const clearSessionStorage = () => {
 };
 
 export const setAdminAuthorityToken = (token) => {
-  console.log(token);
+  
   if (!token || token === undefined || token === "undefined") {
     return null;
   }

@@ -8,7 +8,7 @@ export const handleActionToGetReviews = createAsyncThunk(
   "GET_REVIEWS",
   async (params, thunkAPI) => {
     try {
-      console.log(params);
+      
       return await handleRequestToGetReview(params.GID);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

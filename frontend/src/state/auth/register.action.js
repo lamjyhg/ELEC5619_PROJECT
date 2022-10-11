@@ -8,7 +8,7 @@ export const handleRegisterRequest = createAsyncThunk(
       const res = await registerService(params);
       return res;
     } catch (error) {
-      console.log(error);
+      
       return thunkAPI.rejectWithValue(error);
     }
   }

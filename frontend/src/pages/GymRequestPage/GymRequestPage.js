@@ -15,7 +15,7 @@ function GymRequestPage() {
 
   const navigate = useNavigate();
   const handleApprove = () => {
-    console.log("Approve");
+    
     const ApproveApp = async () => {
       await dispatch(handleActionToApproveApplication(gym_id));
     };
@@ -25,7 +25,7 @@ function GymRequestPage() {
   };
 
   const handleDisapprove = () => {
-    console.log("Disapprove");
+    
     const DisapproveApp = async () => {
       await dispatch(handleActionToDisapproveApplication(gym_id));
     };

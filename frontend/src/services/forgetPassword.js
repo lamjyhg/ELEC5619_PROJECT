@@ -21,7 +21,7 @@ export const handleRequestToPostForgetPasswordCheck = (hash) => {
 };
 
 export const handleRequestToResetPassword = (hash, password) => {
-  console.log(hash, password);
+  
   const config = {
     url: URL_PREFIX + "forget_password/reset",
     method: POST,

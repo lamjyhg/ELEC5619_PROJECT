@@ -80,10 +80,10 @@ export const handleActionToCreateGym = createAsyncThunk(
   "CREATE_GYM",
   async (params, thunkAPI) => {
     try {
-      console.log(1121, params);
+      
       return await handleRequestToCreateGym(params);
     } catch (error) {
-      console.log(error);
+      
       return thunkAPI.rejectWithValue(error);
     }
   }

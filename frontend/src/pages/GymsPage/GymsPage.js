@@ -20,7 +20,7 @@ function useQuery() {
 
 const GymsPage = () => {
   let query = useQuery();
-  console.log(query.get("searchWord"));
+  
 
   const [isSearching, setIsSearching] = useState(false);
   const [searchWord, setSearchWord] = useState("");
@@ -42,7 +42,7 @@ const GymsPage = () => {
   };
 
   const handleOnSearch = async () => {
-    console.log(1111666666);
+    
     navigate("/gyms?searchWord=" + searchWord);
   };
 
@@ -66,7 +66,7 @@ const GymsPage = () => {
     };
 
     if (query.get("searchWord") === null) {
-      console.log(111);
+      
       handleGetGyms();
       setIsSearching(false);
     }
@@ -77,18 +77,18 @@ const GymsPage = () => {
       await dispatch(handleActionToGetGymsBySearchWord(searchWord));
     };
 
-    console.log("in effect the query body is ");
-    console.log(query);
+    
+    
     if (query.get("searchWord") !== null) {
-      console.log(111111);
+      
       handleSearch();
       setIsSearching(true);
     }
   }, [query.get("searchWord")]);
 
   if (isSuccess) {
-    console.log("Success and the the gymLIst is ");
-    console.log(gymsList);
+    
+    
   }
   return (
     <Content className="gymsPage">

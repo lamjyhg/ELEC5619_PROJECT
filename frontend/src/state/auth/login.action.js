@@ -9,7 +9,7 @@ export const handleLoginRequest = createAsyncThunk(
       const res = await loginService(params);
       return res;
     } catch (error) {
-      console.log(error);
+      
       return thunkAPI.rejectWithValue(error);
     }
   }

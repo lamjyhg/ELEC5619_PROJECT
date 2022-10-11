@@ -53,13 +53,13 @@ function UserEditPage() {
   }, []);
 
   const handleChange = (value) => {
-    console.log(`selected ${value}`);
+    
     type = value;
     setType(value);
   };
   const handleSave = () => {
-    console.log("new role is " + newType);
-    console.log("email is " + email);
+    
+    
     const userInput = {
       role: newType,
       email: email,
