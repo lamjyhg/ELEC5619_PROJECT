@@ -303,6 +303,7 @@ const SingleGym = () => {
           }}
           onCreate={onCreate}
           acitonType={"CREATE"}
+          gym={gym}
         />
         <div className="top_container">
           <div className="left_info_area">
@@ -384,4 +385,103 @@ const SingleGym = () => {
   }
 };
 
+
+
 export default SingleGym;
+
+
+
+
+
+/*
+
+
+<div className="side_floater">
+          <div className="appointment_box">
+            <div className="appointment_title">Make an appointment</div>
+
+            <div className="short_line"></div>
+
+            <Form
+              labelCol={{
+                span: 6,
+              }}
+              wrapperCol={{
+                span: 14,
+              }}
+              layout="horizontal"
+            >
+              <Form.Item
+                label="Name"
+                id="name"
+                name="name"
+                rules={[{ required: true, message: "Name cannot be empty!" }]}
+              >
+                <Input
+                  onChange={(evt) => {
+                    setName(evt.target.value);
+                  }}
+                />
+              </Form.Item>
+
+              <Form.Item
+                label="Email"
+                name="email"
+                id="email"
+                rules={[{ required: true, message: "Email cannot be empty!" }]}
+              >
+                <Input
+                  onChange={(evt) => {
+                    setEmail(evt.target.value);
+                  }}
+                />
+              </Form.Item>
+
+              <Form.Item
+                label="Week:"
+                name="week"
+                rules={[{ required: true, message: "Week cannot be empty!" }]}
+              >
+                <Select defaultValue="this" id="week" onChange={changeWeek}>
+                  <Select.Option value="this">This week</Select.Option>
+                  <Select.Option value="next">Next week</Select.Option>
+                </Select>
+              </Form.Item>
+
+              <Form.Item
+                label="Time:"
+                id="time"
+                name="time"
+                rules={[{ required: true, message: "Time cannot be empty!" }]}
+              >
+                <TreeSelect
+                  onChange={(value) => {
+                    setTime(value);
+                  }}
+                  treeData={treeData}
+                  getPopupContainer={(trigger) => trigger.parentNode}
+                />
+              </Form.Item>
+
+              <Form.Item label="Note" id="note">
+                <TextArea
+                  rows={4}
+                  onChange={(evt) => {
+                    setNote(evt.target.value);
+                  }}
+                />
+              </Form.Item>
+
+              <Form.Item label="Submit">
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  onClick={submitAppointment}
+                >
+                  Submit
+                </Button>
+              </Form.Item>
+            </Form>
+          </div>
+        </div>
+ */
