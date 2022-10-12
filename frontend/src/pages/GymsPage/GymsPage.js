@@ -1,17 +1,16 @@
+import { Button, Row } from 'antd';
+import Search from 'antd/lib/input/Search';
+import { Content } from 'antd/lib/layout/layout';
+import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState, useMemo } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import GymCardList from '../../components/GymCardList/GymCardList';
+import GymsMap from '../../components/GymsMap/GymsMap';
 import {
-  handleActionToGetGyms,
   handleActionToGetGymsBySearchWord,
   handleActionToGetNearbyGyms,
 } from '../../state/gyms/gyms.action';
-import { Input, Button, Row } from 'antd';
-import GymsMap from '../../components/GymsMap/GymsMap';
-import { Content } from 'antd/lib/layout/layout';
 import './GymsPage.scss';
-import { useLocation, useNavigate } from 'react-router-dom';
-import GymCardList from '../../components/GymCardList/GymCardList';
-import Search from 'antd/lib/input/Search';
 
 function useQuery() {
   const { search } = useLocation();
@@ -21,7 +20,6 @@ function useQuery() {
 
 const GymsPage = () => {
   let query = useQuery();
-
   const [isSearching, setIsSearching] = useState(false);
   const [searchWord, setSearchWord] = useState('');
   const navigate = useNavigate();
@@ -82,6 +80,8 @@ const GymsPage = () => {
     }
   }, [query.get('searchWord')]);
 
+  if (isSuccess) {
+  }
   return (
     <Content className="gymsPage">
       <Search

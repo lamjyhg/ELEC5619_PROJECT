@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from "react";
-import "./SingleGymView.scss";
 import temp_gym from "../../../image/temp_gym_img.jpg";
-
+import "./SingleGymView.scss";
 import { EditFilled } from "@ant-design/icons";
-
+import { Button, Form, Input, Select, TreeSelect } from "antd";
 import "antd/dist/antd.css";
-import { Form, Input, Button, DatePicker, TreeSelect, Select } from "antd";
-import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { handleActionToGetSingleGym } from "../../../state/gyms/singleGym.action";
-import { current } from "@reduxjs/toolkit";
-import SingleGymMapView from "./SingleGymViewMap/SingleGymViewMap";
 import { baseURL } from "../../../utils/request";
+import SingleGymMapView from "./SingleGymViewMap/SingleGymViewMap";
 const { TextArea } = Input;
 
 const SingleGymView = ({ GID }) => {

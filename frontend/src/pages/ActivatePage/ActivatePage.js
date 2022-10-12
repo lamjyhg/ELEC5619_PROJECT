@@ -1,13 +1,13 @@
-import Lottie from 'lottie-react';
-import { useParams } from 'react-router-dom';
-import loading from './../../image/lotties/loading.json';
-import error from './../../image/lotties/error.json';
-import { useNavigate } from 'react-router';
-import { useEffect } from 'react';
-import './ActivatePage.scss';
-import { useDispatch, useSelector } from 'react-redux';
-import { Button, notification } from 'antd';
-import { handleActionToActivateAccount } from '../../state/user/user.action';
+import { Button, notification } from "antd";
+import Lottie from "lottie-react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
+import { useParams } from "react-router-dom";
+import { handleActionToActivateAccount } from "../../state/user/user.action";
+import error from "./../../image/lotties/error.json";
+import loading from "./../../image/lotties/loading.json";
+import "./ActivatePage.scss";
 
 const ActivatePage = () => {
   const { token } = useParams();
@@ -19,7 +19,7 @@ const ActivatePage = () => {
   });
 
   const navigateToHome = () => {
-    navigate('/');
+    navigate("/");
   };
 
   useEffect(() => {
@@ -31,11 +31,11 @@ const ActivatePage = () => {
 
   if (isSuccess) {
     notification.destroy();
-    notification['success']({
-      message: 'Success',
-      description: 'Activate Successfully ',
+    notification["success"]({
+      message: "Success",
+      description: "Activate Successfully ",
     });
-    navigate('/login');
+    navigate("/login");
   }
   return (
     <div className="activatePage">

@@ -158,7 +158,7 @@ const RegisterBody = () => {
         }
 
         if(isError){
-            console.log(errors)
+            
 
             if(errors){
                 if(errors.errors){

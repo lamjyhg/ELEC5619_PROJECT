@@ -1,25 +1,22 @@
-import { useNavigate } from 'react-router';
-import { useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
-import './ErrorPage.scss';
-import Lottie from 'lottie-react';
-import error from './../../image/lotties/errorPage.json';
-import { Button } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
-import { handleActionToCheckAdminAuthority } from '../../state/auth/login.action';
-import { getAdminAuthorityToken } from '../../services/sessionStorage';
+import { Button } from "antd";
+import Lottie from "lottie-react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
+import { useLocation } from "react-router-dom";
+import { getAdminAuthorityToken } from "../../services/sessionStorage";
+import error from "./../../image/lotties/errorPage.json";
+import "./ErrorPage.scss";
 
 const ErrorPage = ({ isAdmin }) => {
-  const location = useLocation();
   const navigate = useNavigate();
 
   const navigateToHome = () => {
-    navigate('/');
+    navigate("/");
   };
   useEffect(() => {
     const adminAuthorityToken = getAdminAuthorityToken();
     if (adminAuthorityToken) {
-      navigate('/admin/error');
+      navigate("/admin/error");
     }
   }, []);
 

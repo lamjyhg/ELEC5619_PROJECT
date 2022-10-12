@@ -1,29 +1,24 @@
 // Attribution: <a href="https://www.vecteezy.com/free-photos">Free Stock photos by Vecteezy</a>
 import {
-  UserOutlined,
-  FileTextOutlined,
   EyeInvisibleOutlined,
   EyeTwoTone,
-} from '@ant-design/icons';
-import { Input } from 'antd';
-import { PoweroffOutlined } from '@ant-design/icons';
-import { Button, Space,notification } from 'antd';
+  FileTextOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+import { Button, Input, notification } from "antd";
 
+import { FrownTwoTone } from "@ant-design/icons";
+import React, { useEffect, useState } from "react";
 
-import React, { useEffect, useState } from 'react';
-import {FrownTwoTone} from "@ant-design/icons"
-
-import './LoginBody.scss';
-import logo from '../../image/gymmy.png';
-import { useDispatch, useSelector } from 'react-redux';
-import { handleLoginRequest } from '../../state/auth/login.action';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import logo from "../../image/gymmy.png";
 import {
   getAdminAuthorityToken,
   getToken,
-  removeAdminAuthorityToken,
-  removeToken,
-} from '../../services/sessionStorage';
+} from "../../services/sessionStorage";
+import { handleLoginRequest } from "../../state/auth/login.action";
+import "./LoginBody.scss";
 
 const LoginBody = () => {
   const { isSuccess, isLoading, isError, errors } = useSelector(
@@ -34,10 +29,9 @@ const LoginBody = () => {
 
   const navigate = useNavigate();
 
-
   const dispatch = useDispatch();
 
-  const [submitText, setSubmitText] = useState('Login');
+  const [submitText, setSubmitText] = useState("Login");
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
   const [emailText, setEmailText] = useState("");
   const [passwordText, setPasswordText] = useState("");
@@ -53,32 +47,29 @@ const LoginBody = () => {
     setPassword(evt.target.value);
   };
 
-
-const openNotification = (error) => {
-  notification.destroy();
-  notification.open({
-    message: 'Login failed',
-    description:
-        error,
-    icon: <FrownTwoTone twoToneColor="#FF0000" />,
-  });
-};
+  const openNotification = (error) => {
+    notification.destroy();
+    notification.open({
+      message: "Login failed",
+      description: error,
+      icon: <FrownTwoTone twoToneColor="#FF0000" />,
+    });
+  };
 
   const submit = () => {
-
     setEmailText("");
-    setPasswordText("")
+    setPasswordText("");
 
     var isErr = false;
 
-    if(!email){
-      setEmailText("Email cannot be empty")
-      isErr = true
+    if (!email) {
+      setEmailText("Email cannot be empty");
+      isErr = true;
     }
 
-    if(!password){
-      setPasswordText("password cannot be empty")
-      isErr = true
+    if (!password) {
+      setPasswordText("password cannot be empty");
+      isErr = true;
     }
 
     const userInput = {
@@ -86,34 +77,30 @@ const openNotification = (error) => {
       password: password,
     };
 
-
-    if(!isErr){
+    if (!isErr) {
       const handleLogin = async () => {
         await dispatch(handleLoginRequest(userInput));
       };
 
       handleLogin();
     }
-
-
   };
 
-  useEffect( () => {
+  useEffect(() => {
     if (isSuccess) {
       if (adminAuthorityToken) {
-        navigate('/admin');
+        navigate("/admin");
       } else {
-        navigate('/');
+        navigate("/");
       }
     }
 
-    if(isError){
-
-      console.log(errors)
+    if (isError) {
+      
 
       openNotification(errors);
     }
-  }, [isSuccess, isError])
+  }, [isSuccess, isError]);
 
   return (
     <div className="login-container">

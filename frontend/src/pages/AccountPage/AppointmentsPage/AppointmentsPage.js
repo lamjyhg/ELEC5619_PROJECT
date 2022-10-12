@@ -11,14 +11,11 @@ import {
   DateNavigator,
   MonthView,
   Scheduler,
-  DragDropProvider,
   Toolbar,
-  Resources,
 } from '@devexpress/dx-react-scheduler-material-ui';
 import { Modal, notification, Spin } from 'antd';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { appointments } from '../../../utils/appointmentsMock';
 
 import moment from 'moment';
 import { useEffect } from 'react';
@@ -30,7 +27,6 @@ import {
 import { PUT } from '../../../constants/requests';
 
 const processData = (data) => {
-  console.log({ data });
   const result = data.map((item) => {
     return {
       title: item.gymName,
@@ -126,14 +122,13 @@ export default function AppointmentsPage() {
       ];
     }
     if (changed) {
-      console.log({ changed });
       newAppointmentsList = newAppointmentsList.map((appointment) => {
         if (changed[appointment.id]) {
           const newAppointment = {
             ...appointment,
             ...changed[appointment.id],
           };
-          console.log({ appointment });
+
           setChangedAppointment(newAppointment);
           return newAppointment;
         } else {

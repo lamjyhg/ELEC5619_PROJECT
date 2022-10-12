@@ -1,11 +1,6 @@
-
-import {ChangePassword} from "../../../components/ChangePassword/ChangePassword";
+import { ChangePassword } from "../../../components/ChangePassword/ChangePassword";
 
 const ChangePasswordPage = () => {
-  return (
-
-
-      <ChangePassword />
-  )
+  return <ChangePassword />;
 };
 export default ChangePasswordPage;

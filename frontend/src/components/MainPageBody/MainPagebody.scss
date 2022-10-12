@@ -1,175 +1,150 @@
+.main_container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow-y: scroll;
+  padding-bottom: 20px;
 
+  .book_section {
+    background: url("../../image/book_section_back.jpg") no-repeat center;
+    background-size: cover;
+    height: 40rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 
-.main_container{
+    .left_info_container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-left: 6rem;
+      height: 100%;
+
+      .name {
+        font-weight: 900;
+        font-size: 100px;
+        font-family: "Apple Chancery", "cursive", "papyrus";
+        color: black;
+        //color: #ffffff;
+      }
+
+      .descrption {
+        margin-top: 2rem;
+        font-weight: bold;
+        font-size: 30px;
+        font-family: "Apple Chancery", "cursive", "papyrus";
+        color: black;
+      }
+
+      .book_button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 0.5rem;
+        height: 3rem;
+        width: 8rem;
+        background-color: #40188c;
+        border-radius: 8px;
+        font-size: large;
+        font-weight: bold;
+        color: #cbcbcb;
+      }
+
+      .book_button:hover {
+        cursor: pointer;
+        background-color: #5826b2;
+        color: white;
+      }
+    }
+
+    .left_info_container:hover .name {
+      text-shadow: 0px 0px 20px #b562e5, 0px 0px 30px #b34ef8,
+        0px 0px 40px #b44ff5, 0px 0px 50px #b657f3, 0px 0px 60px #ba61f3,
+        0px 0px 100px #cb94ef;
+
+      color: white;
+    }
+
+    .left_info_container:hover .descrption {
+      text-shadow: 0px 0px 20px #b562e5, 0px 0px 30px #b34ef8,
+        0px 0px 40px #b44ff5, 0px 0px 50px #b657f3, 0px 0px 60px #ba61f3,
+        0px 0px 100px #cb94ef;
+      color: white;
+    }
+  }
+
+  .about_section {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 5rem;
+
+    .title {
+      font-family: "Apple Chancery", "cursive", "papyrus";
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+      font-size: xxx-large;
+      font-weight: bolder;
+    }
+
+    .card_container {
+      display: flex;
+    }
+  }
+
+  .map_section {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    overflow-y: scroll;
-    padding-bottom: 20px;
+    justify-content: center;
+    align-items: center;
 
+    .title {
+      font-family: "Apple Chancery", "cursive", "papyrus";
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+      font-size: xxx-large;
+      font-weight: bolder;
+    }
+  }
 
-    .book_section{
-        background: url("../../image/book_section_back.jpg") no-repeat center;
-        background-size: cover;
-        height: 40rem;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
+  .review_section {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 
-        .left_info_container{
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin-left: 6rem;
-            height: 100%;
-
-            .name{
-                font-weight: 900;
-                font-size:100px;
-                font-family: "Apple Chancery", "cursive", "papyrus";
-                color: black;
-                //color: #ffffff;
-            }
-
-            .descrption{
-                margin-top: 2rem;
-                font-weight: bold;
-                font-size:30px;
-                font-family: "Apple Chancery", "cursive", "papyrus";
-                color: black;
-            }
-
-            .book_button{
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                margin-top: 0.5rem;
-                height: 3rem;
-                width: 8rem;
-                background-color: #40188c;
-                border-radius: 8px;
-                font-size: large;
-                font-weight: bold;
-                color: #cbcbcb;
-            }
-
-            .book_button:hover{
-                cursor: pointer;
-                background-color: #5826b2;
-                color: white;
-            }
-        }
-
-        .left_info_container:hover .name{
-            text-shadow:
-                    0px 0px 20px #b562e5,
-                    0px 0px 30px #b34ef8,
-                    0px 0px 40px #b44ff5,
-                    0px 0px 50px #b657f3,
-                    0px 0px 60px #ba61f3,
-                    0px 0px 100px #cb94ef;
-
-            color: white;
-        }
-
-        .left_info_container:hover .descrption{
-            text-shadow:
-                    0px 0px 20px #b562e5,
-                    0px 0px 30px #b34ef8,
-                    0px 0px 40px #b44ff5,
-                    0px 0px 50px #b657f3,
-                    0px 0px 60px #ba61f3,
-                    0px 0px 100px #cb94ef;
-            color: white;
-        }
-
+    .title {
+      font-family: "Apple Chancery", "cursive", "papyrus";
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+      font-size: xxx-large;
+      font-weight: bolder;
     }
 
-    .about_section{
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        align-items: center;
-        margin-bottom: 5rem;
+    .review_container {
+      display: flex;
 
-        .title{
-            font-family: "Apple Chancery", "cursive", "papyrus";
-            margin-top: 3rem;
-            margin-bottom: 1rem;
-            font-size: xxx-large;
-            font-weight: bolder;
-        }
-
-
-        .card_container{
-            display: flex;
-        }
-    }
-
-
-    .map_section{
+      .single_review {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
 
-        .title{
-            font-family: "Apple Chancery", "cursive", "papyrus";
-            margin-top: 3rem;
-            margin-bottom: 1rem;
-            font-size: xxx-large;
-            font-weight: bolder;
-        }
+        height: 8rem;
+        width: 17rem;
 
+        .comment {
+          font-size: small;
+          margin-bottom: 0.5rem;
+        }
+      }
+
+      .single_review:nth-child(2) {
+        margin-left: 7rem;
+        margin-right: 7rem;
+      }
     }
-
-
-    .review_section{
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        align-items: center;
-
-        .title{
-            font-family: "Apple Chancery", "cursive", "papyrus";
-            margin-top: 3rem;
-            margin-bottom: 1rem;
-            font-size: xxx-large;
-            font-weight: bolder;
-        }
-
-        .review_container {
-
-            display: flex;
-
-
-
-            .single_review{
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-
-                height: 8rem;
-                width: 17rem;
-
-
-                .comment{
-                    font-size: small;
-                    margin-bottom: 0.5rem;
-                }
-
-
-            }
-
-            .single_review:nth-child(2){
-                margin-left: 7rem;
-                margin-right: 7rem;
-            }
-        }
-
-    }
-
+  }
 }

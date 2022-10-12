@@ -10,7 +10,6 @@ import {
   handleActionToGetUserAppointments,
   handleActionToUpdateAppointmentStatusByUser,
 } from './appointments.action';
-
 const appointmentsSlice = createSlice({
   name: 'appointments',
   initialState: {

@@ -1,6 +1,5 @@
-import axios from 'axios';
-import { rootStore } from '../App';
-import { getToken, removeToken } from '../services/sessionStorage';
+import axios from "axios";
+import { getToken, removeToken } from "../services/sessionStorage";
 
 export const baseURL = `http://localhost:8080/`;
 const timeout = 50000;

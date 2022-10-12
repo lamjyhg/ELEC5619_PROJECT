@@ -1,29 +1,29 @@
 import { Route, Routes } from 'react-router-dom';
+import AdminProtectedLayout from '../components/AdminProtectedLayout/AdminProtectedLayout';
 import MainLayout from '../components/MainLayout/MainLayout';
 import ProtectedLayout from '../components/ProtectedLayout/ProtectedLayout';
 import AccountPage from '../pages/AccountPage/AccountPage';
+import AdminMainPage from '../pages/AccountPage/AdminMainPage/AdminMainPage';
+import AppointmentsPage from '../pages/AccountPage/AppointmentsPage/AppointmentsPage';
+import ChangePasswordPage from '../pages/AccountPage/ChangePasswordPage/ChangePasswordPage';
 import GymOwnerAppointmentManagementPage from '../pages/AccountPage/GymOwnerAppointmentManagementPage/GymOwnerAppointmentManagementPage';
-import GymRequestsPage from '../pages/GymRequestsPage/GymRequestsPage';
+import GymOwnerMainPage from '../pages/AccountPage/GymOwnerMainPage/GymOwneMainPage';
+import OwnerGymsPage from '../pages/AccountPage/OwnerGymsPage/OwnerGymsPage';
+import ProfilePage from '../pages/AccountPage/ProfilePage/ProfilePage';
+import ActivatePage from '../pages/ActivatePage/ActivatePage';
+import EmailSentPage from '../pages/EmailSentPage/EmailSentPage';
+import ErrorPage from '../pages/ErrorPage/ErrorPage';
+import ForgetPasswordCheckPage from '../pages/ForgetPasswordPage/ForgetPasswordCheckPage';
+import ForgetPasswordPage from '../pages/ForgetPasswordPage/ForgetPasswordPage';
 import GymRequestPage from '../pages/GymRequestPage/GymRequestPage';
+import GymRequestsPage from '../pages/GymRequestsPage/GymRequestsPage';
 import GymsPage from '../pages/GymsPage/GymsPage';
 import LoginPage from '../pages/LoginPage/LoginPage';
-import RegisterPage from '../pages/RegisterPage/RegisterPage';
-import UserManagementPage from '../pages/UsersManagementPage/UsersManagementPage';
-import UserEditPage from '../pages/UsersManagementPage/UserEditPage';
-import ProfilePage from '../pages/AccountPage/ProfilePage/ProfilePage';
-import ChangePasswordPage from '../pages/AccountPage/ChangePasswordPage/ChangePasswordPage';
-import AppointmentsPage from '../pages/AccountPage/AppointmentsPage/AppointmentsPage';
-import OwnerGymsPage from '../pages/AccountPage/OwnerGymsPage/OwnerGymsPage';
-import SingleGymPage from '../pages/SingleGymPage/SingleGymPage';
-import AdminMainPage from '../pages/AccountPage/AdminMainPage/AdminMainPage';
 import MainPage from '../pages/MainPage/MainPage';
-import ErrorPage from '../pages/ErrorPage/ErrorPage';
-import ForgetPasswordPage from '../pages/ForgetPasswordPage/ForgetPasswordPage';
-import ForgetPasswordCheckPage from '../pages/ForgetPasswordPage/ForgetPasswordCheckPage';
-import ActivatePage from '../pages/ActivatePage/ActivatePage';
-import AdminProtectedLayout from '../components/AdminProtectedLayout/AdminProtectedLayout';
-import EmailSentPage from '../pages/EmailSentPage/EmailSentPage';
-import GymOwnerMainPage from '../pages/AccountPage/GymOwnerMainPage/GymOwneMainPage';
+import RegisterPage from '../pages/RegisterPage/RegisterPage';
+import SingleGymPage from '../pages/SingleGymPage/SingleGymPage';
+import UserEditPage from '../pages/UsersManagementPage/UserEditPage';
+import UserManagementPage from '../pages/UsersManagementPage/UsersManagementPage';
 
 const Router = () => {
   return (
@@ -100,12 +100,4 @@ const Router = () => {
     </Routes>
   );
 };
-/**
- * <Route path="gymRequest/:id" element={<GymRequestsPage />}></Route>
-<Route
-path="/gymOwnerAppointmentManagment"
-element={
-  <GymOwnerAppointmentManagementPage></GymOwnerAppointmentManagementPage>
-}
-/> */
 export default Router;
