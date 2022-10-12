@@ -41,6 +41,7 @@ const reviewSlice = createSlice({
           isLod: false,
           isErr: true,
           isSuc: false,
+          reviewList:action.payload
         },
       }))
       .addCase(handleActionToGetReviews.pending, (state, action) => {

@@ -16,11 +16,15 @@ import {
 } from "../../state/Review/review.action";
 import { baseURL } from "../../utils/request";
 import AppointmentForm from "../AppointmentForm/AppointmentForm";
+import Lottie from "lottie-react";
 import "./SingleGym.scss";
+import error from "../../image/lotties/errorPage.json";
+import privateGym from "../../image/lotties/private.json"
+import { Space, Spin } from 'antd';
 const { TextArea } = Input;
 
 const SingleGym = () => {
-  const { gym, isSuccess } = useSelector((state) => state.singleGym.singleGym);
+  const { gym, isSuccess, isError, isLoading } = useSelector((state) => state.singleGym.singleGym);
 
   const { reviewList } = useSelector((state) => state.reviews.reviewPage);
 
@@ -77,7 +81,6 @@ const SingleGym = () => {
     handleCreateReview();
 
     setIsModalOpen(false);
-    window.location.reload();
   };
 
   const handleCancel = () => {
@@ -109,7 +112,7 @@ const SingleGym = () => {
     };
 
     handleGetReview();
-  }, [isModalOpen]);
+  }, [reviewList]);
 
   const desc = [1, 2, 3, 4, 5];
 
@@ -168,8 +171,10 @@ const SingleGym = () => {
       await dispatch(handleActionToGetCurrentUser());
     };
 
+
     handleGetGym(GID);
     handleGetCurrentUser();
+
   }, []);
 
   const changeWeek = (opt) => {
@@ -205,7 +210,49 @@ const SingleGym = () => {
         });
       });
   };
+
+
+  const navigateToGymList = () => {
+      navigate("/gyms")
+  }
+
+
+  if(isError){
+    return (
+        <div className="errorPage">
+          <h1>This gym does not exist!</h1>
+          <Lottie animationData={error} />
+          <Button type="primary" shape="round" onClick={navigateToGymList}>
+            Gym list
+          </Button>
+        </div>
+
+    )
+  }
+
+
+
+
+
   if (isSuccess) {
+
+
+    if(gym.gymStatus === "PRIVATE"){
+      return (
+
+          <div className="errorPage">
+            <h1>This gym is currently private!</h1>
+            <Lottie animationData={privateGym} />
+            <Button type="primary" shape="round" onClick={navigateToGymList}>
+              Gym list
+            </Button>
+          </div>
+
+      )
+    }
+
+
+
     const treeData = [];
     const today = new Date();
     const day = today.getDay() - 1;
@@ -239,6 +286,13 @@ const SingleGym = () => {
         children: timeChild,
       });
     }
+
+
+
+
+
+
+
 
     return (
       <div className="single_gym_container">
@@ -324,95 +378,6 @@ const SingleGym = () => {
               <TextArea rows={4} placeholder="Put your comment here ..." />
             </div>
           </Modal>
-        </div>
-
-        <div className="side_floater">
-          <div className="appointment_box">
-            <div className="appointment_title">Make an appointment</div>
-
-            <div className="short_line"></div>
-
-            <Form
-              labelCol={{
-                span: 6,
-              }}
-              wrapperCol={{
-                span: 14,
-              }}
-              layout="horizontal"
-            >
-              <Form.Item
-                label="Name"
-                id="name"
-                name="name"
-                rules={[{ required: true, message: "Name cannot be empty!" }]}
-              >
-                <Input
-                  onChange={(evt) => {
-                    setName(evt.target.value);
-                  }}
-                />
-              </Form.Item>
-
-              <Form.Item
-                label="Email"
-                name="email"
-                id="email"
-                rules={[{ required: true, message: "Email cannot be empty!" }]}
-              >
-                <Input
-                  onChange={(evt) => {
-                    setEmail(evt.target.value);
-                  }}
-                />
-              </Form.Item>
-
-              <Form.Item
-                label="Week:"
-                name="week"
-                rules={[{ required: true, message: "Week cannot be empty!" }]}
-              >
-                <Select defaultValue="this" id="week" onChange={changeWeek}>
-                  <Select.Option value="this">This week</Select.Option>
-                  <Select.Option value="next">Next week</Select.Option>
-                </Select>
-              </Form.Item>
-
-              <Form.Item
-                label="Time:"
-                id="time"
-                name="time"
-                rules={[{ required: true, message: "Time cannot be empty!" }]}
-              >
-                <TreeSelect
-                  onChange={(value) => {
-                    setTime(value);
-                  }}
-                  treeData={treeData}
-                  getPopupContainer={(trigger) => trigger.parentNode}
-                />
-              </Form.Item>
-
-              <Form.Item label="Note" id="note">
-                <TextArea
-                  rows={4}
-                  onChange={(evt) => {
-                    setNote(evt.target.value);
-                  }}
-                />
-              </Form.Item>
-
-              <Form.Item label="Submit">
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  onClick={submitAppointment}
-                >
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
         </div>
       </div>
     );

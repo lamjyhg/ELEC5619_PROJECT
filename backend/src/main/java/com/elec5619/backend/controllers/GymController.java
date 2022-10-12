@@ -42,7 +42,7 @@ import java.util.UUID;
 @RequestMapping(path = "/gyms")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-public class GymController {
+public class  GymController {
 
     private final GymService gymService;
     private final ReviewService reviewService;
@@ -57,9 +57,9 @@ public class GymController {
 
 
     @PostMapping("/{gymId}/create_review")
-    public ResponseEntity<ReviewResponse> createReview( @RequestBody ReviewRequest request) throws IOException {
-        ReviewResponse review = reviewService.create(request);
-        return ResponseEntity.ok(review);
+    public List<ReviewResponse> createReview( @RequestBody ReviewRequest request) throws IOException {
+        List<ReviewResponse> list = reviewService.create(request);
+        return list;
     }
 
     @GetMapping("")
