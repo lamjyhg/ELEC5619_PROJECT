@@ -1,4 +1,4 @@
-import { CloseOutlined, UploadOutlined } from "@ant-design/icons";
+import { CloseOutlined, UploadOutlined } from '@ant-design/icons';
 import {
   Button,
   Form,
@@ -9,35 +9,34 @@ import {
   Tag,
   TimePicker,
   Upload,
-} from "antd";
-import { useEffect, useState } from "react";
-import { geocodeByAddress, getLatLng } from "react-places-autocomplete";
-import { handleRequestToSaveGymPhoto } from "../../services/gyms";
-import AddressAutoComplete from "../AddressAutoComplete/AddressAutoComplete";
+} from 'antd';
+import { useEffect, useState } from 'react';
+import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
+import { handleRequestToSaveGymPhoto } from '../../services/gyms';
+import AddressAutoComplete from '../AddressAutoComplete/AddressAutoComplete';
 
-import moment from "moment";
-import { dayObjects, getStringFromNumber } from "../../utils/dateHandlers";
-import "./GymForm.scss";
+import moment from 'moment';
+import { dayObjects, getStringFromNumber } from '../../utils/dateHandlers';
 const { TextArea } = Input;
 
 export default function GymForm({ open, onCreate, onCancel, gym, setGymNull }) {
   const [form] = Form.useForm();
   const [tradingHour, setTradingHour] = useState({
-    day: "0",
+    day: '0',
     startTime: null,
     endTime: null,
   });
   const [tradingHours, setTradingHours] = useState({});
-  const [address, setAddress] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [address, setAddress] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
   const handleDaySelect = (day) => {
     setTradingHour({ ...tradingHour, day });
   };
   const handleOnChanegHours = (hours) => {
     setTradingHour({
       ...tradingHour,
-      startTime: hours[0].format("HH:mm:ss"),
-      endTime: hours[1].format("HH:mm:ss"),
+      startTime: hours[0].format('HH:mm:ss'),
+      endTime: hours[1].format('HH:mm:ss'),
     });
   };
   const handleAddTradingHour = () => {
@@ -69,20 +68,20 @@ export default function GymForm({ open, onCreate, onCancel, gym, setGymNull }) {
     return true;
   };
   const handleAddressSelect = (address, placeID) => {
-    form.setFieldValue("address", address);
+    form.setFieldValue('address', address);
     geocodeByAddress(address)
       .then(async (results) => {
         return getLatLng(results[0]);
       })
       .then((latLng) => {
         setAddress(address);
-        form.setFieldValue("geoLocation", {
+        form.setFieldValue('geoLocation', {
           lat: latLng.lat,
           lng: latLng.lng,
         });
       })
       .catch((error) => {
-        console.error("Error", error);
+        console.error('Error', error);
       });
   };
   const normFile = (e) => {
@@ -110,11 +109,11 @@ export default function GymForm({ open, onCreate, onCancel, gym, setGymNull }) {
     return tags;
   };
   const setDefault = () => {
-    setAddress("");
+    setAddress('');
     setGymNull();
     form.resetFields();
     setTradingHour({
-      day: "0",
+      day: '0',
       startTime: null,
       endTime: null,
     });
@@ -123,23 +122,22 @@ export default function GymForm({ open, onCreate, onCancel, gym, setGymNull }) {
 
   useEffect(() => {
     if (gym) {
-      
       setAddress(gym.address);
       setImageUrl(gym.imageUrl);
       setTradingHours(!gym.tradingHours ? {} : gym.tradingHours);
-      form.setFieldValue("geoLocation", { ...gym.geoLocation });
-      form.setFieldValue("address", gym.address);
-      form.setFieldValue("name", gym.name);
-      form.setFieldValue("description", gym.description);
-      form.setFieldValue("maximumOfAppointments", gym.maximumOfAppointments);
+      form.setFieldValue('geoLocation', { ...gym.geoLocation });
+      form.setFieldValue('address', gym.address);
+      form.setFieldValue('name', gym.name);
+      form.setFieldValue('description', gym.description);
+      form.setFieldValue('maximumOfAppointments', gym.maximumOfAppointments);
     }
   }, [gym]);
 
   return (
     <Modal
       visible={open}
-      title={!gym ? "Create Gym" : "Update Gym"}
-      okText={!gym ? "Create Gym" : "Update Gym"}
+      title={!gym ? 'Create Gym' : 'Update Gym'}
+      okText={!gym ? 'Create Gym' : 'Update Gym'}
       cancelText="Cancel"
       onCancel={() => {
         onCancel();
@@ -156,9 +154,7 @@ export default function GymForm({ open, onCreate, onCancel, gym, setGymNull }) {
               tradingHours,
             });
           })
-          .catch((info) => {
-            
-          });
+          .catch((info) => {});
       }}
     >
       <Form
@@ -171,7 +167,7 @@ export default function GymForm({ open, onCreate, onCancel, gym, setGymNull }) {
           rules={[
             {
               required: true,
-              message: "Please input your gym name!",
+              message: 'Please input your gym name!',
             },
           ]}
           label="Gym name"
@@ -185,7 +181,7 @@ export default function GymForm({ open, onCreate, onCancel, gym, setGymNull }) {
           rules={[
             {
               required: true,
-              message: "Please input your gym address!",
+              message: 'Please input your gym address!',
             },
           ]}
           onChange={handleAddressSelect}
@@ -202,7 +198,7 @@ export default function GymForm({ open, onCreate, onCancel, gym, setGymNull }) {
           rules={[
             {
               required: true,
-              message: "Please input your gym name!",
+              message: 'Please input your gym name!',
             },
           ]}
         >
@@ -245,7 +241,7 @@ export default function GymForm({ open, onCreate, onCancel, gym, setGymNull }) {
           rules={[
             {
               required: true,
-              message: "Please input your gym name!",
+              message: 'Please input your gym name!',
             },
           ]}
         >
@@ -261,7 +257,7 @@ export default function GymForm({ open, onCreate, onCancel, gym, setGymNull }) {
           <Upload
             action={async (file) => {
               const formData = new FormData();
-              formData.append("imageFile", file);
+              formData.append('imageFile', file);
               const imageUrl = await handleRequestToSaveGymPhoto(formData);
               setImageUrl(imageUrl);
             }}
