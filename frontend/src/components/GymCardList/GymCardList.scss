@@ -4,4 +4,8 @@
 
 .gymCardList{
   margin-top: 30px;
+  &_empty{
+    width: 50%;
+    margin: auto;
+  }
 }
