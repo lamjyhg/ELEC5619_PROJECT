@@ -68,4 +68,13 @@ public class AppointmentController {
     public  ResponseEntity<AppointmentResponseDto> updateAppointment(@PathVariable UUID appointmentId, @RequestBody AppointmentUpdateTimeRequestDto appointmentInfo){
         return ResponseEntity.ok(appointmentService.update(appointmentId,appointmentInfo));
     }
+
+
+    @PutMapping("/{appointmentId}/updateStatusByGymOwner")
+    public ResponseEntity<AppointmentResponseDto> cancelAppointmentByGymOwner(@PathVariable UUID appointmentId,
+                                                                              @RequestParam(name = "status") AppointmentStatus status,
+                                                                              HttpServletRequest request) throws AuthenticationError, IOException {
+        HttpSession session = request.getSession();
+        return ResponseEntity.ok(appointmentService.updateStatusByUser(appointmentId,status, session));
+    }
 }

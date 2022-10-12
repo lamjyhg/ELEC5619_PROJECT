@@ -1,0 +1,18 @@
+.adminMainPage{
+    width: 100%;
+    >h1{
+        font-size: 20px;
+    }
+    &_buttons{
+        width: 90%;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        
+        >button{
+            width: 45%;
+            height:70px
+        }
+        
+    }
+}

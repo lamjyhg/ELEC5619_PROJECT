@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import Icon from '@ant-design/icons';
 import './GymCardList.scss';
 import { useNavigate } from 'react-router-dom';
+import { baseURL } from '../../utils/request';
 const { Meta } = Card;
 const dumbBell = () => {
   return (
@@ -18,7 +19,7 @@ export default function GymCardList() {
 
   const navigate = useNavigate();
   return (
-    <div>
+    <div className="gymCardList">
       {isLoading ? (
         <Spin />
       ) : (
@@ -44,8 +45,13 @@ export default function GymCardList() {
                       className="card_body"
                       cover={
                         <img
+                          height="300px"
                           alt="example"
-                          src="https://picsum.photos/id/300/300"
+                          src={
+                            item.imageUrl
+                              ? baseURL + item.imageUrl
+                              : 'https://picsum.photos/id/300/300'
+                          }
                         />
                       }
                     >

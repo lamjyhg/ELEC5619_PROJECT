@@ -76,9 +76,8 @@ public class GymController {
 
 
     @GetMapping("/findAllNearby")
-    public ResponseEntity<List<GymResponseDto>> findAllNearbyGyms(@RequestParam(name = "latitude") Double latitude,@RequestParam(name = "longitude") Double longitude, HttpSession session) throws IOException {
+    public ResponseEntity<List<GymResponseDto>> findAllNearbyGyms(@RequestParam(name = "latitude") Double latitude,@RequestParam(name = "longitude") Double longitude) throws IOException {
 
-        System.out.println(session.getAttribute("token"));
         return ResponseEntity.ok(gymService.findAllNearby(latitude,longitude));
     }
 

@@ -22,12 +22,13 @@ import ForgetPasswordPage from '../pages/ForgetPasswordPage/ForgetPasswordPage';
 import ForgetPasswordCheckPage from '../pages/ForgetPasswordPage/ForgetPasswordCheckPage';
 import ActivatePage from '../pages/ActivatePage/ActivatePage';
 import AdminProtectedLayout from '../components/AdminProtectedLayout/AdminProtectedLayout';
-import EmailSentPage from "../pages/EmailSentPage/EmailSentPage";
+import EmailSentPage from '../pages/EmailSentPage/EmailSentPage';
+import GymOwnerMainPage from '../pages/AccountPage/GymOwnerMainPage/GymOwneMainPage';
 
 const Router = () => {
   return (
     <Routes>
-        <Route path="/email_sent" element={<EmailSentPage />} />
+      <Route path="/email_sent" element={<EmailSentPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/forget_password" element={<ForgetPasswordPage />} />
       <Route path="/activate/:token" element={<ActivatePage />} />
@@ -79,6 +80,10 @@ const Router = () => {
           ></Route>
           <Route path="appointments" element={<AppointmentsPage />}></Route>
           <Route path="gymOwner">
+            <Route
+              path=""
+              element={<GymOwnerMainPage></GymOwnerMainPage>}
+            ></Route>
             <Route
               path="gyms"
               element={<OwnerGymsPage></OwnerGymsPage>}

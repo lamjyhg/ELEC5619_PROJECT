@@ -49,7 +49,13 @@ export default function ProfilePage() {
   }, []);
 
   useEffect(() => {
-    setAppointments(processData(userAppointments.appointmentList));
+    setAppointments(
+      processData(
+        userAppointments.appointmentList.filter(
+          (each) => each.status === 'PROCESSING'
+        )
+      )
+    );
   }, [userAppointments]);
 
   useEffect(() => {

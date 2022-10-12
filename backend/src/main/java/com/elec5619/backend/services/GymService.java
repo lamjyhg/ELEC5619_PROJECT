@@ -51,6 +51,7 @@ public class GymService {
 
     public List<GymResponseDto> findAllNearby(Double latitude,Double longitude) {
         List<Gym> gymList = gymRepository.findNearbyGymsByCurrentLocation(latitude,longitude);
+
         return gymList.stream().map(gym -> gymMapper.fromEntity(gym)).collect(Collectors.toList());
     }
 
@@ -139,5 +140,7 @@ public class GymService {
         System.out.println("-------------------------------");
         return gymList.stream().map(gym -> gymMapper.fromEntity(gym)).collect(Collectors.toList());
     }
+
+
 
 }

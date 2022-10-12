@@ -1,10 +1,10 @@
-import { GET, POST, PUT, DELETE } from "../constants/requests";
-import request from "../utils/request";
-const URL_PREFIX = "appointments";
+import { GET, POST, PUT, DELETE } from '../constants/requests';
+import request from '../utils/request';
+const URL_PREFIX = 'appointments';
 
 export const handleRequestToGetGymAppointmentsByGymOwner = () => {
   const config = {
-    url: URL_PREFIX + "/listAllByGymOwner",
+    url: URL_PREFIX + '/listAllByGymOwner',
     method: GET,
   };
   return request(config).then((res) => res.data);
@@ -12,7 +12,7 @@ export const handleRequestToGetGymAppointmentsByGymOwner = () => {
 
 export const handleRequestToGetAppointmentsByUser = () => {
   const config = {
-    url: URL_PREFIX + "/listAllByUser",
+    url: URL_PREFIX + '/listAllByUser',
     method: GET,
   };
   return request(config).then((res) => res.data);
@@ -37,7 +37,7 @@ export const handleRequestToCreateAppointment = (appointment) => {
 
 export const handleRequestToUpdateAppointment = (newAppointment) => {
   const config = {
-    url: URL_PREFIX + "/" + newAppointment.id,
+    url: URL_PREFIX + '/' + newAppointment.id,
     method: PUT,
     data: newAppointment,
   };
@@ -46,8 +46,16 @@ export const handleRequestToUpdateAppointment = (newAppointment) => {
 
 export const handleRequestToDeleteAppointment = (appointment) => {
   const config = {
-    url: URL_PREFIX + "/" + appointment.id,
+    url: URL_PREFIX + '/' + appointment.id,
     method: DELETE,
+  };
+  return request(config).then((res) => res.data);
+};
+
+export const handleRequestToUpdateAppointmentStatusByUser = (id, status) => {
+  const config = {
+    url: `${URL_PREFIX}/${id}/updateStatusByGymOwner?status=${status}`,
+    method: PUT,
   };
   return request(config).then((res) => res.data);
 };

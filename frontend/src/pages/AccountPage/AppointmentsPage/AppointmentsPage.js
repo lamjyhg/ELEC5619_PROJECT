@@ -2,7 +2,7 @@ import {
   EditingState,
   IntegratedEditing,
   ViewState,
-} from "@devexpress/dx-react-scheduler";
+} from '@devexpress/dx-react-scheduler';
 import {
   AppointmentForm,
   Appointments,
@@ -13,16 +13,21 @@ import {
   Scheduler,
   DragDropProvider,
   Toolbar,
-} from "@devexpress/dx-react-scheduler-material-ui";
-import { notification } from "antd";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { appointments } from "../../../utils/appointmentsMock";
+  Resources,
+} from '@devexpress/dx-react-scheduler-material-ui';
+import { Modal, notification, Spin } from 'antd';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { appointments } from '../../../utils/appointmentsMock';
 
-import moment from "moment";
-import { useEffect } from "react";
-import { handleRequestToUpdateAppointment } from "../../../services/appointments.js";
-import { handleActionToGetUserAppointments } from "../../../state/appointments/appointments.action.js";
+import moment from 'moment';
+import { useEffect } from 'react';
+import { handleRequestToUpdateAppointment } from '../../../services/appointments.js';
+import {
+  handleActionToGetUserAppointments,
+  handleActionToUpdateAppointmentStatusByUser,
+} from '../../../state/appointments/appointments.action.js';
+import { PUT } from '../../../constants/requests';
 
 const processData = (data) => {
   console.log({ data });
@@ -41,8 +46,10 @@ const processData = (data) => {
 export default function AppointmentsPage() {
   const dispatch = useDispatch();
   const { userAppointments } = useSelector((state) => state.appointments);
+  const { requestType, isLoading, isSuccess, isError } = userAppointments;
   let [appointmentsList, setAppointments] = useState();
   const [changedAppointment, setChangedAppointment] = useState();
+  const [deletedId, setDeletedId] = useState(null);
   const [currentDate, setCurrentDate] = useState(new Date());
   useEffect(() => {
     //fetch all appointment create by user
@@ -50,8 +57,33 @@ export default function AppointmentsPage() {
   }, []);
 
   useEffect(() => {
-    setAppointments(processData(userAppointments.appointmentList));
+    setAppointments(
+      processData(
+        userAppointments.appointmentList.filter(
+          (each) => each.status === 'PROCESSING'
+        )
+      )
+    );
   }, [userAppointments]);
+
+  useEffect(() => {
+    if (requestType === PUT) {
+      if (isSuccess) {
+        notification.destroy();
+        notification['success']({
+          message: 'Success',
+          description: 'Update successfully ',
+        });
+      }
+      if (isError) {
+        notification.destroy();
+        notification['error']({
+          message: 'Error',
+          description: 'Update failed ',
+        });
+      }
+    }
+  }, [isSuccess, isError]);
 
   useEffect(() => {
     if (changedAppointment) {
@@ -59,46 +91,43 @@ export default function AppointmentsPage() {
       const requestData = {
         id: changedAppointment.id,
         startTime: moment(changedAppointment.startDate).format(
-          "YYYY-MM-DD HH:mm:ss"
+          'YYYY-MM-DD HH:mm:ss'
         ),
         endTime: moment(changedAppointment.endDate).format(
-          "YYYY-MM-DD HH:mm:ss"
+          'YYYY-MM-DD HH:mm:ss'
         ),
       };
-      console.log({ changedAppointment });
       handleRequestToUpdateAppointment(requestData)
         .then(() => {
           notification.success({
-            message: "Updated",
-            description: "Appointment updated.",
+            message: 'Updated',
+            description: 'Appointment updated.',
           });
         })
         .catch((error) => {
           notification.success({
-            message: "Fail",
+            message: 'Fail',
             description: error.errors,
           });
         });
     }
   }, [changedAppointment]);
 
-  const { userInfo, isSuccess, isLoading } = useSelector(
-    (state) => state.login.loginPage
-  );
-  const commitChanges = ({ added, changed, deleted }) => {
+  const commitChanges = async ({ added, changed, deleted }) => {
+    var newAppointmentsList = appointmentsList;
     if (added) {
       const startingAddedId =
-        appointmentsList.length > 0
-          ? appointmentsList[appointmentsList.length - 1].id + 1
+        newAppointmentsList.length > 0
+          ? newAppointmentsList[newAppointmentsList.length - 1].id + 1
           : 0;
-      appointmentsList = [
-        ...appointmentsList,
+      newAppointmentsList = [
+        ...newAppointmentsList,
         { id: startingAddedId, ...added },
       ];
     }
     if (changed) {
       console.log({ changed });
-      appointmentsList = appointmentsList.map((appointment) => {
+      newAppointmentsList = newAppointmentsList.map((appointment) => {
         if (changed[appointment.id]) {
           const newAppointment = {
             ...appointment,
@@ -113,29 +142,49 @@ export default function AppointmentsPage() {
       });
     }
     if (deleted !== undefined) {
-      appointmentsList = appointmentsList.filter(
-        (appointment) => appointment.id !== deleted
-      );
+      setDeletedId(deleted);
+
+      await cancelAppointment(deleted);
+
+      if (isSuccess) {
+        newAppointmentsList = appointmentsList.filter(
+          (appointment) => appointment.id !== deletedId
+        );
+      }
     }
-    setAppointments(appointmentsList);
+    setAppointments(newAppointmentsList);
   };
+
+  const cancelAppointment = async (id) => {
+    await dispatch(
+      handleActionToUpdateAppointmentStatusByUser({
+        id: id,
+        status: 'CANCELLED',
+      })
+    );
+  };
+
   return (
     <>
-      <Scheduler data={appointmentsList}>
-        <ViewState
-          currentDate={currentDate}
-          onCurrentDateChange={setCurrentDate}
-        />
-        <EditingState onCommitChanges={commitChanges} />
-        <IntegratedEditing />
-        <Toolbar />
-        <DateNavigator />
-        <MonthView startDayHour={0} endDayHour={24} />
-        <ConfirmationDialog />
-        <Appointments />
-        <AppointmentTooltip showOpenButton showDeleteButton />
-        <AppointmentForm />
-      </Scheduler>
+      <Spin spinning={isLoading}>
+        <Scheduler data={appointmentsList}>
+          <ViewState
+            currentDate={currentDate}
+            onCurrentDateChange={setCurrentDate}
+          />
+          <Modal open={cancelAppointment}></Modal>
+          <EditingState onCommitChanges={commitChanges} />
+          <IntegratedEditing />
+
+          <Toolbar />
+          <DateNavigator />
+          <MonthView startDayHour={0} endDayHour={24} />
+
+          <Appointments />
+          <AppointmentTooltip showDeleteButton />
+          <AppointmentForm />
+        </Scheduler>
+      </Spin>
     </>
   );
 }

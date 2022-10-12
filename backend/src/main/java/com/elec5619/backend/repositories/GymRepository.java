@@ -24,7 +24,7 @@ public interface GymRepository extends JpaRepository<Gym, UUID> {
             "            ) * 60 * 1.1515\n" +
             "        )\n" +
             "    as distance FROM Gym\n" +
-            ") myTable order by distance;" , nativeQuery = true)
+            ") myTable order by distance" , nativeQuery = true)
     public List<Gym> findNearbyGymsByCurrentLocation(@Param("latitude") Double latitude,@Param("longitude") Double longitude);
 
     @Query(value = "SELECT * FROM gym WHERE gym_application_status=0;" , nativeQuery = true)
