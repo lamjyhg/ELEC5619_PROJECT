@@ -1,9 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { replaceAppointmentInList } from '../../utils/appointmentsHandlers';
+import { GET, PUT } from '../../constants/requests';
+import {
+  cancelAppointmentInList,
+  replaceAppointmentInList,
+} from '../../utils/appointmentsHandlers';
 import {
   handleActionToCancelAppointmentByGymOwner,
   handleActionToGetGymsAppointmentsByGymOwner,
   handleActionToGetUserAppointments,
+  handleActionToUpdateAppointmentStatusByUser,
 } from './appointments.action';
 
 const appointmentsSlice = createSlice({
@@ -25,6 +30,7 @@ const appointmentsSlice = createSlice({
       isError: false,
       isLoading: false,
       isSuccess: false,
+      requestType: GET,
     },
   },
   reducers: {},
@@ -124,6 +130,7 @@ const appointmentsSlice = createSlice({
           isLoading: true,
           isError: false,
           isSuccess: false,
+          requestType: GET,
         },
       }))
       .addCase(
@@ -136,6 +143,7 @@ const appointmentsSlice = createSlice({
             isError: false,
             isSuccess: true,
             appointmentList: action.payload,
+            requestType: GET,
           },
         })
       )
@@ -143,11 +151,55 @@ const appointmentsSlice = createSlice({
         ...state,
         userAppointments: {
           ...state.userAppointments,
-          isLoading: true,
-          isError: false,
+          isLoading: false,
+          isError: true,
           isSuccess: false,
+          requestType: GET,
         },
-      }));
+      }))
+      .addCase(
+        handleActionToUpdateAppointmentStatusByUser.pending,
+        (state, action) => ({
+          ...state,
+          userAppointments: {
+            ...state.userAppointments,
+            isLoading: true,
+            isError: false,
+            isSuccess: false,
+            requestType: PUT,
+          },
+        })
+      )
+      .addCase(
+        handleActionToUpdateAppointmentStatusByUser.fulfilled,
+        (state, action) => ({
+          ...state,
+          userAppointments: {
+            ...state.userAppointments,
+            isLoading: false,
+            isError: false,
+            isSuccess: true,
+            requestType: PUT,
+            appointmentList: replaceAppointmentInList(
+              action.payload,
+              state.userAppointments.appointmentList
+            ),
+          },
+        })
+      )
+      .addCase(
+        handleActionToUpdateAppointmentStatusByUser.rejected,
+        (state, action) => ({
+          ...state,
+          userAppointments: {
+            ...state.userAppointments,
+            isLoading: false,
+            isError: true,
+            isSuccess: false,
+            requestType: PUT,
+          },
+        })
+      );
   },
 });
 export default appointmentsSlice.reducer;
