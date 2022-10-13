@@ -33,11 +33,13 @@ public class AppointmentRequestDto {
 
     @Future(message="startTime should be future")
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private Date startTime;
+    @NotNull(message="startTime should not be null")
+    private LocalDateTime startTime;
 
     @Future(message="endTime should be future")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date endTime;
+    @NotNull(message="endTime should not be null")
+    private LocalDateTime endTime;
 
     @NotNull(message="not should not be null")
     private String note;
@@ -45,6 +47,17 @@ public class AppointmentRequestDto {
 
     @AssertTrue(message="startTime should be before endTime")
     public boolean isValidRange() {
+        if(startTime == null || endTime == null){
+            return false;
+        }
         return endTime.compareTo(startTime) > 0;
+    }
+
+    @AssertTrue(message="startTime and endTime should be same date")
+    public boolean startTimeSameDateEndTime() {
+        if(startTime == null || endTime == null){
+            return false;
+        }
+        return startTime.getYear() == endTime.getYear() && startTime.getMonth() == endTime.getMonth() && startTime.getDayOfMonth() == endTime.getDayOfMonth();
     }
 }

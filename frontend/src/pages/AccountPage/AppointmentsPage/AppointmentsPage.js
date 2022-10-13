@@ -25,6 +25,7 @@ import {
   handleActionToUpdateAppointmentStatusByUser,
 } from '../../../state/appointments/appointments.action.js';
 import { PUT } from '../../../constants/requests';
+import { SmileTwoTone } from '@ant-design/icons';
 
 const processData = (data) => {
   const result = data.map((item) => {
@@ -69,6 +70,7 @@ export default function AppointmentsPage() {
         notification['success']({
           message: 'Success',
           description: 'Update successfully ',
+          icon: <SmileTwoTone twoToneColor="#FF0000" />,
         });
       }
       if (isError) {

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.validation.constraints.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -11,11 +12,11 @@ public class AppointmentUpdateTimeRequestDto {
 
     @Future(message="startTime should be future")
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private Date startTime;
+    private LocalDateTime startTime;
 
     @Future(message="endTime should be future")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date endTime;
+    private LocalDateTime endTime;
     
     @AssertTrue(message="startTime should be before endTime")
     public boolean isValidRange() {

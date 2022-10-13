@@ -7,6 +7,7 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
@@ -21,9 +22,9 @@ public class AppointmentResponseDto {
 
     private String customerEmail;
 
-    private Date startTime;
+    private LocalDate startTime;
 
-    private Date endTime;
+    private LocalDate endTime;
 
     private AppointmentStatus status;
 

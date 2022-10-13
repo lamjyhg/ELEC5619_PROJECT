@@ -225,6 +225,8 @@ export default function GymForm({ open, onCreate, onCancel, gym, setGymNull }) {
                 moment(tradingHour.startTime),
                 moment(tradingHour.endTime),
               ]}
+              minuteStep={60}
+              secondStep={60}
               onChange={handleOnChanegHours}
             />
             <Button

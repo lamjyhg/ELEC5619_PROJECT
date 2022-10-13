@@ -14,15 +14,21 @@ import com.elec5619.backend.mappers.AppointmentMapper;
 import com.elec5619.backend.repositories.AppointmentRepository;
 import com.elec5619.backend.repositories.GymRepository;
 import com.elec5619.backend.repositories.UserRepository;
+import com.elec5619.backend.utils.DateHandlers;
 import com.elec5619.backend.utils.EmailHtmlHandlers;
 import com.elec5619.backend.utils.EmailSendingHandler;
 import com.elec5619.backend.utils.EmailSendingHanlderImple;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.Time;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -61,6 +67,19 @@ public class AppointmentService {
         User customer = userService.getUserByToken(session);
         Gym gym = gymRepository.findById(UUID.fromString(appointmentRequestDto.getGymId())).orElseThrow(() -> new IllegalArgumentException(String.format("Unknown gym id ")));
         // check there is available
+        System.out.println(1111);
+        if (this.getAvailabilityByGymIdAndStartTimeAndEndTime(
+                gym,
+                appointmentRequestDto.getStartTime(),
+                appointmentRequestDto.getEndTime()
+        ) <= 0) {
+            throw new BadRequestException("no available");
+        }
+
+        System.out.println(222);
+
+
+
 
         Appointment appointment = appointmentMapper.toEntity(appointmentRequestDto);
         appointment.setCustomer(customer);
@@ -201,5 +220,34 @@ public class AppointmentService {
 
 
     }
+    public Integer getAvailabilityByGymIdAndStartTimeAndEndTime(Gym gym, LocalDateTime appointmentStartTime, LocalDateTime appointmentEndTime) {
+        Integer startDay = DateHandlers.getDayOfWeek(appointmentStartTime);
+
+        System.out.println("day "+startDay);
+        System.out.println(gym.getTradingHours().get(0));
+        if (gym.getTradingHours() == null || gym.getTradingHours().get(startDay)== null) {
+
+            return 0;
+        }
+
+        System.out.println("pass null");
+
+        Time tradingStart = gym.getTradingHours().get(startDay).get("startTime");
+        Time tradingEnd = gym.getTradingHours().get(startDay).get("endTime");
+
+        Time appointmentStartTimeObject = new Time(appointmentStartTime.getHour(), appointmentStartTime.getMinute(), appointmentStartTime.getSecond());
+        Time appointmentEndTimeObject = new Time(appointmentEndTime.getHour(), appointmentEndTime.getMinute(), appointmentEndTime.getSecond());
+
+        System.out.println("zai zhi ");
+        if (appointmentStartTimeObject.before(tradingStart) || appointmentEndTimeObject.after(tradingEnd)) {
+            return 0;
+        }
+
+        System.out.println("zai zhi jian");
+        Integer count = appointmentRepository.countByGymIdAndStartTimeAndEndTime(gym.getId(), appointmentStartTime, appointmentEndTime);
+        return gym.getMaximumOfAppointments() - count;
+    }
+
+
 
 }

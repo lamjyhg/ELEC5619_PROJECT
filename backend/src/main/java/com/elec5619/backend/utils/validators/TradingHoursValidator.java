@@ -17,7 +17,11 @@ public class TradingHoursValidator implements
     @SneakyThrows
     @Override
     public boolean isValid(Map<Integer, Map<String, Time>> value, ConstraintValidatorContext context) {
+
         AtomicReference<Boolean> isValid = new AtomicReference<>(true);
+        if(value == null){
+            return false;
+        }
         Set<Integer> days = value.keySet();
         SimpleDateFormat parser = new SimpleDateFormat("HH:mm");
 

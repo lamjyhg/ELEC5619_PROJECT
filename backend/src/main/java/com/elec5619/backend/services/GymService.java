@@ -12,11 +12,15 @@ import com.elec5619.backend.entities.gymEnums.GymStatus;
 import com.elec5619.backend.exceptions.AuthenticationError;
 import com.elec5619.backend.jwt.JwtTokenUtil;
 import com.elec5619.backend.mappers.GymMapper;
+import com.elec5619.backend.repositories.AppointmentRepository;
 import com.elec5619.backend.repositories.GymRepository;
 import com.elec5619.backend.repositories.UserRepository;
+import com.elec5619.backend.utils.DateHandlers;
 import com.elec5619.backend.utils.FileUploadUtil;
 import com.elec5619.backend.entities.gymEnums.GymApplicationStatus;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,10 +30,9 @@ import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpSession;
 import javax.annotation.security.RolesAllowed;
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.sql.Time;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -41,6 +44,10 @@ public class GymService {
     private final JwtTokenUtil jwtTokenUtil;
 
     private final UserService userService;
+
+    private final AppointmentRepository appointmentRepository;
+
+    private final AppointmentService appointmentService;
 
     public List<GymResponseDto> findAll() {
         List<Gym> gymList = gymRepository.findAll();
@@ -139,6 +146,21 @@ public class GymService {
         }
         System.out.println("-------------------------------");
         return gymList.stream().map(gym -> gymMapper.fromEntity(gym)).collect(Collectors.toList());
+    }
+
+
+
+    public ResponseEntity getTimeAvailability(UUID gymId, LocalDateTime appointmentStartTime, LocalDateTime appointmentEndTime){
+        Gym foundGym = gymRepository.findById(gymId).orElseThrow(() -> new IllegalArgumentException(String.format("Unknown id %s")));
+        Integer availability = appointmentService.getAvailabilityByGymIdAndStartTimeAndEndTime(foundGym,appointmentStartTime,appointmentEndTime);
+        Map<String, Object> response = new HashMap<String, Object>();
+        if(availability<=0){
+            availability = 0;
+        }
+        response.put("availability", availability);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
     }
 
 

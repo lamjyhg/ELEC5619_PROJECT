@@ -1,22 +1,24 @@
-import { Avatar, Modal, Rate } from "antd";
-import React, { useEffect, useState } from "react";
-import temp_gym from "../../image/temp_gym_img.jpg";
-import SingleGymMap from "./SingleGymMap/SingleGymMap";
-import { EditFilled } from "@ant-design/icons";
-import { Button, Form, Input, notification, Select, TreeSelect } from "antd";
-import "antd/dist/antd.css";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
-import { handleRequestToCreateAppointment } from "../../services/appointments";
-import { handleActionToGetCurrentUser } from "../../state/currentUser/currentUser.action";
-import { handleActionToGetSingleGym } from "../../state/gyms/singleGym.action";
+import { Avatar, Modal, Rate } from 'antd';
+import React, { useEffect, useState } from 'react';
+import temp_gym from '../../image/temp_gym_img.jpg';
+import SingleGymMap from './SingleGymMap/SingleGymMap';
+import { EditFilled } from '@ant-design/icons';
+import { Button, Form, Input, notification, Select, TreeSelect } from 'antd';
+import 'antd/dist/antd.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { handleRequestToCreateAppointment } from '../../services/appointments';
+import { handleActionToGetCurrentUser } from '../../state/currentUser/currentUser.action';
+import { handleActionToGetSingleGym } from '../../state/gyms/singleGym.action';
 import {
   handleActionToGetReviews,
   handleActionToSubmitReview,
-} from "../../state/Review/review.action";
-import { baseURL } from "../../utils/request";
-import AppointmentForm from "../AppointmentForm/AppointmentForm";
-import "./SingleGym.scss";
+} from '../../state/Review/review.action';
+import { baseURL } from '../../utils/request';
+import AppointmentForm from '../AppointmentForm/AppointmentForm';
+import './SingleGym.scss';
+import { handleActionToGetGymTimeAvailability } from '../../state/gyms/gyms.action';
+import { handleRequestToGetGymTimeAvailability } from '../../services/gyms';
 const { TextArea } = Input;
 
 const SingleGym = () => {
@@ -42,9 +44,9 @@ const SingleGym = () => {
   const [dateMsg, setDateMsg] = useState(null);
   const [timeMsg, setTimeMsg] = useState(null);
 
-  const [week, setWeek] = useState("this");
+  const [week, setWeek] = useState('this');
   const [star, setStar] = useState(3);
-  const [comment, setComment] = useState("");
+  const [comment, setComment] = useState('');
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -58,11 +60,11 @@ const SingleGym = () => {
   let year = dateObj.getFullYear();
 
   // prints date & time in YYYY-MM-DD format
-  const dateString = " " + year + "/" + month + "/" + day;
+  const dateString = ' ' + year + '/' + month + '/' + day;
 
   const showModal = () => {
     if (!currentUser || !currentUser.id) {
-      navigate("/login", { replace: true });
+      navigate('/login', { replace: true });
     }
     setIsModalOpen(true);
   };
@@ -100,7 +102,6 @@ const SingleGym = () => {
       startTime: time,
       note,
     };
-    
   };
 
   useEffect(() => {
@@ -117,7 +118,7 @@ const SingleGym = () => {
     const component = [];
 
     reviewList.map((singleGym) => {
-      const src = "https://joeschmoe.io/api/v1/" + singleGym.username;
+      const src = 'https://joeschmoe.io/api/v1/' + singleGym.username;
       component.push(
         <div className="single_review">
           <div className="single_review_header">
@@ -140,23 +141,23 @@ const SingleGym = () => {
   };
 
   const TimeMap = {
-    0: "Monday",
-    1: "Tuesday",
-    2: "Wednesday",
-    3: "Thursday",
-    4: "Friday",
-    5: "Saturday",
-    6: "Sunday",
+    0: 'Monday',
+    1: 'Tuesday',
+    2: 'Wednesday',
+    3: 'Thursday',
+    4: 'Friday',
+    5: 'Saturday',
+    6: 'Sunday',
   };
 
   const dayValueMap = {
-    Monday: "mon",
-    Tuesday: "tue",
-    Wednesday: "wed",
-    Thursday: "thu",
-    Friday: "fri",
-    Saturday: "sat",
-    Sunday: "sun",
+    Monday: 'mon',
+    Tuesday: 'tue',
+    Wednesday: 'wed',
+    Thursday: 'thu',
+    Friday: 'fri',
+    Saturday: 'sat',
+    Sunday: 'sun',
   };
 
   useEffect(() => {
@@ -179,9 +180,22 @@ const SingleGym = () => {
   const showAppointmnetModal = () => {
     setIsAppointmentModalOpen(true);
   };
+  const getTimeAvailability = async (gymId, startTime, endTime) => {
+    await dispatch(
+      handleActionToGetGymTimeAvailability({
+        id: gymId,
+        body: {
+          startTime,
+          endTime,
+        },
+      })
+    );
+  };
   const onCreate = (values) => {
-    const startTime = values.startTime.format("YYYY-MM-DD HH:MM:SS");
-    const endTime = values.endTime.format("YYYY-MM-DD HH:MM:SS");
+    const startTime = values.startTime.format('YYYY-MM-DD HH:MM:SS');
+    const endTime = values.endTime.format('YYYY-MM-DD HH:MM:SS');
+
+    getTimeAvailability(GID, startTime, endTime);
 
     handleRequestToCreateAppointment({
       ...values,
@@ -190,17 +204,15 @@ const SingleGym = () => {
       gymId: GID,
     })
       .then((res) => {
-        
         notification.success({
-          message: "Success",
-          description: "Appointment created.",
+          message: 'Success',
+          description: 'Appointment created.',
         });
         setIsAppointmentModalOpen(false);
       })
       .catch((error) => {
-        
         notification.success({
-          message: "Failed",
+          message: 'Failed',
           description: error.errors,
         });
       });
@@ -213,7 +225,7 @@ const SingleGym = () => {
 
     var id = 1;
     for (const key in gym.tradingHours) {
-      if (week === "this" && day >= key) {
+      if (week === 'this' && day >= key) {
         continue;
       }
 
@@ -222,11 +234,11 @@ const SingleGym = () => {
       const dayName = TimeMap[key.toString()];
       const dayValue = dayValueMap[dayName];
       const hours = gym.tradingHours[key.toString()];
-      const startTime = hours["startTime"].split(":")[0];
-      const endTime = hours["endTime"].split(":")[0];
+      const startTime = hours['startTime'].split(':')[0];
+      const endTime = hours['endTime'].split(':')[0];
 
       for (let i = startTime; i < endTime; i++) {
-        const time = i.toString() + ":00";
+        const time = i.toString() + ':00';
         const child = { title: time, value: i };
         timeChild.push(child);
         id += 1;
@@ -243,12 +255,13 @@ const SingleGym = () => {
     return (
       <div className="single_gym_container">
         <AppointmentForm
+          gymId={GID}
           open={isAppointmentModalOpen}
           onCancel={() => {
             setIsAppointmentModalOpen(false);
           }}
           onCreate={onCreate}
-          acitonType={"CREATE"}
+          acitonType={'CREATE'}
         />
         <div className="top_container">
           <div className="left_info_area">
@@ -313,8 +326,8 @@ const SingleGym = () => {
           >
             <div className="single_review_header">
               <div className="user_id">
-                <Avatar src={"https://joeschmoe.io/api/v1/x"}></Avatar>
-                {currentUser ? currentUser.username : "-"}, {dateString}
+                <Avatar src={'https://joeschmoe.io/api/v1/x'}></Avatar>
+                {currentUser ? currentUser.username : '-'}, {dateString}
               </div>
 
               <Rate tooltips={desc} onChange={onStarChange} value={star} />
@@ -345,7 +358,7 @@ const SingleGym = () => {
                 label="Name"
                 id="name"
                 name="name"
-                rules={[{ required: true, message: "Name cannot be empty!" }]}
+                rules={[{ required: true, message: 'Name cannot be empty!' }]}
               >
                 <Input
                   onChange={(evt) => {
@@ -358,7 +371,7 @@ const SingleGym = () => {
                 label="Email"
                 name="email"
                 id="email"
-                rules={[{ required: true, message: "Email cannot be empty!" }]}
+                rules={[{ required: true, message: 'Email cannot be empty!' }]}
               >
                 <Input
                   onChange={(evt) => {
@@ -370,7 +383,7 @@ const SingleGym = () => {
               <Form.Item
                 label="Week:"
                 name="week"
-                rules={[{ required: true, message: "Week cannot be empty!" }]}
+                rules={[{ required: true, message: 'Week cannot be empty!' }]}
               >
                 <Select defaultValue="this" id="week" onChange={changeWeek}>
                   <Select.Option value="this">This week</Select.Option>
@@ -382,7 +395,7 @@ const SingleGym = () => {
                 label="Time:"
                 id="time"
                 name="time"
-                rules={[{ required: true, message: "Time cannot be empty!" }]}
+                rules={[{ required: true, message: 'Time cannot be empty!' }]}
               >
                 <TreeSelect
                   onChange={(value) => {

@@ -1,14 +1,13 @@
 package com.elec5619.backend.repositories;
 
 import com.elec5619.backend.entities.Appointment;
-import com.elec5619.backend.entities.Gym;
-import com.elec5619.backend.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, UUID> {
@@ -22,4 +21,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
 
     @Query("select a from Appointment a join User u on u.id = :userId")
     public List<Appointment> findAllByUserId(@Param("userId") UUID userId);
+
+
+    public Integer countByGymIdAndStartTimeAndEndTime(UUID gymId, LocalDateTime startTime, LocalDateTime endTime);
 }

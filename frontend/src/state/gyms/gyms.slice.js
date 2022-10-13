@@ -1,18 +1,19 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { GET, POST, PUT } from "../../constants/requests";
-import { replaceGymList } from "../../utils/gymHandlers";
+import { createSlice } from '@reduxjs/toolkit';
+import { GET, POST, PUT } from '../../constants/requests';
+import { replaceGymList } from '../../utils/gymHandlers';
 import {
   handleActionToCreateGym,
   handleActionToGetAllGymApplication,
   handleActionToGetGyms,
   handleActionToGetGymsBySearchWord,
+  handleActionToGetGymTimeAvailability,
   handleActionToGetNearbyGyms,
   handleActionToGetOwnerGyms,
   handleActionToUpdateGym,
-} from "./gyms.action";
+} from './gyms.action';
 
 const gymsSlice = createSlice({
-  name: "gyms",
+  name: 'gyms',
   initialState: {
     gymsPage: {
       gymsList: [],
@@ -29,6 +30,12 @@ const gymsSlice = createSlice({
     },
     gymApp: {
       gymsList: [],
+      isError: false,
+      isLoading: false,
+      isSuccess: false,
+    },
+    singleGym: {
+      availability: 0,
       isError: false,
       isLoading: false,
       isSuccess: false,
@@ -255,7 +262,49 @@ const gymsSlice = createSlice({
           isError: true,
           isSuccess: false,
         },
-      }));
+      }))
+      .addCase(
+        handleActionToGetGymTimeAvailability.pending,
+        (state, action) => ({
+          ...state,
+          singleGym: {
+            ...state.singleGym,
+            availability: 0,
+            isLoading: true,
+            isError: false,
+            isSuccess: false,
+          },
+        })
+      )
+      .addCase(
+        handleActionToGetGymTimeAvailability.fulfilled,
+        (state, action) => {
+          console.log(action, 1111);
+          return {
+            ...state,
+            singleGym: {
+              ...state.singleGym,
+              availability: action.payload.body.availability,
+              isLoading: false,
+              isError: false,
+              isSuccess: true,
+            },
+          };
+        }
+      )
+      .addCase(
+        handleActionToGetGymTimeAvailability.rejected,
+        (state, action) => ({
+          ...state,
+          singleGym: {
+            ...state.singleGym,
+            availability: 0,
+            isLoading: false,
+            isError: true,
+            isSuccess: false,
+          },
+        })
+      );
     //
   },
 });

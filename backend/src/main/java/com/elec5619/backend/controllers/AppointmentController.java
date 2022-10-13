@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,6 +36,7 @@ public class AppointmentController {
     @PostMapping
     public ResponseEntity<AppointmentResponseDto> createAppointment(@Valid @RequestBody AppointmentRequestDto appointmentRequestDto, HttpServletRequest request) throws AuthenticationError {
         HttpSession session = request.getSession();
+        System.out.println(111);
         return ResponseEntity.ok(appointmentService.create(appointmentRequestDto,session));
     }
 
@@ -77,4 +79,6 @@ public class AppointmentController {
         HttpSession session = request.getSession();
         return ResponseEntity.ok(appointmentService.updateStatusByUser(appointmentId,status, session));
     }
+
+
 }

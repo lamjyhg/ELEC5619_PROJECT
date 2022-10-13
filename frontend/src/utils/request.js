@@ -1,5 +1,5 @@
-import axios from "axios";
-import { getToken, removeToken } from "../services/sessionStorage";
+import axios from 'axios';
+import { getToken, removeToken } from '../services/sessionStorage';
 
 export const baseURL = `http://localhost:8080/`;
 const timeout = 50000;
@@ -20,6 +20,7 @@ export default function request(options) {
     (res) => res,
     async (error) => {
       // return Promise.reject(error.message);
+      console.log(error);
       if (error.response.status === 401) {
         removeToken();
       }
