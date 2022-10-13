@@ -23,8 +23,10 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.sql.Date;
 
 @RequiredArgsConstructor
 @Service
@@ -57,6 +59,8 @@ public class AppointmentService {
     }
 
     public AppointmentResponseDto create(AppointmentRequestDto appointmentRequestDto, HttpSession session) throws AuthenticationError {
+
+
 
         User customer = userService.getUserByToken(session);
         Gym gym = gymRepository.findById(UUID.fromString(appointmentRequestDto.getGymId())).orElseThrow(() -> new IllegalArgumentException(String.format("Unknown gym id ")));
