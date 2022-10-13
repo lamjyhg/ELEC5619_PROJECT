@@ -32,6 +32,7 @@ const reviewSlice = createSlice({
           isLod: false,
           isErr: false,
           isSuc: true,
+          reviewList:action.payload
         },
       }))
       .addCase(handleActionToSubmitReview.rejected, (state, action) => ({
@@ -41,7 +42,7 @@ const reviewSlice = createSlice({
           isLod: false,
           isErr: true,
           isSuc: false,
-          reviewList:action.payload
+
         },
       }))
       .addCase(handleActionToGetReviews.pending, (state, action) => ({

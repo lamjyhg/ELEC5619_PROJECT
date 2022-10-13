@@ -108,14 +108,17 @@ const SingleGym = () => {
 
 
 
-
   useEffect(() => {
+
+    console.log("in")
     const handleGetReview = async () => {
       await dispatch(handleActionToGetReviews({ GID }));
     };
 
     handleGetReview();
-  }, [reviewList]);
+  }, [isModalOpen]);
+
+
 
 
 
@@ -124,26 +127,31 @@ const SingleGym = () => {
   const showComments = () => {
     const component = [];
 
-    reviewList.map((singleGym) => {
-      const src = "https://joeschmoe.io/api/v1/" + singleGym.username;
-      component.push(
-        <div className="single_review">
-          <div className="single_review_header">
-            <div className="user_id">
-              <Avatar src={src}></Avatar>
-              {singleGym.username}, {singleGym.date}
+    if(reviewList){
+      console.log(reviewList)
+      const len = reviewList.length
+      for(let i=0; i<len; i++){
+        const singleGym = reviewList[i];
+
+        const src = "https://joeschmoe.io/api/v1/" + singleGym.username;
+        component.push(
+            <div className="single_review">
+              <div className="single_review_header">
+                <div className="user_id">
+                  <Avatar src={src}></Avatar>
+                  {singleGym.username}, {singleGym.date}
+                </div>
+
+                <Rate allowHalf disabled defaultValue={singleGym.rating} />
+              </div>
+
+              <div className="single_review_body">{singleGym.comment}</div>
+
+              <div className="line" />
             </div>
-
-            <Rate allowHalf disabled defaultValue={singleGym.rating} />
-          </div>
-
-          <div className="single_review_body">{singleGym.comment}</div>
-
-          <div className="line" />
-        </div>
-      );
-    });
-
+        );
+      }
+    }
     return component;
   };
 
@@ -239,8 +247,6 @@ const SingleGym = () => {
 
 
 
-
-
   if (isSuccess) {
 
 
@@ -293,12 +299,6 @@ const SingleGym = () => {
         children: timeChild,
       });
     }
-
-
-
-
-
-
 
 
     return (
