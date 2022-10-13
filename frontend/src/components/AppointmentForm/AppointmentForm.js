@@ -1,39 +1,38 @@
-import { DatePicker, Form, Input, Modal } from "antd";
-import React from "react";
+import { DatePicker, Form, Input, Modal } from 'antd';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { handleActionToGetGymTimeAvailability } from '../../state/gyms/gyms.action';
 const { TextArea } = Input;
 
 export default function AppointmentForm({
+  gymId,
   open,
   onCreate,
   onCancel,
   acitonType,
 }) {
   const [form] = Form.useForm();
-  const onStartTimeChange = (value, dateString) => {
-    
-    
-  };
+  const onStartTimeChange = (value, dateString) => {};
+  const { availability, isError, isLoading, isSuccess } = useSelector(
+    (state) => {
+      return state.gyms.singleGym;
+    }
+  );
+  const dispacth = useDispatch();
 
-  const onStarTimeOk = (value) => {
-    
-  };
-  const onEndTimeChange = (value, dateString) => {
-    
-    
-  };
+  const onStarTimeOk = (value) => {};
+  const onEndTimeChange = (value, dateString) => {};
 
-  const onEndTimeOk = (value) => {
-    
-  };
+  const onEndTimeOk = (value) => {};
 
   return (
     <Modal
       visible={open}
       title={
-        acitonType === "CREATE" ? "Create Appointment" : "Update Appointment"
+        acitonType === 'CREATE' ? 'Create Appointment' : 'Update Appointment'
       }
       okText={
-        acitonType === "CREATE" ? "Create Appointment" : "Update Appointment"
+        acitonType === 'CREATE' ? 'Create Appointment' : 'Update Appointment'
       }
       cancelText="Cancel"
       onCancel={() => {
@@ -46,9 +45,7 @@ export default function AppointmentForm({
             form.resetFields();
             onCreate(values);
           })
-          .catch((info) => {
-            
-          });
+          .catch((info) => {});
       }}
     >
       <Form
@@ -61,7 +58,7 @@ export default function AppointmentForm({
           rules={[
             {
               required: true,
-              message: "Please input your name",
+              message: 'Please input your name',
             },
           ]}
           label="Your name"
@@ -73,7 +70,7 @@ export default function AppointmentForm({
           rules={[
             {
               required: true,
-              message: "Please input your email",
+              message: 'Please input your email',
             },
           ]}
           label="Email"
@@ -87,7 +84,7 @@ export default function AppointmentForm({
           rules={[
             {
               required: true,
-              message: "Please input the start time",
+              message: 'Please input the start time',
             },
           ]}
         >
@@ -104,7 +101,7 @@ export default function AppointmentForm({
           rules={[
             {
               required: true,
-              message: "Please input the end time",
+              message: 'Please input the end time',
             },
           ]}
         >

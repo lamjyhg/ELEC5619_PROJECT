@@ -2,17 +2,17 @@ import {
   EyeInvisibleOutlined,
   EyeTwoTone,
   FrownTwoTone,
-} from "@ant-design/icons";
-import { Button, Input, notification } from "antd";
-import Lottie from "lottie-react";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
-import gymmy from "../../image/gymmy.png";
-import error from "../../image/lotties/errorPage.json";
-import { handleActionToCheckHash } from "../../state/forgetPassword/forgetPassword.action";
-import { handleActionToResetPassword } from "../../state/forgetPassword/forgetPasswordReset.action";
-import "./ForgetPasswordCheck.scss";
+} from '@ant-design/icons';
+import { Button, Input, notification } from 'antd';
+import Lottie from 'lottie-react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import gymmy from '../../image/gymmy.png';
+import error from '../../image/lotties/errorPage.json';
+import { handleActionToCheckHash } from '../../state/forgetPassword/forgetPassword.action';
+import { handleActionToResetPassword } from '../../state/forgetPassword/forgetPasswordReset.action';
+import './ForgetPasswordCheck.scss';
 
 export const ForgetPasswordCheck = () => {
   const { hash } = useParams();
@@ -30,21 +30,20 @@ export const ForgetPasswordCheck = () => {
   );
 
   const navigateToHome = () => {
-    navigate("/");
+    navigate('/');
   };
 
   const openNotification = (error) => {
     notification.destroy();
     notification.open({
-      message: "Invalid Password",
+      message: 'Invalid Password',
       description: error,
-      icon: <FrownTwoTone twoToneColor="#FF0000" />,
     });
   };
 
   useEffect(() => {
     if (isSuc) {
-      navigate("/Login");
+      navigate('/Login');
     }
 
     if (isError) {
@@ -64,7 +63,7 @@ export const ForgetPasswordCheck = () => {
     if (password) {
       if (password.length < 8) {
         openNotification(
-          "The length of the password must be longer than 8 characters!"
+          'The length of the password must be longer than 8 characters!'
         );
       } else {
         const handleResetPassword = async () => {
@@ -74,7 +73,7 @@ export const ForgetPasswordCheck = () => {
         handleResetPassword();
       }
     } else {
-      openNotification("Password cannot be empty!");
+      openNotification('Password cannot be empty!');
     }
   };
 
@@ -89,11 +88,11 @@ export const ForgetPasswordCheck = () => {
   if (isSuccess) {
     return (
       <div className="reset-form-container">
-        <img src={gymmy} style={{ height: "25vh", width: "25vh" }} />
+        <img src={gymmy} style={{ height: '25vh', width: '25vh' }} />
 
         <div className="reset-form-item">
           <Input.Password
-            size={"large"}
+            size={'large'}
             placeholder="input password"
             iconRender={(visible) =>
               visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
@@ -102,7 +101,7 @@ export const ForgetPasswordCheck = () => {
           />
         </div>
 
-        <div className="reset-form-item" style={{ marginTop: "2rem" }}>
+        <div className="reset-form-item" style={{ marginTop: '2rem' }}>
           <Button type="primary" onClick={sendPassword}>
             Submit
           </Button>
