@@ -24,7 +24,7 @@ import { Space, Spin } from 'antd';
 const { TextArea } = Input;
 
 const SingleGym = () => {
-  const { gym, isSuccess, isError, isLoading } = useSelector((state) => state.singleGym.singleGym);
+  const { gym, isSuccess, isError } = useSelector((state) => state.singleGym.singleGym);
 
   const { reviewList } = useSelector((state) => state.reviews.reviewPage);
 
@@ -106,6 +106,9 @@ const SingleGym = () => {
     
   };
 
+
+
+
   useEffect(() => {
     const handleGetReview = async () => {
       await dispatch(handleActionToGetReviews({ GID }));
@@ -113,6 +116,8 @@ const SingleGym = () => {
 
     handleGetReview();
   }, [reviewList]);
+
+
 
   const desc = [1, 2, 3, 4, 5];
 
@@ -163,6 +168,7 @@ const SingleGym = () => {
   };
 
   useEffect(() => {
+
     const handleGetGym = async (GID) => {
       await dispatch(handleActionToGetSingleGym(GID));
     };
@@ -187,6 +193,7 @@ const SingleGym = () => {
   const onCreate = (values) => {
     const startTime = values.startTime.format("YYYY-MM-DD HH:MM:SS");
     const endTime = values.endTime.format("YYYY-MM-DD HH:MM:SS");
+
 
     handleRequestToCreateAppointment({
       ...values,
