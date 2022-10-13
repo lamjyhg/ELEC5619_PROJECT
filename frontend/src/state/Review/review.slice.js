@@ -44,8 +44,7 @@ const reviewSlice = createSlice({
           reviewList:action.payload
         },
       }))
-      .addCase(handleActionToGetReviews.pending, (state, action) => {
-        return {
+      .addCase(handleActionToGetReviews.pending, (state, action) => ({
           ...state,
           reviewPage: {
             ...state.reviewPage,
@@ -53,10 +52,8 @@ const reviewSlice = createSlice({
             isErr: false,
             isSuc: false,
           },
-        };
-      })
-      .addCase(handleActionToGetReviews.fulfilled, (state, action) => {
-        return {
+      }))
+      .addCase(handleActionToGetReviews.fulfilled, (state, action) => ({
           ...state,
           reviewPage: {
             ...state.reviewPage,
@@ -65,8 +62,7 @@ const reviewSlice = createSlice({
             isSuc: true,
             reviewList: action.payload,
           },
-        };
-      })
+      }))
       .addCase(handleActionToGetReviews.rejected, (state, action) => ({
         ...state,
         reviewPage: {

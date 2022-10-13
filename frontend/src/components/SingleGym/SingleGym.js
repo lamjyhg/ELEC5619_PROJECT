@@ -31,7 +31,6 @@ const SingleGym = () => {
   const { gym, isSuccess, isError, isLoading } = useSelector(
     (state) => state.singleGym.singleGym
   );
-
   const { reviewList } = useSelector((state) => state.reviews.reviewPage);
 
   const { currentUser } = useSelector(
@@ -221,7 +220,7 @@ const SingleGym = () => {
         console.log(error);
         notification.error({
           message: 'Failed',
-          description: "ssss",
+          description: 'ssss',
         });
       });
   };
