@@ -32,6 +32,7 @@ export const handleRequestToCreateAppointment = (appointment) => {
     method: POST,
     data: appointment,
   };
+  console.log(appointment);
   return request(config).then((res) => res.data);
 };
 

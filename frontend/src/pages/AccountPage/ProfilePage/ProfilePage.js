@@ -19,7 +19,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { CalendarOutlined, MailOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
-import { appointments } from '../../../utils/appointmentsMock.js';
 import './ProfilePage.scss';
 import { handleActionToGetUserAppointments } from '../../../state/appointments/appointments.action.js';
 import { handleRequestToUpdateAppointment } from '../../../services/appointments.js';

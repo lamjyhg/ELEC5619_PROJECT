@@ -67,21 +67,23 @@ public class AppointmentService {
         User customer = userService.getUserByToken(session);
         Gym gym = gymRepository.findById(UUID.fromString(appointmentRequestDto.getGymId())).orElseThrow(() -> new IllegalArgumentException(String.format("Unknown gym id ")));
         // check there is available
-        System.out.println(1111);
+        System.out.println(appointmentRequestDto.getStartTimeString());
+
         if (this.getAvailabilityByGymIdAndStartTimeAndEndTime(
                 gym,
                 appointmentRequestDto.getStartTime(),
                 appointmentRequestDto.getEndTime()
         ) <= 0) {
+            System.out.println("heere");
             throw new BadRequestException("no available");
         }
 
         System.out.println(222);
 
 
-
-
         Appointment appointment = appointmentMapper.toEntity(appointmentRequestDto);
+        appointment.setStartTime(appointmentRequestDto.getStartTime());
+        appointment.setEndTime(appointmentRequestDto.getEndTime());
         appointment.setCustomer(customer);
         appointment.setGym(gym);
         gym.addAppointment(appointment);
@@ -220,12 +222,17 @@ public class AppointmentService {
 
 
     }
-    public Integer getAvailabilityByGymIdAndStartTimeAndEndTime(Gym gym, LocalDateTime appointmentStartTime, LocalDateTime appointmentEndTime) {
-        Integer startDay = DateHandlers.getDayOfWeek(appointmentStartTime);
 
-        System.out.println("day "+startDay);
+    public Integer getAvailabilityByGymIdAndStartTimeAndEndTime(Gym gym, LocalDateTime appointmentStartTime, LocalDateTime appointmentEndTime) {
+        if (gym == null || appointmentEndTime == null || appointmentStartTime == null) {
+            return 0;
+        }
+
+        Integer startDay = appointmentStartTime.getDayOfWeek().getValue();
+
+        System.out.println("day " + startDay);
         System.out.println(gym.getTradingHours().get(0));
-        if (gym.getTradingHours() == null || gym.getTradingHours().get(startDay)== null) {
+        if (gym.getTradingHours() == null || gym.getTradingHours().get(startDay) == null) {
 
             return 0;
         }
@@ -247,7 +254,6 @@ public class AppointmentService {
         Integer count = appointmentRepository.countByGymIdAndStartTimeAndEndTime(gym.getId(), appointmentStartTime, appointmentEndTime);
         return gym.getMaximumOfAppointments() - count;
     }
-
 
 
 }

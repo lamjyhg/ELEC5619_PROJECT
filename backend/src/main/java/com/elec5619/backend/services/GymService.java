@@ -150,7 +150,7 @@ public class GymService {
 
 
 
-    public ResponseEntity getTimeAvailability(UUID gymId, LocalDateTime appointmentStartTime, LocalDateTime appointmentEndTime){
+    public ResponseEntity getTimeAvailability(UUID gymId, LocalDateTime appointmentStartTime,LocalDateTime appointmentEndTime){
         Gym foundGym = gymRepository.findById(gymId).orElseThrow(() -> new IllegalArgumentException(String.format("Unknown id %s")));
         Integer availability = appointmentService.getAvailabilityByGymIdAndStartTimeAndEndTime(foundGym,appointmentStartTime,appointmentEndTime);
         Map<String, Object> response = new HashMap<String, Object>();

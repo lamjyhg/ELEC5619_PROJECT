@@ -199,15 +199,15 @@ const SingleGym = () => {
     );
   };
   const onCreate = (values) => {
-    const startTime = values.startTime.format('YYYY-MM-DD HH:MM:SS');
-    const endTime = values.endTime.format('YYYY-MM-DD HH:MM:SS');
+    const startTime = values.startTime.format('YYYY-MM-DD HH:MM:ss');
+    const endTime = values.endTime.format('YYYY-MM-DD HH:MM:ss');
 
     // getTimeAvailability(GID, startTime, endTime);
 
     handleRequestToCreateAppointment({
       ...values,
-      startTime,
-      endTime,
+      startTimeString: startTime,
+      endTimeString: endTime,
       gymId: GID,
     })
       .then((res) => {

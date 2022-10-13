@@ -8,6 +8,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -22,9 +23,9 @@ public class AppointmentResponseDto {
 
     private String customerEmail;
 
-    private LocalDate startTime;
+    private String startTime;
 
-    private LocalDate endTime;
+    private String endTime;
 
     private AppointmentStatus status;
 

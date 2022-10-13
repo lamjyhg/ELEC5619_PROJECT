@@ -36,7 +36,6 @@ public class AppointmentController {
     @PostMapping
     public ResponseEntity<AppointmentResponseDto> createAppointment(@Valid @RequestBody AppointmentRequestDto appointmentRequestDto, HttpServletRequest request) throws AuthenticationError {
         HttpSession session = request.getSession();
-        System.out.println(111);
         return ResponseEntity.ok(appointmentService.create(appointmentRequestDto,session));
     }
 
@@ -67,7 +66,7 @@ public class AppointmentController {
 //        return ResponseEntity.ok(appointmentService.create(session,appointmentInfo));
 //    }
     @PutMapping("/{appointmentId}")
-    public  ResponseEntity<AppointmentResponseDto> updateAppointment(@PathVariable UUID appointmentId, @RequestBody AppointmentUpdateTimeRequestDto appointmentInfo){
+    public  ResponseEntity<AppointmentResponseDto> updateAppointment(@PathVariable UUID appointmentId,@Valid @RequestBody AppointmentUpdateTimeRequestDto appointmentInfo){
         return ResponseEntity.ok(appointmentService.update(appointmentId,appointmentInfo));
     }
 
