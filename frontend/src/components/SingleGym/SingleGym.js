@@ -19,10 +19,18 @@ import AppointmentForm from '../AppointmentForm/AppointmentForm';
 import './SingleGym.scss';
 import { handleActionToGetGymTimeAvailability } from '../../state/gyms/gyms.action';
 import { handleRequestToGetGymTimeAvailability } from '../../services/gyms';
+
+import Lottie from 'lottie-react';
+import './SingleGym.scss';
+import error from '../../image/lotties/errorPage.json';
+import privateGym from '../../image/lotties/private.json';
+import { Space, Spin } from 'antd';
 const { TextArea } = Input;
 
 const SingleGym = () => {
-  const { gym, isSuccess } = useSelector((state) => state.singleGym.singleGym);
+  const { gym, isSuccess, isError, isLoading } = useSelector(
+    (state) => state.singleGym.singleGym
+  );
 
   const { reviewList } = useSelector((state) => state.reviews.reviewPage);
 
@@ -79,7 +87,6 @@ const SingleGym = () => {
     handleCreateReview();
 
     setIsModalOpen(false);
-    window.location.reload();
   };
 
   const handleCancel = () => {
@@ -110,7 +117,7 @@ const SingleGym = () => {
     };
 
     handleGetReview();
-  }, [isModalOpen]);
+  }, [reviewList]);
 
   const desc = [1, 2, 3, 4, 5];
 
@@ -195,7 +202,7 @@ const SingleGym = () => {
     const startTime = values.startTime.format('YYYY-MM-DD HH:MM:SS');
     const endTime = values.endTime.format('YYYY-MM-DD HH:MM:SS');
 
-    getTimeAvailability(GID, startTime, endTime);
+    // getTimeAvailability(GID, startTime, endTime);
 
     handleRequestToCreateAppointment({
       ...values,
@@ -211,13 +218,43 @@ const SingleGym = () => {
         setIsAppointmentModalOpen(false);
       })
       .catch((error) => {
-        notification.success({
+        console.log(error);
+        notification.error({
           message: 'Failed',
-          description: error.errors,
+          description: "ssss",
         });
       });
   };
+
+  const navigateToGymList = () => {
+    navigate('/gyms');
+  };
+
+  if (isError) {
+    return (
+      <div className="errorPage">
+        <h1>This gym does not exist!</h1>
+        <Lottie animationData={error} />
+        <Button type="primary" shape="round" onClick={navigateToGymList}>
+          Gym list
+        </Button>
+      </div>
+    );
+  }
+
   if (isSuccess) {
+    if (gym.gymStatus === 'PRIVATE') {
+      return (
+        <div className="errorPage">
+          <h1>This gym is currently private!</h1>
+          <Lottie animationData={privateGym} />
+          <Button type="primary" shape="round" onClick={navigateToGymList}>
+            Gym list
+          </Button>
+        </div>
+      );
+    }
+
     const treeData = [];
     const today = new Date();
     const day = today.getDay() - 1;
@@ -262,6 +299,7 @@ const SingleGym = () => {
           }}
           onCreate={onCreate}
           acitonType={'CREATE'}
+          gym={gym}
         />
         <div className="top_container">
           <div className="left_info_area">
@@ -338,8 +376,17 @@ const SingleGym = () => {
             </div>
           </Modal>
         </div>
+      </div>
+    );
+  }
+};
 
-        <div className="side_floater">
+export default SingleGym;
+
+/*
+
+
+<div className="side_floater">
           <div className="appointment_box">
             <div className="appointment_title">Make an appointment</div>
 
@@ -427,9 +474,4 @@ const SingleGym = () => {
             </Form>
           </div>
         </div>
-      </div>
-    );
-  }
-};
-
-export default SingleGym;
+ */

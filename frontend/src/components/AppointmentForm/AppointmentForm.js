@@ -2,6 +2,7 @@ import { DatePicker, Form, Input, Modal } from 'antd';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleActionToGetGymTimeAvailability } from '../../state/gyms/gyms.action';
+import moment from 'moment';
 const { TextArea } = Input;
 
 export default function AppointmentForm({
@@ -10,6 +11,7 @@ export default function AppointmentForm({
   onCreate,
   onCancel,
   acitonType,
+  gym,
 }) {
   const [form] = Form.useForm();
   const onStartTimeChange = (value, dateString) => {};
@@ -93,6 +95,12 @@ export default function AppointmentForm({
             format="YYYY-MM-DD hh:mm"
             onChange={onStartTimeChange}
             onOk={onStarTimeOk}
+            disabledDate={(current) => {
+              return (
+                moment().add(-1, 'days') >= current ||
+                moment().add(1, 'month') <= current
+              );
+            }}
           />
         </Form.Item>
         <Form.Item
@@ -110,6 +118,12 @@ export default function AppointmentForm({
             onChange={onEndTimeChange}
             onOk={onEndTimeOk}
             format="YYYY-MM-DD hh:mm"
+            disabledDate={(current) => {
+              return (
+                moment().add(-1, 'days') >= current ||
+                moment().add(1, 'month') <= current
+              );
+            }}
           />
         </Form.Item>
         <Form.Item label="Note" name="note">

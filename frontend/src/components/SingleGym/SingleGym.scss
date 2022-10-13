@@ -1,45 +1,20 @@
 
-
-.side_floater{
-    position: fixed;
-    left:135vh;
-    top:8rem;
-    background-color: #eaeaea;
-    width: 35vh;
-
-    .appointment_box {
-
-        padding-left: 1rem;
-        border-radius: 8px;
-
-        .appointment_title {
-            padding-right: 2rem;
-            font-size: large;
-        }
-
-        .short_line {
-            border: none;
-            border-bottom: 1px solid #ffffff;
-            margin-bottom: 1rem;
-            margin-top: 0.5rem;
-            margin-right: 1rem;
-        }
-
-    }
-
+.errorPage {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
-
-
-
-
-
-
 
 
 .single_gym_container{
 
     display: flex;
     flex-direction: column;
+
+
+
 
 
   .line {
@@ -59,12 +34,13 @@
         margin-left: 5rem;
         display: flex;
         flex-direction: column;
-
+        justify-content: center;
+        align-items: center;
 
 
         .mid_img{
             .large_img{
-              width: 40vh;
+              width: 60vh;
               height: 22rem;
             }
         }
@@ -73,7 +49,8 @@
             display: flex;
             margin-top: 0.5rem;
             width: 30vh;
-
+            align-items: center;
+            justify-content: center;
             justify-content: center;
             align-items: center;
             .small_img{
@@ -92,8 +69,8 @@
         height: 20rem;
         margin-top: 4rem;
         margin-left: 3rem;
-        align-items: flex-end;
-
+        align-items: center;
+        justify-content: center;
 
 
         .info_title{
@@ -135,7 +112,6 @@
       display: flex;
       flex-direction: column;
       margin-left: 10rem;
-
 
       .review_container{
 
@@ -211,7 +187,7 @@
 
       .small_map {
           margin-top: 5rem;
-          width: 110vh;
+          width: 130vh;
           overflow-y: hidden;
       }
       .disclaimer{
