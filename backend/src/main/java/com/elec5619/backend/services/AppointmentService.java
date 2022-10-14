@@ -14,14 +14,10 @@ import com.elec5619.backend.mappers.AppointmentMapper;
 import com.elec5619.backend.repositories.AppointmentRepository;
 import com.elec5619.backend.repositories.GymRepository;
 import com.elec5619.backend.repositories.UserRepository;
-import com.elec5619.backend.utils.DateHandlers;
 import com.elec5619.backend.utils.EmailHtmlHandlers;
 import com.elec5619.backend.utils.EmailSendingHandler;
 import com.elec5619.backend.utils.EmailSendingHanlderImple;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
@@ -29,9 +25,11 @@ import java.io.IOException;
 import java.sql.Time;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.sql.Date;
 
 @RequiredArgsConstructor
 @Service
@@ -65,8 +63,6 @@ public class AppointmentService {
 
     public AppointmentResponseDto create(AppointmentRequestDto appointmentRequestDto, HttpSession session) throws AuthenticationError {
 
-
-
         User customer = userService.getUserByToken(session);
         Gym gym = gymRepository.findById(UUID.fromString(appointmentRequestDto.getGymId())).orElseThrow(() -> new IllegalArgumentException(String.format("Unknown gym id ")));
         // check there is available
@@ -82,6 +78,15 @@ public class AppointmentService {
         }
 
         System.out.println(222);
+
+
+//
+//        String startDateString = appointmentRequestDto.getStartTime();
+//        String endDateSting = appointmentRequestDto.getEndTime();
+//        DateFormat formatter = new SimpleDateFormat("yyyy-mm-d HH:mm:ss");
+//        Date start = formatter.parse(startDateString);
+//        Date end = formatter.parse(endDateSting);
+
 
 
         Appointment appointment = appointmentMapper.toEntity(appointmentRequestDto);

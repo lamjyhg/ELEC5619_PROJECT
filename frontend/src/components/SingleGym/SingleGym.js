@@ -111,38 +111,44 @@ const SingleGym = () => {
   };
 
   useEffect(() => {
+    console.log('in');
     const handleGetReview = async () => {
       await dispatch(handleActionToGetReviews({ GID }));
     };
 
     handleGetReview();
-  }, [reviewList]);
+  }, [isModalOpen]);
 
   const desc = [1, 2, 3, 4, 5];
 
   const showComments = () => {
     const component = [];
 
-    reviewList.map((singleGym) => {
-      const src = 'https://joeschmoe.io/api/v1/' + singleGym.username;
-      component.push(
-        <div className="single_review">
-          <div className="single_review_header">
-            <div className="user_id">
-              <Avatar src={src}></Avatar>
-              {singleGym.username}, {singleGym.date}
+    if (reviewList) {
+      console.log(reviewList);
+      const len = reviewList.length;
+      for (let i = 0; i < len; i++) {
+        const singleGym = reviewList[i];
+
+        const src = 'https://joeschmoe.io/api/v1/' + singleGym.username;
+        component.push(
+          <div className="single_review">
+            <div className="single_review_header">
+              <div className="user_id">
+                <Avatar src={src}></Avatar>
+                {singleGym.username}, {singleGym.date}
+              </div>
+
+              <Rate allowHalf disabled defaultValue={singleGym.rating} />
             </div>
 
-            <Rate allowHalf disabled defaultValue={singleGym.rating} />
+            <div className="single_review_body">{singleGym.comment}</div>
+
+            <div className="line" />
           </div>
-
-          <div className="single_review_body">{singleGym.comment}</div>
-
-          <div className="line" />
-        </div>
-      );
-    });
-
+        );
+      }
+    }
     return component;
   };
 
@@ -254,223 +260,232 @@ const SingleGym = () => {
       );
     }
 
-    const treeData = [];
-    const today = new Date();
-    const day = today.getDay() - 1;
-    const currentDayString = day.toString();
-
-    var id = 1;
-    for (const key in gym.tradingHours) {
-      if (week === 'this' && day >= key) {
-        continue;
+    if (isSuccess) {
+      if (gym.gymStatus === 'PRIVATE') {
+        return (
+          <div className="errorPage">
+            <h1>This gym is currently private!</h1>
+            <Lottie animationData={privateGym} />
+            <Button type="primary" shape="round" onClick={navigateToGymList}>
+              Gym list
+            </Button>
+          </div>
+        );
       }
 
-      const timeChild = [];
+      const treeData = [];
+      const today = new Date();
+      const day = today.getDay() - 1;
+      const currentDayString = day.toString();
 
-      const dayName = TimeMap[key.toString()];
-      const dayValue = dayValueMap[dayName];
-      const hours = gym.tradingHours[key.toString()];
-      const startTime = hours['startTime'].split(':')[0];
-      const endTime = hours['endTime'].split(':')[0];
+      var id = 1;
+      for (const key in gym.tradingHours) {
+        if (week === 'this' && day >= key) {
+          continue;
+        }
 
-      for (let i = startTime; i < endTime; i++) {
-        const time = i.toString() + ':00';
-        const child = { title: time, value: i };
-        timeChild.push(child);
-        id += 1;
+        const timeChild = [];
+
+        const dayName = TimeMap[key.toString()];
+        const dayValue = dayValueMap[dayName];
+        const hours = gym.tradingHours[key.toString()];
+        const startTime = hours['startTime'].split(':')[0];
+        const endTime = hours['endTime'].split(':')[0];
+
+        for (let i = startTime; i < endTime; i++) {
+          const time = i.toString() + ':00';
+          const child = { title: time, value: i };
+          timeChild.push(child);
+          id += 1;
+        }
+
+        treeData.push({
+          title: dayName,
+          value: dayValue,
+          disabled: true,
+          children: timeChild,
+        });
       }
 
-      treeData.push({
-        title: dayName,
-        value: dayValue,
-        disabled: true,
-        children: timeChild,
-      });
+      return (
+        <div className="single_gym_container">
+          <AppointmentForm
+            gymId={GID}
+            open={isAppointmentModalOpen}
+            onCancel={() => {
+              setIsAppointmentModalOpen(false);
+            }}
+            onCreate={onCreate}
+            acitonType={'CREATE'}
+            gym={gym}
+          />
+          <div className="top_container">
+            <div className="left_info_area">
+              <div className="info_title">{gym.name}</div>
+
+              {/*<div className="large_size_info">*/}
+              {/*    $110 - $3000*/}
+              {/*</div>*/}
+
+              <div className="large_size_info">
+                Number of appointments: {gym.maximumOfAppointments}
+              </div>
+
+              <div className="middle_size_info">Location: {gym.address}</div>
+
+              <div className="description_wrapper">
+                <div className="small_size_info">{gym.description}</div>
+                <Button type="primary" onClick={showAppointmnetModal}>
+                  Make Appointment
+                </Button>
+              </div>
+            </div>
+
+            <div className="right_image_area">
+              <div className="mid_img">
+                <img
+                  className="large_img"
+                  src={gym.imageUrl ? baseURL + gym.imageUrl : temp_gym}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="bot_container">
+            <div className="small_map">
+              <SingleGymMap
+                geoLocation={gym.geoLocation}
+                gymsList={[gym]}
+              ></SingleGymMap>
+            </div>
+
+            <div className="review_container">
+              <div className="review_header">
+                <div>Reviews</div>
+                <div className="write_comment" onClick={showModal}>
+                  <EditFilled />
+                  Write comments
+                </div>
+              </div>
+
+              {/*<div className="line"/>*/}
+
+              <div className="review_body">{showComments()}</div>
+            </div>
+
+            <Modal
+              className="comment_modal"
+              title="Write your comment"
+              visible={isModalOpen}
+              onOk={handleOk}
+              onCancel={handleCancel}
+            >
+              <div className="single_review_header">
+                <div className="user_id">
+                  <Avatar src={'https://joeschmoe.io/api/v1/x'}></Avatar>
+                  {currentUser ? currentUser.username : '-'}, {dateString}
+                </div>
+
+                <Rate tooltips={desc} onChange={onStarChange} value={star} />
+              </div>
+
+              <div className="comment_space" onChange={onCommentChange}>
+                <TextArea rows={4} placeholder="Put your comment here ..." />
+              </div>
+            </Modal>
+          </div>
+        </div>
+      );
     }
-
-    return (
-      <div className="single_gym_container">
-        <AppointmentForm
-          gymId={GID}
-          open={isAppointmentModalOpen}
-          onCancel={() => {
-            setIsAppointmentModalOpen(false);
-          }}
-          onCreate={onCreate}
-          acitonType={'CREATE'}
-          gym={gym}
-        />
-        <div className="top_container">
-          <div className="left_info_area">
-            <div className="info_title">{gym.name}</div>
-
-            {/*<div className="large_size_info">*/}
-            {/*    $110 - $3000*/}
-            {/*</div>*/}
-
-            <div className="large_size_info">
-              Number of appointments: {gym.maximumOfAppointments}
-            </div>
-
-            <div className="middle_size_info">Location: {gym.address}</div>
-
-            <div className="description_wrapper">
-              <div className="small_size_info">{gym.description}</div>
-              <Button type="primary" onClick={showAppointmnetModal}>
-                Make Appointment
-              </Button>
-            </div>
-          </div>
-
-          <div className="right_image_area">
-            <div className="mid_img">
-              <img
-                className="large_img"
-                src={gym.imageUrl ? baseURL + gym.imageUrl : temp_gym}
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className="bot_container">
-          <div className="small_map">
-            <SingleGymMap
-              geoLocation={gym.geoLocation}
-              gymsList={[gym]}
-            ></SingleGymMap>
-          </div>
-
-          <div className="review_container">
-            <div className="review_header">
-              <div>Reviews</div>
-              <div className="write_comment" onClick={showModal}>
-                <EditFilled />
-                Write comments
-              </div>
-            </div>
-
-            {/*<div className="line"/>*/}
-
-            <div className="review_body">{showComments()}</div>
-          </div>
-
-          <Modal
-            className="comment_modal"
-            title="Write your comment"
-            visible={isModalOpen}
-            onOk={handleOk}
-            onCancel={handleCancel}
-          >
-            <div className="single_review_header">
-              <div className="user_id">
-                <Avatar src={'https://joeschmoe.io/api/v1/x'}></Avatar>
-                {currentUser ? currentUser.username : '-'}, {dateString}
-              </div>
-
-              <Rate tooltips={desc} onChange={onStarChange} value={star} />
-            </div>
-
-            <div className="comment_space" onChange={onCommentChange}>
-              <TextArea rows={4} placeholder="Put your comment here ..." />
-            </div>
-          </Modal>
-        </div>
-      </div>
-    );
   }
 };
-
 export default SingleGym;
 
-/*
+// <div className="side_floater">
+//           <div className="appointment_box">
+//             <div className="appointment_title">Make an appointment</div>
 
+//             <div className="short_line"></div>
 
-<div className="side_floater">
-          <div className="appointment_box">
-            <div className="appointment_title">Make an appointment</div>
+//             <Form
+//               labelCol={{
+//                 span: 6,
+//               }}
+//               wrapperCol={{
+//                 span: 14,
+//               }}
+//               layout="horizontal"
+//             >
+//               <Form.Item
+//                 label="Name"
+//                 id="name"
+//                 name="name"
+//                 rules={[{ required: true, message: 'Name cannot be empty!' }]}
+//               >
+//                 <Input
+//                   onChange={(evt) => {
+//                     setName(evt.target.value);
+//                   }}
+//                 />
+//               </Form.Item>
 
-            <div className="short_line"></div>
+//               <Form.Item
+//                 label="Email"
+//                 name="email"
+//                 id="email"
+//                 rules={[{ required: true, message: 'Email cannot be empty!' }]}
+//               >
+//                 <Input
+//                   onChange={(evt) => {
+//                     setEmail(evt.target.value);
+//                   }}
+//                 />
+//               </Form.Item>
 
-            <Form
-              labelCol={{
-                span: 6,
-              }}
-              wrapperCol={{
-                span: 14,
-              }}
-              layout="horizontal"
-            >
-              <Form.Item
-                label="Name"
-                id="name"
-                name="name"
-                rules={[{ required: true, message: 'Name cannot be empty!' }]}
-              >
-                <Input
-                  onChange={(evt) => {
-                    setName(evt.target.value);
-                  }}
-                />
-              </Form.Item>
+//               <Form.Item
+//                 label="Week:"
+//                 name="week"
+//                 rules={[{ required: true, message: 'Week cannot be empty!' }]}
+//               >
+//                 <Select defaultValue="this" id="week" onChange={changeWeek}>
+//                   <Select.Option value="this">This week</Select.Option>
+//                   <Select.Option value="next">Next week</Select.Option>
+//                 </Select>
+//               </Form.Item>
 
-              <Form.Item
-                label="Email"
-                name="email"
-                id="email"
-                rules={[{ required: true, message: 'Email cannot be empty!' }]}
-              >
-                <Input
-                  onChange={(evt) => {
-                    setEmail(evt.target.value);
-                  }}
-                />
-              </Form.Item>
+//               <Form.Item
+//                 label="Time:"
+//                 id="time"
+//                 name="time"
+//                 rules={[{ required: true, message: 'Time cannot be empty!' }]}
+//               >
+//                 <TreeSelect
+//                   onChange={(value) => {
+//                     setTime(value);
+//                   }}
+//                   treeData={treeData}
+//                   getPopupContainer={(trigger) => trigger.parentNode}
+//                 />
+//               </Form.Item>
 
-              <Form.Item
-                label="Week:"
-                name="week"
-                rules={[{ required: true, message: 'Week cannot be empty!' }]}
-              >
-                <Select defaultValue="this" id="week" onChange={changeWeek}>
-                  <Select.Option value="this">This week</Select.Option>
-                  <Select.Option value="next">Next week</Select.Option>
-                </Select>
-              </Form.Item>
+//               <Form.Item label="Note" id="note">
+//                 <TextArea
+//                   rows={4}
+//                   onChange={(evt) => {
+//                     setNote(evt.target.value);
+//                   }}
+//                 />
+//               </Form.Item>
 
-              <Form.Item
-                label="Time:"
-                id="time"
-                name="time"
-                rules={[{ required: true, message: 'Time cannot be empty!' }]}
-              >
-                <TreeSelect
-                  onChange={(value) => {
-                    setTime(value);
-                  }}
-                  treeData={treeData}
-                  getPopupContainer={(trigger) => trigger.parentNode}
-                />
-              </Form.Item>
-
-              <Form.Item label="Note" id="note">
-                <TextArea
-                  rows={4}
-                  onChange={(evt) => {
-                    setNote(evt.target.value);
-                  }}
-                />
-              </Form.Item>
-
-              <Form.Item label="Submit">
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  onClick={submitAppointment}
-                >
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-        </div>
- */
+//               <Form.Item label="Submit">
+//                 <Button
+//                   type="primary"
+//                   htmlType="submit"
+//                   onClick={submitAppointment}
+//                 >
+//                   Submit
+//                 </Button>
+//               </Form.Item>
+//             </Form>
+//           </div>
+//         </div>
