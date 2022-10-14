@@ -97,12 +97,6 @@ function UserEditPage() {
             defaultValue={username}
             disabled={true}
           />
-          <Input
-            key={password}
-            addonBefore="Password"
-            defaultValue={password}
-            disabled={true}
-          />
           <Row align={"center"}>
             <Col className="gutter-row" span={3}>
               <Text strong level={2} align={"center"}>
