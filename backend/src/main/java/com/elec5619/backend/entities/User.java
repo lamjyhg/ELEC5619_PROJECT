@@ -95,7 +95,7 @@ public class User {
     }
 
     public Boolean isAdmin() {
-        return false;
+        return true;
     }
 
 }

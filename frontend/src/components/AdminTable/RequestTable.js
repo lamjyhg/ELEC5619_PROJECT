@@ -69,8 +69,6 @@ function RequestTable() {
       render: (_, item) => (
         <Space size="large">
           <a onClick={() => handleView(item)}>View</a>
-          <a>Approve</a>
-          <a>Decline</a>
         </Space>
       ),
     },

@@ -1,4 +1,4 @@
-import { Space, Table, Tag } from "antd";
+import { Space, Table, Tag, Modal, Layout } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -12,12 +12,27 @@ function UserTable() {
     (state) => state.user.userList
   );
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const onSelectChange = (newSelectedRowKeys) => {
     setSelectedRowKeys(newSelectedRowKeys);
   };
+
+  const showModal = () => {
+    setIsModalOpen(true);
+    console.log("show modal");
+  };
+
+  const handleOk = () => {
+    submit();
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
   let data1 = [];
 
   // row selection can be found at the top left of the table
@@ -66,7 +81,7 @@ function UserTable() {
       render: (_, { email }) => (
         <Space size="large">
           <a onClick={() => handleEdit(email)}>Edit</a>
-          <a href="userManagement" onClick={() => submit(email)}>
+          <a onClick={showModal}>
             Delete
           </a>
         </Space>
@@ -85,8 +100,12 @@ function UserTable() {
     const handleDelete = async () => {
       await dispatch(handleActionToDeleteUser(selectedUser));
     };
-
     handleDelete();
+    setTimeout(function () {
+      setIsModalOpen(false);
+      navigate("/admin/userManagement");
+    }, 1000);
+
   };
 
   const rowSelection = {
@@ -116,12 +135,18 @@ function UserTable() {
   }
 
   return (
-    <Table
-      dataSource={data1}
-      columns={columns}
-      rowSelection={rowSelection}
-      pagination={{ pageSize: 8 }}
-    />
+    <>
+      <Modal title="Confirmation" visible={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <p>Do you want to delete user? </p>
+      </Modal>
+      <Table
+        dataSource={data1}
+        columns={columns}
+        rowSelection={rowSelection}
+        pagination={{ pageSize: 8 }}
+      />
+
+    </>
   );
 }
 
