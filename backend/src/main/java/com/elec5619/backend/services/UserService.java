@@ -134,6 +134,7 @@ public class UserService {
             emailSendingHandler.send(user.getEmail(), "Gymmy account activation", content);
 
         }catch(Exception e){
+            System.out.println(e);
             accountVerificationEntityRepository.delete(accountVerificationEntity);
             userRepository.delete(user);
 

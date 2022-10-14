@@ -23,6 +23,9 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -62,7 +65,17 @@ public class AppointmentService {
         Gym gym = gymRepository.findById(UUID.fromString(appointmentRequestDto.getGymId())).orElseThrow(() -> new IllegalArgumentException(String.format("Unknown gym id ")));
         // check there is available
 
+//
+//        String startDateString = appointmentRequestDto.getStartTime();
+//        String endDateSting = appointmentRequestDto.getEndTime();
+//        DateFormat formatter = new SimpleDateFormat("yyyy-mm-d HH:mm:ss");
+//        Date start = formatter.parse(startDateString);
+//        Date end = formatter.parse(endDateSting);
+
+
+
         Appointment appointment = appointmentMapper.toEntity(appointmentRequestDto);
+
         appointment.setCustomer(customer);
         appointment.setGym(gym);
         gym.addAppointment(appointment);

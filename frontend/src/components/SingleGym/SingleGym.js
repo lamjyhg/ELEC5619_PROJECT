@@ -16,11 +16,15 @@ import {
 } from "../../state/Review/review.action";
 import { baseURL } from "../../utils/request";
 import AppointmentForm from "../AppointmentForm/AppointmentForm";
+import Lottie from "lottie-react";
 import "./SingleGym.scss";
+import error from "../../image/lotties/errorPage.json";
+import privateGym from "../../image/lotties/private.json"
+import { Space, Spin } from 'antd';
 const { TextArea } = Input;
 
 const SingleGym = () => {
-  const { gym, isSuccess } = useSelector((state) => state.singleGym.singleGym);
+  const { gym, isSuccess, isError } = useSelector((state) => state.singleGym.singleGym);
 
   const { reviewList } = useSelector((state) => state.reviews.reviewPage);
 
@@ -77,7 +81,6 @@ const SingleGym = () => {
     handleCreateReview();
 
     setIsModalOpen(false);
-    window.location.reload();
   };
 
   const handleCancel = () => {
@@ -103,7 +106,11 @@ const SingleGym = () => {
     
   };
 
+
+
   useEffect(() => {
+
+    console.log("in")
     const handleGetReview = async () => {
       await dispatch(handleActionToGetReviews({ GID }));
     };
@@ -111,31 +118,40 @@ const SingleGym = () => {
     handleGetReview();
   }, [isModalOpen]);
 
+
+
+
+
   const desc = [1, 2, 3, 4, 5];
 
   const showComments = () => {
     const component = [];
 
-    reviewList.map((singleGym) => {
-      const src = "https://joeschmoe.io/api/v1/" + singleGym.username;
-      component.push(
-        <div className="single_review">
-          <div className="single_review_header">
-            <div className="user_id">
-              <Avatar src={src}></Avatar>
-              {singleGym.username}, {singleGym.date}
+    if(reviewList){
+      console.log(reviewList)
+      const len = reviewList.length
+      for(let i=0; i<len; i++){
+        const singleGym = reviewList[i];
+
+        const src = "https://joeschmoe.io/api/v1/" + singleGym.username;
+        component.push(
+            <div className="single_review">
+              <div className="single_review_header">
+                <div className="user_id">
+                  <Avatar src={src}></Avatar>
+                  {singleGym.username}, {singleGym.date}
+                </div>
+
+                <Rate allowHalf disabled defaultValue={singleGym.rating} />
+              </div>
+
+              <div className="single_review_body">{singleGym.comment}</div>
+
+              <div className="line" />
             </div>
-
-            <Rate allowHalf disabled defaultValue={singleGym.rating} />
-          </div>
-
-          <div className="single_review_body">{singleGym.comment}</div>
-
-          <div className="line" />
-        </div>
-      );
-    });
-
+        );
+      }
+    }
     return component;
   };
 
@@ -160,6 +176,7 @@ const SingleGym = () => {
   };
 
   useEffect(() => {
+
     const handleGetGym = async (GID) => {
       await dispatch(handleActionToGetSingleGym(GID));
     };
@@ -168,8 +185,10 @@ const SingleGym = () => {
       await dispatch(handleActionToGetCurrentUser());
     };
 
+
     handleGetGym(GID);
     handleGetCurrentUser();
+
   }, []);
 
   const changeWeek = (opt) => {
@@ -182,6 +201,7 @@ const SingleGym = () => {
   const onCreate = (values) => {
     const startTime = values.startTime.format("YYYY-MM-DD HH:MM:SS");
     const endTime = values.endTime.format("YYYY-MM-DD HH:MM:SS");
+
 
     handleRequestToCreateAppointment({
       ...values,
@@ -205,7 +225,47 @@ const SingleGym = () => {
         });
       });
   };
+
+
+  const navigateToGymList = () => {
+      navigate("/gyms")
+  }
+
+
+  if(isError){
+    return (
+        <div className="errorPage">
+          <h1>This gym does not exist!</h1>
+          <Lottie animationData={error} />
+          <Button type="primary" shape="round" onClick={navigateToGymList}>
+            Gym list
+          </Button>
+        </div>
+
+    )
+  }
+
+
+
   if (isSuccess) {
+
+
+    if(gym.gymStatus === "PRIVATE"){
+      return (
+
+          <div className="errorPage">
+            <h1>This gym is currently private!</h1>
+            <Lottie animationData={privateGym} />
+            <Button type="primary" shape="round" onClick={navigateToGymList}>
+              Gym list
+            </Button>
+          </div>
+
+      )
+    }
+
+
+
     const treeData = [];
     const today = new Date();
     const day = today.getDay() - 1;
@@ -240,6 +300,7 @@ const SingleGym = () => {
       });
     }
 
+
     return (
       <div className="single_gym_container">
         <AppointmentForm
@@ -249,6 +310,7 @@ const SingleGym = () => {
           }}
           onCreate={onCreate}
           acitonType={"CREATE"}
+          gym={gym}
         />
         <div className="top_container">
           <div className="left_info_area">
@@ -325,8 +387,23 @@ const SingleGym = () => {
             </div>
           </Modal>
         </div>
+      </div>
+    );
+  }
+};
 
-        <div className="side_floater">
+
+
+export default SingleGym;
+
+
+
+
+
+/*
+
+
+<div className="side_floater">
           <div className="appointment_box">
             <div className="appointment_title">Make an appointment</div>
 
@@ -414,9 +491,4 @@ const SingleGym = () => {
             </Form>
           </div>
         </div>
-      </div>
-    );
-  }
-};
-
-export default SingleGym;
+ */
