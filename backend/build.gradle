@@ -24,8 +24,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.flywaydb:flyway-core'
 	implementation 'org.flywaydb:flyway-mysql'
-    testImplementation 'junit:junit:4.13.1'
-    compileOnly 'org.projectlombok:lombok'
+	testImplementation 'junit:junit:4.13.1'
+	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -36,6 +36,7 @@ dependencies {
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
 	implementation('org.springframework.boot:spring-boot-starter-validation')
 	implementation 'com.sendgrid:sendgrid-java:4.4.1'
+	implementation 'org.flywaydb:flyway-core:9.4.0'
 
 
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security
@@ -43,6 +44,8 @@ dependencies {
 
 // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
 	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.2'
+
+	testImplementation group: 'junit', name: 'junit', version: '4.4'
 
 
 

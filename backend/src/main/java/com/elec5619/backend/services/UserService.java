@@ -204,9 +204,9 @@ public class UserService {
         User user = userMapper.toEntity(request);
         User u = userRepository.getUserInstanceByEmail(user.getEmail());
         //System.out.println(u.getUsername());
-        //System.out.println(userRepository.count());
+        System.out.println(userRepository.count());
         userRepository.deleteByEmail(user.getEmail());
-        //System.out.println(userRepository.count());
+        System.out.println(userRepository.count());
         // repeatEmail = userRepository.getUserByEmail(user.getEmail());
         // System.out.println(repeatEmail.isPresent());
         return ResponseEntity.ok("user deleted");

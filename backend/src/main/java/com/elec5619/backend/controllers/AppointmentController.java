@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -65,7 +66,7 @@ public class AppointmentController {
 //        return ResponseEntity.ok(appointmentService.create(session,appointmentInfo));
 //    }
     @PutMapping("/{appointmentId}")
-    public  ResponseEntity<AppointmentResponseDto> updateAppointment(@PathVariable UUID appointmentId, @RequestBody AppointmentUpdateTimeRequestDto appointmentInfo){
+    public  ResponseEntity<AppointmentResponseDto> updateAppointment(@PathVariable UUID appointmentId,@Valid @RequestBody AppointmentUpdateTimeRequestDto appointmentInfo){
         return ResponseEntity.ok(appointmentService.update(appointmentId,appointmentInfo));
     }
 
@@ -77,4 +78,6 @@ public class AppointmentController {
         HttpSession session = request.getSession();
         return ResponseEntity.ok(appointmentService.updateStatusByUser(appointmentId,status, session));
     }
+
+
 }

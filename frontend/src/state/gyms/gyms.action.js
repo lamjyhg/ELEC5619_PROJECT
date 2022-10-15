@@ -1,4 +1,4 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   handleRequestToApproveApplication,
   handleRequestToCreateGym,
@@ -6,13 +6,14 @@ import {
   handleRequestToGetAllApplication,
   handleRequestToGetGyms,
   handleRequestToGetGymsBySearchWord,
+  handleRequestToGetGymTimeAvailability,
   handleRequestToGetNearbyGyms,
   handleRequestToGetOwnerGyms,
   handleRequestToUpdateGym,
-} from "../../services/gyms";
+} from '../../services/gyms';
 
 export const handleActionToGetGyms = createAsyncThunk(
-  "GET_GYMS",
+  'GET_GYMS',
   async (params, thunkAPI) => {
     try {
       return await handleRequestToGetGyms();
@@ -23,7 +24,7 @@ export const handleActionToGetGyms = createAsyncThunk(
 );
 
 export const handleActionToGetNearbyGyms = createAsyncThunk(
-  "GET_NEARBY_GYMS",
+  'GET_NEARBY_GYMS',
   async (params, thunkAPI) => {
     try {
       return await handleRequestToGetNearbyGyms(params.lat, params.lng);
@@ -34,7 +35,7 @@ export const handleActionToGetNearbyGyms = createAsyncThunk(
 );
 
 export const handleActionToGetAllGymApplication = createAsyncThunk(
-  "GET_ALL_GYM_APPLICATION",
+  'GET_ALL_GYM_APPLICATION',
   async (params, thunkAPI) => {
     try {
       return await handleRequestToGetAllApplication();
@@ -45,7 +46,7 @@ export const handleActionToGetAllGymApplication = createAsyncThunk(
 );
 
 export const handleActionToApproveApplication = createAsyncThunk(
-  "APPROVE_GYM_APPLICATION",
+  'APPROVE_GYM_APPLICATION',
   async (params, thunkAPI) => {
     try {
       return await handleRequestToApproveApplication(params);
@@ -56,7 +57,7 @@ export const handleActionToApproveApplication = createAsyncThunk(
 );
 
 export const handleActionToDisapproveApplication = createAsyncThunk(
-  "DISAPPROVE_GYM_APPLICATION",
+  'DISAPPROVE_GYM_APPLICATION',
   async (params, thunkAPI) => {
     try {
       return await handleRequestToDisapproveApplication(params);
@@ -66,7 +67,7 @@ export const handleActionToDisapproveApplication = createAsyncThunk(
   }
 );
 export const handleActionToGetOwnerGyms = createAsyncThunk(
-  "GET_OWNER_GYMS",
+  'GET_OWNER_GYMS',
   async (params, thunkAPI) => {
     try {
       return await handleRequestToGetOwnerGyms();
@@ -77,20 +78,18 @@ export const handleActionToGetOwnerGyms = createAsyncThunk(
 );
 
 export const handleActionToCreateGym = createAsyncThunk(
-  "CREATE_GYM",
+  'CREATE_GYM',
   async (params, thunkAPI) => {
     try {
-      
       return await handleRequestToCreateGym(params);
     } catch (error) {
-      
       return thunkAPI.rejectWithValue(error);
     }
   }
 );
 
 export const handleActionToUpdateGym = createAsyncThunk(
-  "UPDATE_GYM",
+  'UPDATE_GYM',
   async (params, thunkAPI) => {
     try {
       return await handleRequestToUpdateGym(params.gymId, params.body);
@@ -101,10 +100,24 @@ export const handleActionToUpdateGym = createAsyncThunk(
 );
 
 export const handleActionToGetGymsBySearchWord = createAsyncThunk(
-  "GET_GYMS_BY_SEARCH_WORD",
+  'GET_GYMS_BY_SEARCH_WORD',
   async (params, thunkAPI) => {
     try {
       return await handleRequestToGetGymsBySearchWord(params);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const handleActionToGetGymTimeAvailability = createAsyncThunk(
+  'GET_GYM_TIME_AVAILABILITY_BY_START_AND_END',
+  async (params, thunkAPI) => {
+    try {
+      return await handleRequestToGetGymTimeAvailability(
+        params.id,
+        params.body
+      );
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }

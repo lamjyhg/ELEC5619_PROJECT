@@ -1,13 +1,8 @@
 package com.elec5619.backend.controllers;
 
-import com.elec5619.backend.dtos.AppointmentResponseDto;
-import com.elec5619.backend.dtos.GymRequestDto;
-import com.elec5619.backend.dtos.GymResponseDto;
-import com.elec5619.backend.dtos.GymApplicationResponseDto;
+import com.elec5619.backend.dtos.*;
 import com.elec5619.backend.exceptions.AuthenticationError;
 
-import com.elec5619.backend.dtos.ReviewRequest;
-import com.elec5619.backend.dtos.ReviewResponse;
 import com.elec5619.backend.entities.Review;
 
 import com.elec5619.backend.services.GymService;
@@ -35,6 +30,8 @@ import javax.validation.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -128,4 +125,12 @@ public class  GymController {
     public ResponseEntity disapproveApplication(@PathVariable(name = "gym_id")UUID gym_id) {
         return ResponseEntity.ok(gymService.disapproveApplication(gym_id));
     }
+
+    @PostMapping("/{gymId}/getAvailability")
+    public ResponseEntity getAvailability(@PathVariable UUID gymId,
+                                           @Valid @RequestBody TimeAvailabilityRequestDto body)  {
+
+        return ResponseEntity.ok(gymService.getTimeAvailability(gymId,body.getStartTime(), body.getEndTime()));
+    }
+
 }

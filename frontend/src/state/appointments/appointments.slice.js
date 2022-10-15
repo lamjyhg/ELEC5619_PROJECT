@@ -8,6 +8,7 @@ import {
   handleActionToCancelAppointmentByGymOwner,
   handleActionToGetGymsAppointmentsByGymOwner,
   handleActionToGetUserAppointments,
+  handleActionToCreateAppointment,
   handleActionToUpdateAppointmentStatusByUser,
 } from './appointments.action';
 const appointmentsSlice = createSlice({
@@ -31,6 +32,11 @@ const appointmentsSlice = createSlice({
       isSuccess: false,
       requestType: GET,
     },
+    singleGym:{
+      isError: false,
+      isLoading: false,
+      isSuccess: false,
+    }
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -196,6 +202,39 @@ const appointmentsSlice = createSlice({
             isError: true,
             isSuccess: false,
             requestType: PUT,
+          },
+        })
+      ).addCase(
+        handleActionToCreateAppointment.pending,
+        (state, action) => ({
+          ...state,
+          singleGym: {
+            ...state.singleGym,
+            isLoading: true,
+            isError: false,
+            isSuccess: false,
+          },
+        })
+      ).addCase(
+        handleActionToCreateAppointment.fulfilled,
+        (state, action) => ({
+          ...state,
+          singleGym: {
+            ...state.singleGym,
+            isLoading: false,
+            isError: false,
+            isSuccess: true,
+          },
+        })
+      ).addCase(
+        handleActionToCreateAppointment.rejected,
+        (state, action) => ({
+          ...state,
+          singleGym: {
+            ...state.singleGym,
+            isLoading: false,
+            isError: true,
+            isSuccess: false,
           },
         })
       );

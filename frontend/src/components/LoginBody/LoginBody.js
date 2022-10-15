@@ -4,21 +4,21 @@ import {
   EyeTwoTone,
   FileTextOutlined,
   UserOutlined,
-} from "@ant-design/icons";
-import { Button, Input, notification } from "antd";
+} from '@ant-design/icons';
+import { Button, Input, notification } from 'antd';
 
-import { FrownTwoTone } from "@ant-design/icons";
-import React, { useEffect, useState } from "react";
+import { FrownTwoTone } from '@ant-design/icons';
+import React, { useEffect, useState } from 'react';
 
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import logo from "../../image/gymmy.png";
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import logo from '../../image/gymmy.png';
 import {
   getAdminAuthorityToken,
   getToken,
-} from "../../services/sessionStorage";
-import { handleLoginRequest } from "../../state/auth/login.action";
-import "./LoginBody.scss";
+} from '../../services/sessionStorage';
+import { handleLoginRequest } from '../../state/auth/login.action';
+import './LoginBody.scss';
 
 const LoginBody = () => {
   const { isSuccess, isLoading, isError, errors } = useSelector(
@@ -31,10 +31,10 @@ const LoginBody = () => {
 
   const dispatch = useDispatch();
 
-  const [submitText, setSubmitText] = useState("Login");
+  const [submitText, setSubmitText] = useState('Login');
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
-  const [emailText, setEmailText] = useState("");
-  const [passwordText, setPasswordText] = useState("");
+  const [emailText, setEmailText] = useState('');
+  const [passwordText, setPasswordText] = useState('');
 
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -56,25 +56,24 @@ const LoginBody = () => {
     }
     notification.destroy();
     notification.open({
-      message: "Login failed",
+      message: 'Login failed',
       description: error,
-      icon: <FrownTwoTone twoToneColor="#FF0000" />,
     });
   };
 
   const submit = () => {
-    setEmailText("");
-    setPasswordText("");
+    setEmailText('');
+    setPasswordText('');
 
     var isErr = false;
 
     if (!email) {
-      setEmailText("Email cannot be empty");
+      setEmailText('Email cannot be empty');
       isErr = true;
     }
 
     if (!password) {
-      setPasswordText("password cannot be empty");
+      setPasswordText('password cannot be empty');
       isErr = true;
     }
 
@@ -95,9 +94,9 @@ const LoginBody = () => {
   useEffect(() => {
     if (isSuccess) {
       if (adminAuthorityToken) {
-        navigate("/admin");
+        navigate('/admin');
       } else {
-        navigate("/");
+        navigate('/');
       }
     }
 

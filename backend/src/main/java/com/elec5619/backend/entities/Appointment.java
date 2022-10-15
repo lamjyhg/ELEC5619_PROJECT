@@ -8,6 +8,7 @@ import org.hibernate.annotations.TypeDef;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
@@ -44,10 +45,10 @@ public class Appointment {
     private Gym gym;
 
     @Column(name="start_time",nullable = false)
-    private Date startTime;
+    private LocalDateTime startTime;
 
     @Column(name = "end_Time", nullable = false)
-    private Date endTime;
+    private LocalDateTime endTime;
 
     @Column(name = "status", nullable = false)
     private AppointmentStatus status = AppointmentStatus.PROCESSING;

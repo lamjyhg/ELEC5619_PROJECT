@@ -1,43 +1,41 @@
-import { DatePicker, Form, Input, Modal } from "antd";
-import React from "react";
-import moment from "moment";
+import { DatePicker, Form, Input, Modal } from 'antd';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { handleActionToGetGymTimeAvailability } from '../../state/gyms/gyms.action';
+import moment from 'moment';
 const { TextArea } = Input;
 
 export default function AppointmentForm({
+  gymId,
   open,
   onCreate,
   onCancel,
   acitonType,
-    gym
+  gym,
 }) {
   const [form] = Form.useForm();
-  const onStartTimeChange = (value, dateString) => {
-    
-    
-  };
+  const onStartTimeChange = (value, dateString) => {};
+  const { availability, isError, isLoading, isSuccess } = useSelector(
+    (state) => {
+      return state.gyms.singleGym;
+    }
+  );
+  const dispacth = useDispatch();
 
-  const onStarTimeOk = (value) => {
-    
-  };
-  const onEndTimeChange = (value, dateString) => {
-    
-    
-  };
+  const onStarTimeOk = (value) => {};
+  const onEndTimeChange = (value, dateString) => {};
 
-  const onEndTimeOk = (value) => {
-    
-  };
-
+  const onEndTimeOk = (value) => {};
 
 
   return (
     <Modal
       visible={open}
       title={
-        acitonType === "CREATE" ? "Create Appointment" : "Update Appointment"
+        acitonType === 'CREATE' ? 'Create Appointment' : 'Update Appointment'
       }
       okText={
-        acitonType === "CREATE" ? "Create Appointment" : "Update Appointment"
+        acitonType === 'CREATE' ? 'Create Appointment' : 'Update Appointment'
       }
       cancelText="Cancel"
       onCancel={() => {
@@ -50,9 +48,7 @@ export default function AppointmentForm({
             form.resetFields();
             onCreate(values);
           })
-          .catch((info) => {
-            
-          });
+          .catch((info) => {});
       }}
     >
       <Form
@@ -65,7 +61,7 @@ export default function AppointmentForm({
           rules={[
             {
               required: true,
-              message: "Please input your name",
+              message: 'Please input your name',
             },
           ]}
           label="Your name"
@@ -77,7 +73,7 @@ export default function AppointmentForm({
           rules={[
             {
               required: true,
-              message: "Please input your email",
+              message: 'Please input your email',
             },
           ]}
           label="Email"
@@ -91,7 +87,7 @@ export default function AppointmentForm({
           rules={[
             {
               required: true,
-              message: "Please input the start time",
+              message: 'Please input the start time',
             },
           ]}
         >
@@ -101,8 +97,10 @@ export default function AppointmentForm({
             onChange={onStartTimeChange}
             onOk={onStarTimeOk}
             disabledDate={(current) => {
-                return moment().add(-1, 'days')  >= current ||
-                    moment().add(1, 'month')  <= current;
+              return (
+                moment().add(-1, 'days') >= current ||
+                moment().add(1, 'month') <= current
+              );
             }}
           />
         </Form.Item>
@@ -112,7 +110,7 @@ export default function AppointmentForm({
           rules={[
             {
               required: true,
-              message: "Please input the end time",
+              message: 'Please input the end time',
             },
           ]}
         >
@@ -122,8 +120,10 @@ export default function AppointmentForm({
             onOk={onEndTimeOk}
             format="YYYY-MM-DD hh:mm"
             disabledDate={(current) => {
-                return moment().add(-1, 'days')  >= current ||
-                    moment().add(1, 'month')  <= current;
+              return (
+                moment().add(-1, 'days') >= current ||
+                moment().add(1, 'month') <= current
+              );
             }}
           />
         </Form.Item>
