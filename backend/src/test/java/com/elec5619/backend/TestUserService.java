@@ -36,8 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -258,30 +257,85 @@ public class TestUserService {
 
 
 
-//    @Test
-//    public void testRegisterSuccess() throws IOException {
-//
-//        doNothing().when(emailService).send(any(),any(),any());
-//        doNothing().when(emailSendingHanlder).send(any(),any(),any());
-//        doReturn(null).when(accountVerificationEntityRepository).save(any());
-//
-//
-//        when(emailHtmlHandlers.getActivateAccountEmailHtml(any())).thenReturn("");
-//        when(roleRepository.save(any())).thenReturn(null);
-//        when(userRepository.save(any())).thenReturn(null);
-//        when(roleRepository.getRoleByName("user5")).thenReturn(Optional.ofNullable(customerRole));
-//        when(userRepository.getUserByEmail("user5@a.com")).thenReturn(Optional.empty());
-//        when(userRepository.getUserByUsername("user5_uname")).thenReturn(Optional.empty());
-//        when(session.getAttribute("token")).thenReturn("null");
-//        when(jtwUtil.getTokenEmail(any())).thenReturn(null);
-//        when(registerMapper.toEntity(any())).thenReturn(user5);
-//
-//
-//        ResponseEntity entity = userService.createUser(registerRequest, null);
-//        assertNotNull(entity);
-//
-//
-//    }
+    @Test
+    public void testRegisterSuccess() throws IOException {
+
+        doNothing().when(emailService).send(any(),any(),any());
+        doNothing().when(emailSendingHanlder).send(any(),any(),any());
+        doReturn(null).when(accountVerificationEntityRepository).save(any());
+
+
+        when(emailHtmlHandlers.getActivateAccountEmailHtml(any())).thenReturn("");
+        when(roleRepository.save(any())).thenReturn(null);
+        when(userRepository.save(any())).thenReturn(null);
+        when(roleRepository.getRoleByName("user5")).thenReturn(Optional.ofNullable(customerRole));
+        when(userRepository.getUserByEmail("user5@a.com")).thenReturn(Optional.empty());
+        when(userRepository.getUserByUsername("user5_uname")).thenReturn(Optional.empty());
+        when(session.getAttribute("token")).thenReturn("null");
+        when(jtwUtil.getTokenEmail(any())).thenReturn(null);
+        when(registerMapper.toEntity(any())).thenReturn(user5);
+
+
+        ResponseEntity entity = userService.createUser(registerRequest, null);
+
+        assertNotNull(entity);
+        assertTrue(entity.getStatusCode().is2xxSuccessful());
+    }
+
+
+    @Test
+    public void testRegisterInvalidEmailExists() throws IOException {
+
+        doNothing().when(emailService).send(any(),any(),any());
+        doNothing().when(emailSendingHanlder).send(any(),any(),any());
+        doReturn(null).when(accountVerificationEntityRepository).save(any());
+
+
+        when(emailHtmlHandlers.getActivateAccountEmailHtml(any())).thenReturn("");
+        when(roleRepository.save(any())).thenReturn(null);
+        when(userRepository.save(any())).thenReturn(null);
+        when(roleRepository.getRoleByName("user5")).thenReturn(Optional.ofNullable(customerRole));
+        when(userRepository.getUserByEmail(any())).thenReturn(Optional.ofNullable(user1));
+        when(userRepository.getUserByUsername("user5_uname")).thenReturn(Optional.empty());
+        when(session.getAttribute("token")).thenReturn("null");
+        when(jtwUtil.getTokenEmail(any())).thenReturn(null);
+        when(registerMapper.toEntity(any())).thenReturn(user5);
+
+
+        ResponseEntity entity = userService.createUser(registerRequest, null);
+
+        assertNotNull(entity);
+        assertTrue(entity.getStatusCode().is4xxClientError());
+    }
+
+
+
+    @Test
+    public void testRegisterInvalidUsernameExist() throws IOException {
+
+        doNothing().when(emailService).send(any(),any(),any());
+        doNothing().when(emailSendingHanlder).send(any(),any(),any());
+        doReturn(null).when(accountVerificationEntityRepository).save(any());
+
+
+        when(emailHtmlHandlers.getActivateAccountEmailHtml(any())).thenReturn("");
+        when(roleRepository.save(any())).thenReturn(null);
+        when(userRepository.save(any())).thenReturn(null);
+        when(roleRepository.getRoleByName("user5")).thenReturn(Optional.ofNullable(customerRole));
+        when(userRepository.getUserByEmail(any())).thenReturn(Optional.empty());
+        when(userRepository.getUserByUsername(any())).thenReturn(Optional.ofNullable(user1));
+        when(session.getAttribute("token")).thenReturn("null");
+        when(jtwUtil.getTokenEmail(any())).thenReturn(null);
+        when(registerMapper.toEntity(any())).thenReturn(user5);
+
+
+        ResponseEntity entity = userService.createUser(registerRequest, null);
+
+        assertNotNull(entity);
+        assertTrue(entity.getStatusCode().is4xxClientError());
+    }
+
+
 
 
 }

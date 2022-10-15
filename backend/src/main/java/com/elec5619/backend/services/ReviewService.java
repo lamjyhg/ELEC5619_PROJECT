@@ -31,6 +31,7 @@ public class ReviewService {
 
 
 
+
     public List<ReviewResponse> findAllByGymId(UUID gymId) {
         Optional<List<Review>> reviewList = reviewRepository.findAllByGid(gymId);
         return reviewList.get().stream().map(review -> reviewMapper.fromEntity(review)).collect(Collectors.toList());
@@ -48,7 +49,7 @@ public class ReviewService {
         User user = userRepository.getReferenceById(user_id);
 
         if(user == null || gym == null){
-            System.out.println("IMA HERE");
+
             return null;
         }
 

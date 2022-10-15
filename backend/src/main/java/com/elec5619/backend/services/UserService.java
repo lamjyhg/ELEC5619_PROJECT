@@ -127,7 +127,8 @@ public class UserService {
         //sendEmail
         try{
             EmailHtmlHandlers emailHtmlHandlers = new EmailHtmlHandlers();
-            String content = emailHtmlHandlers.getActivateAccountEmailHtml(accountVerificationEntity.getId().toString());
+            System.out.println(accountVerificationEntity.getId() == null);
+            String content = emailHtmlHandlers.getActivateAccountEmailHtml(accountVerificationEntity.getId()!=null?accountVerificationEntity.getId().toString():"-");
             emailService.send(user.getEmail(), "Gymmy account activation", content);
 
         }catch(Exception e){
