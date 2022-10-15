@@ -1,6 +1,6 @@
 // Attribution: <a href="https://www.vecteezy.com/free-photos">Free Stock photos by Vecteezy</a>
-import { UserOutlined,FileTextOutlined,EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
-import { Input } from 'antd';
+import {UserOutlined, FileTextOutlined, EyeInvisibleOutlined, EyeTwoTone, FrownTwoTone} from '@ant-design/icons';
+import {Input, notification} from 'antd';
 import { PoweroffOutlined } from '@ant-design/icons';
 import { Button, Space, Select } from 'antd';
 
@@ -44,6 +44,16 @@ const RegisterBody = () => {
     const [passwordText, setPassowrdText] = useState(" ");
     const [rePasswordText, setRepasswordText] = useState(" ");
     const [nameText, setNameText] = useState(" ")
+
+    const openNotification = (error) => {
+        notification.destroy();
+        notification.open({
+            message: "Login failed",
+            description: error,
+            icon: <FrownTwoTone twoToneColor="#FF0000" />,
+        });
+    };
+
 
 
 
@@ -164,6 +174,10 @@ const RegisterBody = () => {
                 if(errors.errors){
                     if (errors.errors[0] === 'Invalid email format') {
                         setEmailText("Invalid email format")
+                    }
+
+                    if(errors.errors[0] === "Inputs cannot include special characters. e.g. '%', ''', '$', '=', '!' '`' and spaces"){
+                        openNotification(errors.errors[0])
                     }
                 }
             }

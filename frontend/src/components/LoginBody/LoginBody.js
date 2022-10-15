@@ -50,6 +50,12 @@ const LoginBody = () => {
   };
 
   const openNotification = (error) => {
+    console.log(error)
+    if(error){
+      if(error.errors){
+        error = error.errors[0];
+      }
+    }
     notification.destroy();
     notification.open({
       message: 'Login failed',
@@ -86,6 +92,12 @@ const LoginBody = () => {
 
       // handleLogin();
       try {
+
+        notification.destroy();
+        notification['success']({
+          message: 'Login Success',
+        });
+
         const result = await loginService(userInput);
         if (result && result.adminAuthorityToken) {
           setAdminAuthorityToken(result.adminAuthorityToken);
@@ -103,19 +115,6 @@ const LoginBody = () => {
     }
   };
 
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     if (adminAuthorityToken) {
-  //       navigate('/admin');
-  //     } else {
-  //       navigate('/');
-  //     }
-  //   }
-
-  //   if (isError) {
-  //     openNotification(errors);
-  //   }
-  // }, [isSuccess, isError]);
 
   return (
     <div className="login-container">

@@ -37,7 +37,7 @@ public class ReviewService {
     }
 
 
-    public ReviewResponse create(ReviewRequest request){
+    public List<ReviewResponse> create(ReviewRequest request){
         Review review = reviewMapper.toEntity(request);
         System.out.println(request);
         UUID gym_id = request.getGid();
@@ -55,7 +55,9 @@ public class ReviewService {
         review.setUsername(user.getUsername());
         reviewRepository.save(review);
 
-        return reviewMapper.fromEntity(review);
+
+        Optional<List<Review>> reviewList = reviewRepository.findAllByGid(gym_id);
+        return reviewList.get().stream().map(r -> reviewMapper.fromEntity(r)).collect(Collectors.toList());
 
 
     }

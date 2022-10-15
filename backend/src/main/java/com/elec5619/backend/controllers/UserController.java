@@ -68,8 +68,6 @@ public class UserController {
 
     @RequestMapping("/getOne/{user}")
     public ResponseEntity getUserByEmail(@PathVariable String user) {
-        System.out.println("in getUser ");
-        System.out.println(user);
         return ResponseEntity.ok(userService.getUserInstance(user));
     }
 

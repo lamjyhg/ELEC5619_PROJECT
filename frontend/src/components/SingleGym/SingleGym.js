@@ -111,6 +111,8 @@ const SingleGym = () => {
   };
 
   useEffect(() => {
+
+
     console.log('in');
     const handleGetReview = async () => {
       await dispatch(handleActionToGetReviews({ GID }));
@@ -122,6 +124,7 @@ const SingleGym = () => {
   const desc = [1, 2, 3, 4, 5];
 
   const showComments = () => {
+    console.log(reviewList)
     const component = [];
 
     if (reviewList) {
