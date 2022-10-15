@@ -40,7 +40,7 @@ public class AppointmentService {
     //private final UserMapper userMapper;
     private final AppointmentMapper appointmentMapper;
     private final UserRepository userRepository;
-    private final EmailSendingHandler emailSendingHandler = new EmailSendingHanlderImple("lamjh1999@gmail.com");
+    private final EmailService emailService;
     private final EmailHtmlHandlers emailHtmlHandlers = new EmailHtmlHandlers();
 
     public List<AppointmentResponseDto> listAppointmentByUser(HttpSession session) {
@@ -177,7 +177,7 @@ public class AppointmentService {
             String endTime = appointment.getEndTime().toString();
             String note = comment;
             String content = emailHtmlHandlers.getCancellationEmailHtml(appointmentId, gymName, startTime, endTime, note);
-            emailSendingHandler.send(toEmail, String.format("appointment %s cancelled", appointmentId), content);
+            emailService.send(toEmail, String.format("appointment %s cancelled", appointmentId), content);
 
         } catch (Exception e) {
 

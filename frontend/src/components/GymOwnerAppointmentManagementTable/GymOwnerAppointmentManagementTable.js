@@ -11,12 +11,13 @@ import {
 import { displayDate } from '../../utils/dateHandlers';
 import GymOwnerAppointmentCancellationForm from './GymOwnerAppointmentCancellationForm/GymOwnerAppointmentCancellationForm';
 import './GymOwnerAppointmentManagementTable.scss';
+import { GET, PUT } from '../../constants/requests';
 
 const GymOwnerAppointmentManagementTable = () => {
   const [cancelledAppointment, setCancelledAppointment] = useState(null);
   const [comment, setComment] = useState('');
 
-  const { appointmentList, isError, isLoading, isSuccess, cancel } =
+  const { appointmentList, isError, isLoading, isSuccess, requestType } =
     useSelector((state) => {
       return state.appointments.gymOwner;
     });
@@ -110,7 +111,7 @@ const GymOwnerAppointmentManagementTable = () => {
 
   const handleConfirmCancellation = async () => {
     //cancel appointment
-    if (cancel.isLoading) {
+    if (isLoading) {
       return;
     }
     await dispatch(
@@ -124,7 +125,7 @@ const GymOwnerAppointmentManagementTable = () => {
   };
 
   const handleCancelCancellatin = () => {
-    if (cancel.isLoading) {
+    if (isLoading) {
       return;
     }
     setCancelledAppointment(null);
@@ -141,29 +142,31 @@ const GymOwnerAppointmentManagementTable = () => {
 
   useEffect(() => {
     if (isError) {
-      notification.destroy();
-      notification['error']({
-        message: 'Error',
-        description: 'There is error to get appointments ',
-      });
+      switch (requestType) {
+        case PUT:
+          notification.destroy();
+          notification['error']({
+            message: 'Error',
+            description: 'Cancel failed ',
+          });
+          break;
+        default:
+          notification.destroy();
+          notification['error']({
+            message: 'Error',
+            description: 'There is error to get appointments ',
+          });
+      }
     }
 
-    if (cancel.isError) {
-      notification.destroy();
-      notification['error']({
-        message: 'Error',
-        description: 'Cancel failed ',
-      });
-    }
-
-    if (cancel.isSuccess) {
+    if (isSuccess && requestType === PUT) {
       notification.destroy();
       notification['success']({
         message: 'Success',
         description: 'Cancel Successfully ',
       });
     }
-  }, [isError, cancel]);
+  }, [isError, isSuccess]);
 
   return (
     <Spin spinning={isLoading}>
@@ -173,7 +176,7 @@ const GymOwnerAppointmentManagementTable = () => {
           handleConfirmCancellation={handleConfirmCancellation}
           handleCancelCancellatin={handleCancelCancellatin}
           comment={comment}
-          isLoading={cancel.isLoading}
+          isLoading={isLoading}
           handleChangeCommentValue={handleChangeCommentValue}
         ></GymOwnerAppointmentCancellationForm>
         <Table
