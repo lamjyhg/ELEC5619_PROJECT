@@ -27,8 +27,8 @@ const processData = (data) => {
   const result = data.map((item) => {
     return {
       title: item.gymName,
-      startDate: new Date(item.startTime.slice(0, -10)),
-      endDate: new Date(item.endTime.slice(0, -10)),
+      startDate: new Date(item.startTime),
+      endDate: new Date(item.endTime),
       id: item.id,
       note: item.note,
     };
@@ -48,6 +48,11 @@ export default function ProfilePage() {
   }, []);
 
   useEffect(() => {
+    console.log(
+      userAppointments.appointmentList.filter(
+        (each) => each.status === 'PROCESSING'
+      )
+    );
     setAppointments(
       processData(
         userAppointments.appointmentList.filter(
