@@ -19,7 +19,11 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import moment from 'moment';
 import { useEffect } from 'react';
-import { handleRequestToUpdateAppointment } from '../../../services/appointments.js';
+import {
+  handleRequestToCancelAppointmentByGymOwner,
+  handleRequestToUpdateAppointment,
+  handleRequestToUpdateAppointmentStatusByUser,
+} from '../../../services/appointments.js';
 import {
   handleActionToGetUserAppointments,
   handleActionToUpdateAppointmentStatusByUser,
@@ -43,10 +47,9 @@ const processData = (data) => {
 export default function AppointmentsPage() {
   const dispatch = useDispatch();
   const { userAppointments } = useSelector((state) => state.appointments);
-  const { requestType, isLoading, isSuccess, isError } = userAppointments;
+  const { isLoading, isSuccess, isError } = userAppointments;
   let [appointmentsList, setAppointments] = useState();
   const [changedAppointment, setChangedAppointment] = useState();
-  const [deletedId, setDeletedId] = useState(null);
   const [currentDate, setCurrentDate] = useState(new Date());
   useEffect(() => {
     //fetch all appointment create by user
@@ -62,26 +65,6 @@ export default function AppointmentsPage() {
       )
     );
   }, [userAppointments]);
-
-  useEffect(() => {
-    if (requestType === PUT) {
-      if (isSuccess) {
-        notification.destroy();
-        notification['success']({
-          message: 'Success',
-          description: 'Update successfully ',
-          icon: <SmileTwoTone twoToneColor="#FF0000" />,
-        });
-      }
-      if (isError) {
-        notification.destroy();
-        notification['error']({
-          message: 'Error',
-          description: 'Update failed ',
-        });
-      }
-    }
-  }, [isSuccess, isError]);
 
   useEffect(() => {
     if (changedAppointment) {
@@ -139,14 +122,26 @@ export default function AppointmentsPage() {
       });
     }
     if (deleted !== undefined) {
-      setDeletedId(deleted);
-
-      await cancelAppointment(deleted);
-
-      if (isSuccess) {
-        newAppointmentsList = appointmentsList.filter(
-          (appointment) => appointment.id !== deletedId
+      try {
+        await handleRequestToUpdateAppointmentStatusByUser(
+          deleted,
+          'CANCELLED'
         );
+        newAppointmentsList = appointmentsList.filter(
+          (appointment) => appointment.id !== deleted
+        );
+        setAppointments(newAppointmentsList);
+        notification.destroy();
+        notification['success']({
+          message: 'Success',
+          description: 'Update successfully ',
+        });
+      } catch (error) {
+        notification.destroy();
+        notification['error']({
+          message: 'Error',
+          description: 'Update failed since system error, please try again',
+        });
       }
     }
     setAppointments(newAppointmentsList);

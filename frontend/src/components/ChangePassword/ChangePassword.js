@@ -4,19 +4,19 @@ import {
   FileTextOutlined,
   FrownTwoTone,
   SmileTwoTone,
-} from "@ant-design/icons";
-import { Button, Input, notification } from "antd";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { handleActionToChangePassword } from "../../state/resetPassword/resetPassword.action";
-import "./ChangePassword.scss";
+} from '@ant-design/icons';
+import { Button, Input, notification } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { handleActionToChangePassword } from '../../state/resetPassword/resetPassword.action';
+import './ChangePassword.scss';
 
 export const ChangePassword = () => {
   const [password, setPassword] = useState();
   const [newPassword, setNewPassword] = useState();
 
-  const [passwordText, setPasswordText] = useState("");
-  const [newPasswordText, setNewPasswordText] = useState("");
+  const [passwordText, setPasswordText] = useState('');
+  const [newPasswordText, setNewPasswordText] = useState('');
   const dispatch = useDispatch();
 
   const { isSuccess, isError, isLoading, errors } = useSelector(
@@ -25,25 +25,27 @@ export const ChangePassword = () => {
 
   const openNotification = (message, des, color, isErr) => {
     notification.destroy();
-    notification.open({
-      message: message,
-      description: des,
-      icon: isErr ? (
-        <FrownTwoTone twoToneColor={color} />
-      ) : (
-        <SmileTwoTone twoToneColor={color} />
-      ),
-    });
+    if (isError) {
+      notification['error']({
+        message: message,
+        description: des,
+      });
+    } else {
+      notification['success']({
+        message: message,
+        description: des,
+      });
+    }
   };
 
   const changePassword = () => {
-    setNewPasswordText("");
-    setPasswordText("");
+    setNewPasswordText('');
+    setPasswordText('');
 
     if (newPassword && password) {
       if (newPassword.length < 8) {
         setNewPasswordText(
-          "The length of the must must be greater than 8 characters"
+          'The length of the must must be greater than 8 characters'
         );
       } else {
         const handleChangePassword = async () => {
@@ -55,23 +57,23 @@ export const ChangePassword = () => {
       }
     } else {
       if (!newPassword) {
-        setNewPasswordText("New password cannot be empty");
+        setNewPasswordText('New password cannot be empty');
       }
 
       if (!password) {
-        setPasswordText("Current password cannot be empty");
+        setPasswordText('Current password cannot be empty');
       }
     }
   };
 
   useEffect(() => {
     if (isSuccess) {
-      openNotification("Reset Success!", "", "", false);
+      openNotification('Reset Success!', '', '', false);
       // window.location.reload();
     }
 
     if (isError) {
-      openNotification("Reset Error", errors, "#FF0000", true);
+      openNotification('Reset Error', errors, '#FF0000', true);
     }
   }, [isSuccess, isError]);
 
