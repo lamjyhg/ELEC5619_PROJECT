@@ -19,6 +19,7 @@ import GymRequestPage from '../pages/GymRequestPage/GymRequestPage';
 import GymRequestsPage from '../pages/GymRequestsPage/GymRequestsPage';
 import GymsPage from '../pages/GymsPage/GymsPage';
 import LoginPage from '../pages/LoginPage/LoginPage';
+import LogoutPage from '../pages/LogoutPage/LogoutPage';
 import MainPage from '../pages/MainPage/MainPage';
 import RegisterPage from '../pages/RegisterPage/RegisterPage';
 import SingleGymPage from '../pages/SingleGymPage/SingleGymPage';
@@ -28,6 +29,7 @@ import UserManagementPage from '../pages/UsersManagementPage/UsersManagementPage
 const Router = () => {
   return (
     <Routes>
+      <Route path="/logout" element={<LogoutPage></LogoutPage>}></Route>
       <Route path="/email_sent" element={<EmailSentPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/forget_password" element={<ForgetPasswordPage />} />
@@ -37,10 +39,7 @@ const Router = () => {
         element={<ForgetPasswordCheckPage />}
       />
       <Route path="/register" element={<RegisterPage />}></Route>
-      <Route
-        path="/*"
-        element={<ErrorPage isAdmin={false}></ErrorPage>}
-      ></Route>
+      <Route path="/*" element={<ErrorPage></ErrorPage>}></Route>
 
       <Route path="/" element={<MainLayout />}>
         <Route path="" element={<MainPage></MainPage>}></Route>
@@ -64,10 +63,6 @@ const Router = () => {
             path="gymRequests/:gym_id"
             element={<GymRequestPage></GymRequestPage>}
           ></Route>
-          <Route
-            path="error"
-            element={<ErrorPage isAdmin={true}></ErrorPage>}
-          />
         </Route>
       </Route>
       <Route path="/account" element={<ProtectedLayout />}>

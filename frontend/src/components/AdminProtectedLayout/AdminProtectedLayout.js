@@ -16,11 +16,7 @@ const AdminProtectedLayout = () => {
     }
     const adminAuthorityToken = getAdminAuthorityToken();
     if (!adminAuthorityToken) {
-      if (token) {
-        navigate('/error');
-      } else {
-        navigate('/admin/error');
-      }
+      navigate('/error');
     }
   }, []);
 
