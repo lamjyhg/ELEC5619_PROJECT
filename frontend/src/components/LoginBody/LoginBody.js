@@ -16,9 +16,11 @@ import logo from '../../image/gymmy.png';
 import {
   getAdminAuthorityToken,
   getToken,
+  setAdminAuthorityToken,
 } from '../../services/sessionStorage';
 import { handleLoginRequest } from '../../state/auth/login.action';
 import './LoginBody.scss';
+import { loginService } from '../../services/auth';
 
 const LoginBody = () => {
   const { isSuccess, isLoading, isError, errors } = useSelector(
@@ -55,7 +57,7 @@ const LoginBody = () => {
     });
   };
 
-  const submit = () => {
+  const submit = async () => {
     setEmailText('');
     setPasswordText('');
 
@@ -77,27 +79,43 @@ const LoginBody = () => {
     };
 
     if (!isErr) {
-      const handleLogin = async () => {
-        await dispatch(handleLoginRequest(userInput));
-      };
+      // const handleLogin = async () => {
+      //   await dispatch(handleLoginRequest(userInput));
 
-      handleLogin();
+      // };
+
+      // handleLogin();
+      try {
+        const result = await loginService(userInput);
+        if (result && result.adminAuthorityToken) {
+          setAdminAuthorityToken(result.adminAuthorityToken);
+          navigate('/admin');
+        } else {
+          navigate('/');
+        }
+      } catch (error) {
+        notification.destroy();
+        notification['failed']({
+          message: 'Login failed',
+          description: error.message,
+        });
+      }
     }
   };
 
-  useEffect(() => {
-    if (isSuccess) {
-      if (adminAuthorityToken) {
-        navigate('/admin');
-      } else {
-        navigate('/');
-      }
-    }
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     if (adminAuthorityToken) {
+  //       navigate('/admin');
+  //     } else {
+  //       navigate('/');
+  //     }
+  //   }
 
-    if (isError) {
-      openNotification(errors);
-    }
-  }, [isSuccess, isError]);
+  //   if (isError) {
+  //     openNotification(errors);
+  //   }
+  // }, [isSuccess, isError]);
 
   return (
     <div className="login-container">

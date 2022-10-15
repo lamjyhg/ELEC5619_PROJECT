@@ -1,7 +1,7 @@
-import { useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
-import { getAdminAuthorityToken } from "../../services/sessionStorage";
-import NavBar from "../NavBar/NavBar";
+import { useEffect } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { getAdminAuthorityToken } from '../../services/sessionStorage';
+import NavBar from '../NavBar/NavBar';
 
 const MainLayout = () => {
   const navigate = useNavigate();
@@ -9,7 +9,7 @@ const MainLayout = () => {
   useEffect(() => {
     const adminAuthorityToken = getAdminAuthorityToken();
     if (adminAuthorityToken) {
-      navigate("/admin/error");
+      navigate('/error');
     }
   }, []);
   return (
