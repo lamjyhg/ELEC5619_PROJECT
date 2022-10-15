@@ -9,57 +9,57 @@ export const displayDate = (date) => {
       newDate.getSeconds()
     )}`;
   }
-  return "";
+  return '';
 };
 
 const displayTwoNumber = (number) => {
   if (number === 0) {
-    return "00";
+    return '00';
   }
   if (number) {
-    return ("0" + number).slice(-2);
+    return ('0' + number).slice(-2);
   }
-  return "";
+  return '';
 };
 
-export const days = ["Mon", "Tus", "Wed", "Thur", "Fri", "Sat", "Fri"];
+export const days = ['Mon', 'Tus', 'Wed', 'Thur', 'Fri', 'Sat', 'Fri'];
 
 export const getStringFromNumber = (number) => {
   const num = number * 1;
   if (num < 7 && num >= 0) {
     return days[num];
   }
-  return "";
+  return '';
 };
 
 export const dayObjects = [
   {
-    text: "Mon",
-    value: "0",
+    text: 'Mon',
+    value: '0',
   },
   {
-    text: "Tue",
-    value: "1",
+    text: 'Tue',
+    value: '1',
   },
   {
-    text: "Wed",
-    value: "2",
+    text: 'Wed',
+    value: '2',
   },
   {
-    text: "Thur",
-    value: "3",
+    text: 'Thur',
+    value: '3',
   },
   {
-    text: "Fri",
-    value: "4",
+    text: 'Fri',
+    value: '4',
   },
   {
-    text: "Sat",
-    value: "5",
+    text: 'Sat',
+    value: '5',
   },
   {
-    text: "Sun",
-    value: "6",
+    text: 'Sun',
+    value: '6',
   },
 ];
 
@@ -95,4 +95,24 @@ export const tradingHoursFromObjectToList = (object) => {
     });
   }
   return result;
+};
+
+export const translateMomentDay = (day) => {
+  if (!day) {
+    return '-1';
+  }
+  const number = day * 1;
+  if (day > 0 && day < 7) {
+    return (day - 1).toString();
+  } else {
+    return '6';
+  }
+};
+
+export const hours = () => {
+  const hours = [];
+  for (var i = 0; i < 25; i++) {
+    hours.push(`${displayTwoNumber(i)}`);
+  }
+  return hours;
 };

@@ -25,6 +25,8 @@ import './SingleGym.scss';
 import error from '../../image/lotties/errorPage.json';
 import privateGym from '../../image/lotties/private.json';
 import { Space, Spin } from 'antd';
+import moment from 'moment';
+import { days } from '../../utils/dateHandlers';
 const { TextArea } = Input;
 
 const SingleGym = () => {
@@ -111,9 +113,6 @@ const SingleGym = () => {
   };
 
   useEffect(() => {
-
-
-    console.log('in');
     const handleGetReview = async () => {
       await dispatch(handleActionToGetReviews({ GID }));
     };
@@ -124,11 +123,9 @@ const SingleGym = () => {
   const desc = [1, 2, 3, 4, 5];
 
   const showComments = () => {
-    console.log(reviewList)
     const component = [];
 
     if (reviewList) {
-      console.log(reviewList);
       const len = reviewList.length;
       for (let i = 0; i < len; i++) {
         const singleGym = reviewList[i];
@@ -207,15 +204,18 @@ const SingleGym = () => {
     );
   };
   const onCreate = (values) => {
-    const startTime = values.startTime.format('YYYY-MM-DD HH:MM:ss');
-    const endTime = values.endTime.format('YYYY-MM-DD HH:MM:ss');
+    const date = values.date.format('YYYY-MM-DD');
+    console.log(1111);
+    const startTime = values.startTime;
+
+    const endTime = moment(startTime, 'hh:ss').add(1, 'hours').format('hh:ss');
 
     // getTimeAvailability(GID, startTime, endTime);
 
     handleRequestToCreateAppointment({
       ...values,
-      startTimeString: startTime,
-      endTimeString: endTime,
+      startTimeString: `${date} ${startTime}`,
+      endTimeString: `${date} ${endTime}`,
       gymId: GID,
     })
       .then((res) => {
@@ -226,12 +226,24 @@ const SingleGym = () => {
         setIsAppointmentModalOpen(false);
       })
       .catch((error) => {
-        console.log(error);
         notification.error({
           message: 'Failed',
-          description: 'ssss',
+          description: 'Appointment created failed',
         });
       });
+  };
+
+  const getTradingHours = (tradingHours) => {
+    if (!tradingHours || Object.keys(tradingHours).length <= 0) {
+      return <p>coming soon</p>;
+    }
+    return Object.keys(tradingHours)
+      .sort()
+      .map((hour) => (
+        <p>
+          {`${days[hour]}: ${tradingHours[hour].startTime}-${tradingHours[hour].endTime} `}
+        </p>
+      ));
   };
 
   const navigateToGymList = () => {
@@ -314,6 +326,7 @@ const SingleGym = () => {
         <div className="single_gym_container">
           <AppointmentForm
             gymId={GID}
+            tradingHours={gym.tradingHours}
             open={isAppointmentModalOpen}
             onCancel={() => {
               setIsAppointmentModalOpen(false);
@@ -338,6 +351,10 @@ const SingleGym = () => {
 
               <div className="description_wrapper">
                 <div className="small_size_info">{gym.description}</div>
+
+                <div className="tradingHours">
+                  {getTradingHours(gym.tradingHours)}
+                </div>
                 <Button type="primary" onClick={showAppointmnetModal}>
                   Make Appointment
                 </Button>
