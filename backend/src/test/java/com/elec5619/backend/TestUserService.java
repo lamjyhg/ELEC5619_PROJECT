@@ -17,7 +17,6 @@ import com.elec5619.backend.repositories.UserRepository;
 import com.elec5619.backend.services.UserService;
 import com.elec5619.backend.utils.EmailHtmlHandlers;
 import com.elec5619.backend.utils.EmailSendingHandler;
-import com.elec5619.backend.utils.EmailSendingHanlderImple;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -30,9 +29,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpSession;
-import javax.swing.text.html.Option;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -43,10 +40,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class TestUserController {
+public class TestUserService {
 
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TestUserController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestUserService.class);
 
     @Autowired
     private UserService userService;
@@ -115,7 +112,7 @@ public class TestUserController {
     EmailHtmlHandlers emailHtmlHandlers;
 
 
-    public TestUserController() throws NoSuchFieldException {
+    public TestUserService() throws NoSuchFieldException {
     }
 
     @BeforeEach
