@@ -19,11 +19,7 @@ const appointmentsSlice = createSlice({
       isError: false,
       isLoading: false,
       isSuccess: false,
-      cancel: {
-        isError: false,
-        isLoading: false,
-        isSuccess: false,
-      },
+      requestType: GET,
     },
     userAppointments: {
       appointmentList: [],
@@ -32,11 +28,11 @@ const appointmentsSlice = createSlice({
       isSuccess: false,
       requestType: GET,
     },
-    singleGym:{
+    singleGym: {
       isError: false,
       isLoading: false,
       isSuccess: false,
-    }
+    },
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -51,6 +47,7 @@ const appointmentsSlice = createSlice({
             isLoading: true,
             isError: false,
             isSuccess: false,
+            requestType: GET,
           },
         })
       )
@@ -64,6 +61,7 @@ const appointmentsSlice = createSlice({
             isError: false,
             isSuccess: true,
             appointmentList: action.payload,
+            requestType: GET,
           },
         })
       )
@@ -76,6 +74,7 @@ const appointmentsSlice = createSlice({
             isLoading: false,
             isError: true,
             isSuccess: false,
+            requestType: GET,
           },
         })
       )
@@ -86,11 +85,9 @@ const appointmentsSlice = createSlice({
           gymOwner: {
             ...state.gymOwner,
             isLoading: true,
-            cancel: {
-              isLoading: true,
-              isError: false,
-              isSuccess: false,
-            },
+            isError: false,
+            isSuccess: false,
+            requestType: PUT,
           },
         })
       )
@@ -101,11 +98,9 @@ const appointmentsSlice = createSlice({
           gymOwner: {
             ...state.gymOwner,
             isLoading: false,
-            cancel: {
-              isLoading: false,
-              isError: false,
-              isSuccess: true,
-            },
+            isError: false,
+            isSuccess: true,
+            requestType: PUT,
             appointmentList: replaceAppointmentInList(
               action.payload,
               state.gymOwner.appointmentList
@@ -119,12 +114,10 @@ const appointmentsSlice = createSlice({
           ...state,
           gymOwner: {
             ...state.gymOwner,
+            requestType: PUT,
             isLoading: false,
-            cancel: {
-              isLoading: false,
-              isError: true,
-              isSuccess: false,
-            },
+            isError: true,
+            isSuccess: false,
           },
         })
       )
@@ -204,40 +197,34 @@ const appointmentsSlice = createSlice({
             requestType: PUT,
           },
         })
-      ).addCase(
-        handleActionToCreateAppointment.pending,
-        (state, action) => ({
-          ...state,
-          singleGym: {
-            ...state.singleGym,
-            isLoading: true,
-            isError: false,
-            isSuccess: false,
-          },
-        })
-      ).addCase(
-        handleActionToCreateAppointment.fulfilled,
-        (state, action) => ({
-          ...state,
-          singleGym: {
-            ...state.singleGym,
-            isLoading: false,
-            isError: false,
-            isSuccess: true,
-          },
-        })
-      ).addCase(
-        handleActionToCreateAppointment.rejected,
-        (state, action) => ({
-          ...state,
-          singleGym: {
-            ...state.singleGym,
-            isLoading: false,
-            isError: true,
-            isSuccess: false,
-          },
-        })
-      );
+      )
+      .addCase(handleActionToCreateAppointment.pending, (state, action) => ({
+        ...state,
+        singleGym: {
+          ...state.singleGym,
+          isLoading: true,
+          isError: false,
+          isSuccess: false,
+        },
+      }))
+      .addCase(handleActionToCreateAppointment.fulfilled, (state, action) => ({
+        ...state,
+        singleGym: {
+          ...state.singleGym,
+          isLoading: false,
+          isError: false,
+          isSuccess: true,
+        },
+      }))
+      .addCase(handleActionToCreateAppointment.rejected, (state, action) => ({
+        ...state,
+        singleGym: {
+          ...state.singleGym,
+          isLoading: false,
+          isError: true,
+          isSuccess: false,
+        },
+      }));
   },
 });
 export default appointmentsSlice.reducer;

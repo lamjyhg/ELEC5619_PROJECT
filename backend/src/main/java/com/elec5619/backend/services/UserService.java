@@ -50,9 +50,7 @@ public class UserService {
 
     private final AccountVerificationEntityRepository accountVerificationEntityRepository;
 
-    private final EmailHtmlHandlers emailHtmlHandlers = new EmailHtmlHandlers();
-
-    private final EmailSendingHandler emailSendingHandler = new EmailSendingHanlderImple("lamjh1999@gmail.com");
+    private final EmailService emailService;
 
     public User getUserByToken(HttpSession session) throws AuthenticationError {
         try {
@@ -128,8 +126,9 @@ public class UserService {
 
         //sendEmail
         try{
+            EmailHtmlHandlers emailHtmlHandlers = new EmailHtmlHandlers();
             String content = emailHtmlHandlers.getActivateAccountEmailHtml(accountVerificationEntity.getId().toString());
-            emailSendingHandler.send(user.getEmail(), "Gymmy account activation", content);
+            emailService.send(user.getEmail(), "Gymmy account activation", content);
 
         }catch(Exception e){
             System.out.println(e);
