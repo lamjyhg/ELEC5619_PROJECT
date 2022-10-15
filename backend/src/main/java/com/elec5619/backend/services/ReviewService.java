@@ -39,7 +39,6 @@ public class ReviewService {
 
     public List<ReviewResponse> create(ReviewRequest request){
         Review review = reviewMapper.toEntity(request);
-        System.out.println(request);
         UUID gym_id = request.getGid();
         UUID user_id = request.getUid();
 
@@ -49,6 +48,7 @@ public class ReviewService {
         User user = userRepository.getReferenceById(user_id);
 
         if(user == null || gym == null){
+            System.out.println("IMA HERE");
             return null;
         }
 

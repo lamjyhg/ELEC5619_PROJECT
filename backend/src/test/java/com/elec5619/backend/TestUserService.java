@@ -14,12 +14,14 @@ import com.elec5619.backend.mappers.UserMapper;
 import com.elec5619.backend.repositories.AccountVerificationEntityRepository;
 import com.elec5619.backend.repositories.RoleRepository;
 import com.elec5619.backend.repositories.UserRepository;
+import com.elec5619.backend.services.EmailService;
 import com.elec5619.backend.services.UserService;
 import com.elec5619.backend.utils.EmailHtmlHandlers;
 import com.elec5619.backend.utils.EmailSendingHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +58,8 @@ public class TestUserService {
     private LoginMapper loginMapper;
     @MockBean
     private RegisterMapper registerMapper;
+    @MockBean
+    private EmailService emailService;
 
 
 
@@ -102,14 +106,15 @@ public class TestUserService {
     Role customerRole;
     @Mock
     Role adminRole;
-    @Mock
+    @MockBean
     AccountVerificationEntityRepository accountVerificationEntityRepository;
 
 
     @MockBean
     EmailSendingHandler emailSendingHanlder;
-    @MockBean
+
     EmailHtmlHandlers emailHtmlHandlers;
+    EmailHtmlHandlers emailHtmlHandlersSpy;
 
 
     public TestUserService() throws NoSuchFieldException {
@@ -117,7 +122,7 @@ public class TestUserService {
 
     @BeforeEach
     void setUp(){
-
+        emailHtmlHandlers = spy(new EmailHtmlHandlers());
 
         password = "$2a$10$ZwDl18HE1I7uAlZ9jN80leTNFt8Qh5JR27.jEfQ68KAM3O0epzNqC";
 
@@ -256,7 +261,7 @@ public class TestUserService {
 //    @Test
 //    public void testRegisterSuccess() throws IOException {
 //
-//
+//        doNothing().when(emailService).send(any(),any(),any());
 //        doNothing().when(emailSendingHanlder).send(any(),any(),any());
 //        doReturn(null).when(accountVerificationEntityRepository).save(any());
 //
@@ -264,7 +269,6 @@ public class TestUserService {
 //        when(emailHtmlHandlers.getActivateAccountEmailHtml(any())).thenReturn("");
 //        when(roleRepository.save(any())).thenReturn(null);
 //        when(userRepository.save(any())).thenReturn(null);
-//
 //        when(roleRepository.getRoleByName("user5")).thenReturn(Optional.ofNullable(customerRole));
 //        when(userRepository.getUserByEmail("user5@a.com")).thenReturn(Optional.empty());
 //        when(userRepository.getUserByUsername("user5_uname")).thenReturn(Optional.empty());
@@ -272,8 +276,8 @@ public class TestUserService {
 //        when(jtwUtil.getTokenEmail(any())).thenReturn(null);
 //        when(registerMapper.toEntity(any())).thenReturn(user5);
 //
-//        ResponseEntity entity = userService.createUser(registerRequest, null);
 //
+//        ResponseEntity entity = userService.createUser(registerRequest, null);
 //        assertNotNull(entity);
 //
 //
