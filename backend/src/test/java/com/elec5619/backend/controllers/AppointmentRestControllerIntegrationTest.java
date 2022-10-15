@@ -1,6 +1,6 @@
 package com.elec5619.backend.controllers;
 
-import com.apple.eawt.Application;
+
 import com.elec5619.backend.mappers.AppointmentMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,16 +22,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @WebMvcTest(controllers = AppointmentController.class)
 public class AppointmentRestControllerIntegrationTest {
 
-    private String URL = "/appointments";
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private AppointmentController appointmentController;
-
-    @Autowired
-    private AppointmentMapper appointmentMapper;
-
 
 //    @Test
 //    void whenValidInput_thenReturns200() throws Exception {
@@ -42,8 +32,4 @@ public class AppointmentRestControllerIntegrationTest {
 //        assertThat(actualResponseBody).isEqualToIgnoringWhitespace(
 //                objectMapper.writeValueAsString(expectedResponseBody));
 //    }
-@Test
-public void contextLoads() throws Exception {
-    assertThat(appointmentController).isNull();
-}
 }

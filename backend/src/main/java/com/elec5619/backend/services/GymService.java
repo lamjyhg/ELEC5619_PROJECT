@@ -51,7 +51,6 @@ public class GymService {
 
     public List<GymResponseDto> findAll() {
         List<Gym> gymList = gymRepository.findAll();
-
         return gymList.stream().map(gym -> gymMapper.fromEntity(gym)).collect(Collectors.toList());
     }
 
@@ -64,6 +63,7 @@ public class GymService {
 
     public GymResponseDto findOneById(UUID id) {
         Gym foundGym = gymRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(String.format("Unknown id %s", id)));
+
         return gymMapper.fromEntity(foundGym);
     }
     public GymApplicationResponseDto create(GymRequestDto gymRequestDto, HttpSession session) throws AuthenticationError {
@@ -138,9 +138,7 @@ public class GymService {
 
     public List<GymResponseDto> findAllBySearchWord(String searchWord) {
         List<Gym> gymList = gymRepository.findAllGymBySearchWord("%"+searchWord+"%");
-        System.out.println("searchWord is ");
-        System.out.println(searchWord);
-        System.out.println("-------------------------------");
+
         for (Gym g : gymList) {
             System.out.println("Gym" + g.getName());
         }
