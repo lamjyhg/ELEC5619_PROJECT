@@ -13,6 +13,8 @@ function UserTable() {
   );
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
+  const [count, setCount] = useState(0);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -20,13 +22,15 @@ function UserTable() {
     setSelectedRowKeys(newSelectedRowKeys);
   };
 
-  const showModal = () => {
+  const showModal = (email) => {
     setIsModalOpen(true);
+    setUserEmail(email);
     console.log("show modal");
   };
 
   const handleOk = () => {
-    submit();
+    console.log("handleOK and the email is " + userEmail);
+    submit(userEmail);
   };
 
   const handleCancel = () => {
@@ -81,7 +85,7 @@ function UserTable() {
       render: (_, { email }) => (
         <Space size="large">
           <a onClick={() => handleEdit(email)}>Edit</a>
-          <a onClick={showModal}>
+          <a onClick={() => showModal(email)}>
             Delete
           </a>
         </Space>
@@ -103,7 +107,7 @@ function UserTable() {
     handleDelete();
     setTimeout(function () {
       setIsModalOpen(false);
-      navigate("/admin/userManagement");
+      setCount((count) => count+1);
     }, 1000);
 
   };
@@ -119,7 +123,7 @@ function UserTable() {
 
   useEffect(() => {
     fetchAllUsers();
-  }, []);
+  }, [count]);
 
   if (isSuccess) {
     let len = users.length - 1;

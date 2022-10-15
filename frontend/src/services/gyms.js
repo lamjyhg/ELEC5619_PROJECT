@@ -104,7 +104,7 @@ export const handleRequestToApproveApplication = (gym_id) => {
     url: URL_PREFIX + '/application/' + gym_id + '/approve',
     method: POST,
   };
-  return request(config).then((res) => res.data);
+  return request(config).then((res) => res);
 };
 
 export const handleRequestToUpdateGym = (gym_id, body) => {
@@ -123,7 +123,7 @@ export const handleRequestToDisapproveApplication = (gym_id) => {
     method: POST,
   };
 
-  return request(config).then((res) => res.data);
+  return request(config).then((res) => res);
 };
 
 export const handleRequestToGetGymsBySearchWord = (searchWord) => {
