@@ -48,6 +48,12 @@ const LoginBody = () => {
   };
 
   const openNotification = (error) => {
+    console.log(error)
+    if(error){
+      if(error.errors){
+        error = error.errors[0];
+      }
+    }
     notification.destroy();
     notification.open({
       message: "Login failed",
@@ -96,7 +102,7 @@ const LoginBody = () => {
     }
 
     if (isError) {
-      
+
 
       openNotification(errors);
     }

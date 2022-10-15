@@ -110,7 +110,7 @@ const SingleGym = () => {
 
   useEffect(() => {
 
-    console.log("in")
+
     const handleGetReview = async () => {
       await dispatch(handleActionToGetReviews({ GID }));
     };
@@ -125,10 +125,10 @@ const SingleGym = () => {
   const desc = [1, 2, 3, 4, 5];
 
   const showComments = () => {
+    console.log(reviewList)
     const component = [];
 
     if(reviewList){
-      console.log(reviewList)
       const len = reviewList.length
       for(let i=0; i<len; i++){
         const singleGym = reviewList[i];
@@ -316,12 +316,9 @@ const SingleGym = () => {
           <div className="left_info_area">
             <div className="info_title">{gym.name}</div>
 
-            {/*<div className="large_size_info">*/}
-            {/*    $110 - $3000*/}
-            {/*</div>*/}
 
             <div className="large_size_info">
-              Number of appointments: {gym.maximumOfAppointments}
+               Max appointments: {gym.maximumOfAppointments}
             </div>
 
             <div className="middle_size_info">Location: {gym.address}</div>
@@ -360,8 +357,6 @@ const SingleGym = () => {
                 Write comments
               </div>
             </div>
-
-            {/*<div className="line"/>*/}
 
             <div className="review_body">{showComments()}</div>
           </div>
