@@ -90,8 +90,6 @@ public class UserService {
 
 
         User user = registerMapper.toEntity(userRequest);
-        System.out.println("register");
-        System.out.println(user);
         Optional<Role> checkUserRole = roleRepository.getRoleByName("Customer");
         Role userRole;
         if (!checkUserRole.isPresent()) {
@@ -122,7 +120,7 @@ public class UserService {
         userRepository.save(user);
 
         AccountVerificationEntity accountVerificationEntity = new AccountVerificationEntity();
-
+        System.out.println(accountVerificationEntity);
         accountVerificationEntity.setUser(user);
         accountVerificationEntityRepository.save(accountVerificationEntity);
 
@@ -138,7 +136,7 @@ public class UserService {
             accountVerificationEntityRepository.delete(accountVerificationEntity);
             userRepository.delete(user);
 
-            throw new BadRequestException("email send failed");
+            throw new BadRequestException("email send failed, this could be an API issue.");
         }
 
 
@@ -149,15 +147,25 @@ public class UserService {
     public ResponseEntity getUser(LoginRequest userRequest, HttpSession session) {
         User user = loginMapper.toEntity(userRequest);
         Optional<User> checkUser = userRepository.getUserByEmail(user.getEmail());
-        System.out.println(checkUser);
+
+
+//        System.out.println(checkUser.get().getActive());
+
+
+
         if (checkUser.isPresent()) {
             // email exist, check password
 
             boolean isMatch = hashUtil.matchPassword(user.getPassword(), checkUser.get().getPassword());
 
-            if (isMatch) {
+            System.out.println(user.getPassword());
+            System.out.println(checkUser.get().getPassword());
+            System.out.println(isMatch);
 
+            if (isMatch) {
+                System.out.println(checkUser.get().getActive());
                 if(!checkUser.get().getActive()){
+
                     throw new BadRequestException("account is not activated");
                 }
 

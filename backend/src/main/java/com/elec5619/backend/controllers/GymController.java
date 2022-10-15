@@ -57,8 +57,8 @@ public class  GymController {
 
 
     @PostMapping("/{gymId}/create_review")
-    public ReviewResponse createReview( @RequestBody ReviewRequest request) throws IOException {
-        ReviewResponse review = reviewService.create(request);
+    public List<ReviewResponse> createReview( @RequestBody ReviewRequest request) throws IOException {
+        List<ReviewResponse> review = reviewService.create(request);
         return review;
     }
 
