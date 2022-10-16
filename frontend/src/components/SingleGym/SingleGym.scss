@@ -73,6 +73,40 @@
         justify-content: center;
 
 
+        .other_container{
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-evenly;
+            margin-top: 3rem;
+
+
+            .description_wrapper{
+                color: #c7c7c7;
+                font-weight: bold;
+                width: 35vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .vertical_wrapper{
+                display: flex;
+                flex-direction: column;
+
+                .tradingHours{
+                    font-size: small;
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    margin-bottom: 1.5vh;
+                }
+
+            }
+
+        }
+
+
         .info_title{
             font-size: xxx-large;
             font-weight: bold;
@@ -95,17 +129,7 @@
             margin-bottom: 10px;
         }
 
-        .description_wrapper{
-            margin-top: 4rem;
-            color: #c7c7c7;
-            font-weight: bold;
-            width: 50vh;
-            .tradingHours{
-                margin: auto;
-                
-                border: 1px solid black;
-            }
-        }
+
     }
 
 

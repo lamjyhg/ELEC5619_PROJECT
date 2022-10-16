@@ -91,6 +91,7 @@ const SingleGym = () => {
   };
 
   const handleCancel = () => {
+
     setIsModalOpen(false);
   };
 
@@ -205,7 +206,6 @@ const SingleGym = () => {
   };
   const onCreate = (values) => {
     const date = values.date.format('YYYY-MM-DD');
-    console.log(1111);
     const startTime = values.startTime;
 
     const endTime = moment(startTime, 'hh:ss').add(1, 'hours').format('hh:ss');
@@ -237,13 +237,22 @@ const SingleGym = () => {
     if (!tradingHours || Object.keys(tradingHours).length <= 0) {
       return <p>coming soon</p>;
     }
-    return Object.keys(tradingHours)
-      .sort()
-      .map((hour) => (
-        <p>
-          {`${days[hour]}: ${tradingHours[hour].startTime}-${tradingHours[hour].endTime} `}
-        </p>
-      ));
+
+    const component = [];
+
+    for (const key in tradingHours){
+
+      if(tradingHours.hasOwnProperty(key)){
+          const day = TimeMap[key];
+          const startTime = tradingHours[key].startTime;
+          const endTime = tradingHours[key].endTime;
+          const res = <div> {day} : {startTime} - {endTime}</div>;
+          component.push(res);
+      }
+    }
+
+
+    return component;
   };
 
   const navigateToGymList = () => {
@@ -349,17 +358,28 @@ const SingleGym = () => {
 
               <div className="middle_size_info">Location: {gym.address}</div>
 
-              <div className="description_wrapper">
-                <div className="small_size_info">{gym.description}</div>
 
-                <div className="tradingHours">
-                  {getTradingHours(gym.tradingHours)}
+                <div className="other_container">
+                  <div className="description_wrapper" style={{marginTop:"0"}}>
+                      <div className="small_size_info">{gym.description}</div>
+                  </div>
+
+
+                  <div className="vertical_wrapper">
+                      <div className="tradingHours">
+                          {getTradingHours(gym.tradingHours)}
+                      </div>
+
+
+                      <Button type="primary" onClick={showAppointmnetModal}>
+                          Make Appointment
+                      </Button>
+                  </div>
                 </div>
-                <Button type="primary" onClick={showAppointmnetModal}>
-                  Make Appointment
-                </Button>
               </div>
-            </div>
+
+
+
 
             <div className="right_image_area">
               <div className="mid_img">

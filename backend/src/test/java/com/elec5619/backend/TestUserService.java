@@ -275,8 +275,8 @@ public class TestUserService {
         when(jtwUtil.getTokenEmail(any())).thenReturn(null);
         when(registerMapper.toEntity(any())).thenReturn(user5);
 
-
-        ResponseEntity entity = userService.createUser(registerRequest, null);
+        when(registerRequest.getEmail()).thenReturn("a@a.com");
+        ResponseEntity entity = userService.createUser(registerRequest, session);
 
         assertNotNull(entity);
         assertTrue(entity.getStatusCode().is2xxSuccessful());

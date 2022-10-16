@@ -34,11 +34,15 @@ export default function GymForm({ open, onCreate, onCancel, gym, setGymNull }) {
     setTradingHour({ ...tradingHour, day });
   };
   const handleOnChanegHours = (hours) => {
+
+
     setTradingHour({
       ...tradingHour,
       startTime: hours[0].format('HH:mm:ss'),
       endTime: hours[1].format('HH:mm:ss'),
     });
+
+    console.log(tradingHour)
   };
   const handleAddTradingHour = () => {
     var newTradingHours = {
@@ -48,6 +52,8 @@ export default function GymForm({ open, onCreate, onCancel, gym, setGymNull }) {
         endTime: tradingHour.endTime,
       },
     };
+
+    console.log(tradingHour.day, tradingHour.startTime, tradingHour.endTime)
     setTradingHours(newTradingHours);
   };
   const handleRemoveTradingHour = (day) => {
@@ -207,7 +213,7 @@ export default function GymForm({ open, onCreate, onCancel, gym, setGymNull }) {
           rules={[
             {
               required: true,
-              message: 'Please input your gym name!',
+              message: 'Please input max appointment!',
             },
           ]}
         >
@@ -252,7 +258,7 @@ export default function GymForm({ open, onCreate, onCancel, gym, setGymNull }) {
           rules={[
             {
               required: true,
-              message: 'Please input your gym name!',
+              message: 'Please input your gym description!',
             },
           ]}
         >
