@@ -103,7 +103,7 @@ const LoginBody = () => {
           setAdminAuthorityToken(result.adminAuthorityToken);
           navigate('/admin');
         } else {
-          navigate('/gyms');
+          navigate('/');
         }
       } catch (error) {
         notification.destroy();
