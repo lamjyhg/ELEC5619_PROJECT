@@ -235,7 +235,7 @@ const SingleGym = () => {
 
   const getTradingHours = (tradingHours) => {
     if (!tradingHours || Object.keys(tradingHours).length <= 0) {
-      return <p>coming soon</p>;
+      return <p>Currently closed, no available time</p>;
     }
 
     const component = [];
@@ -244,10 +244,38 @@ const SingleGym = () => {
 
       if(tradingHours.hasOwnProperty(key)){
           const day = TimeMap[key];
-          const startTime = tradingHours[key].startTime;
-          const endTime = tradingHours[key].endTime;
-          const res = <div> {day} : {startTime} - {endTime}</div>;
-          component.push(res);
+          var startTime = tradingHours[key].startTime.slice(0,-6);
+          var endTime = tradingHours[key].endTime.slice(0,-6);
+
+          if(parseInt(startTime.length) > 1 && parseInt(startTime[0]) === 0){
+            startTime = startTime[1]
+          }
+
+        if(parseInt(startTime) >= 12){
+          if(parseInt(startTime) > 12){
+            startTime = (parseInt(startTime)-12).toString();
+          }
+          startTime+="pm";
+        }else{
+          startTime+="am"
+        }
+
+
+        if(parseInt(endTime.length) > 1 && parseInt(endTime[0]) === 0){
+          endTime = endTime[1]
+        }
+
+        if(parseInt(endTime) >= 12){
+          if(parseInt(endTime) > 12){
+            endTime = (parseInt(endTime)-12).toString()
+          }
+          endTime+="pm";
+        }else{
+          endTime+="am"
+        }
+
+        const res = <div> {day} : {startTime} - {endTime}</div>;
+        component.push(res);
       }
     }
 
