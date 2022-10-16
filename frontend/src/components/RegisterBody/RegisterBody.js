@@ -168,17 +168,25 @@ const RegisterBody = () => {
         }
 
         if(isError){
-            
+
 
             if(errors){
+
+
+                if(errors === "email send failed, this could be an API issue."){
+                    openNotification("email send failed, this could be an API issue")
+                }
+
                 if(errors.errors){
                     if (errors.errors[0] === 'Invalid email format') {
                         setEmailText("Invalid email format")
+
                     }
 
                     if(errors.errors[0] === "Inputs cannot include special characters. e.g. '%', ''', '$', '=', '!' '`' and spaces"){
                         openNotification(errors.errors[0])
                     }
+
                 }
             }
 
