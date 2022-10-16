@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import temp_gym from '../../../image/temp_gym_img.jpg';
-import './SingleGymView.scss';
+import temp_gym from './../../image/temp_gym_img.jpg';
+import './GymRequestBody.scss';
 import 'antd/dist/antd.css';
-import { baseURL } from '../../../utils/request';
-import SingleGymMap from '../../SingleGymMap/SingleGymMap';
+import { baseURL } from './../../utils/request';
+import SingleGymMap from '../SingleGymMap/SingleGymMap';
 
-const SingleGymView = ({ GID, gym }) => {
+const GymRequestBody = ({ gym }) => {
   if (!gym) {
     return <></>;
   }
@@ -39,11 +39,14 @@ const SingleGymView = ({ GID, gym }) => {
 
       <div className="bot_container">
         <div className="small_map">
-          <SingleGymMap geoLocation={gym.geoLocation}></SingleGymMap>
+          <SingleGymMap
+            geoLocation={gym.geoLocation}
+            gymsList={[gym]}
+          ></SingleGymMap>
         </div>
       </div>
     </div>
   );
 };
 
-export default SingleGymView;
+export default GymRequestBody;

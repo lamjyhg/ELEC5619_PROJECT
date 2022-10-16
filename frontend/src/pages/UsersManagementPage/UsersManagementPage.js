@@ -1,20 +1,14 @@
-import React from "react";
-import { Layout } from "antd";
-import { UserTable } from "../../components/AdminTable";
-import "./UserManagementPage.scss";
-
-const { Content } = Layout;
+import React from 'react';
+import { Layout } from 'antd';
+import './UserManagementPage.scss';
+import UserTable from '../../components/UserTable/UserTable';
 
 function UserManagementPage() {
   return (
-    <Layout>
-      <Layout className="header">
-        <h2>User Table</h2>
-      </Layout>
-      <Content className="content">
-        <UserTable />
-      </Content>
-    </Layout>
+    <section className="page-userManagement">
+      <h2>Users Table</h2>
+      <UserTable />
+    </section>
   );
 }
 export default UserManagementPage;

@@ -23,7 +23,7 @@ import LogoutPage from '../pages/LogoutPage/LogoutPage';
 import MainPage from '../pages/MainPage/MainPage';
 import RegisterPage from '../pages/RegisterPage/RegisterPage';
 import SingleGymPage from '../pages/SingleGymPage/SingleGymPage';
-import UserEditPage from '../pages/UsersManagementPage/UserEditPage';
+import UserEditPage from '../pages/UserEditPage/UserEditPage';
 import UserManagementPage from '../pages/UsersManagementPage/UsersManagementPage';
 
 const Router = () => {

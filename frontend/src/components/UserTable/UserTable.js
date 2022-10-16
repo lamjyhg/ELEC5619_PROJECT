@@ -1,35 +1,28 @@
-import { Space, Table, Tag, Modal, Layout } from "antd";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Space, Table, Tag, Modal, Layout } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import {
   handleActionToDeleteUser,
   handleActionToGetAllUsers,
-} from "../../state/user/user.action";
+} from '../../state/user/user.action';
 
 function UserTable() {
   const { users, isSuccess, isLoading, isError } = useSelector(
     (state) => state.user.userList
   );
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [userEmail, setUserEmail] = useState("");
+  const [userEmail, setUserEmail] = useState('');
   const [count, setCount] = useState(0);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const onSelectChange = (newSelectedRowKeys) => {
-    setSelectedRowKeys(newSelectedRowKeys);
-  };
-
   const showModal = (email) => {
     setIsModalOpen(true);
     setUserEmail(email);
-    console.log("show modal");
   };
 
   const handleOk = () => {
-    console.log("handleOK and the email is " + userEmail);
     submit(userEmail);
   };
 
@@ -39,33 +32,34 @@ function UserTable() {
 
   let data1 = [];
 
-  // row selection can be found at the top left of the table
   const columns = [
     {
-      title: "ID",
-      dataIndex: "id",
-      defaultSortOrder: "ascend",
+      title: 'Index',
+      dataIndex: 'id',
+      defaultSortOrder: 'ascend',
       sorter: (a, b) => a.id - b.id,
     },
     {
-      title: "Name",
-      dataIndex: "name",
+      title: 'Name',
+      dataIndex: 'name',
     },
     {
-      title: "Email",
-      dataIndex: "email",
+      title: 'Email',
+      dataIndex: 'email',
     },
     {
-      title: "Tags",
-      dataIndex: "tags",
+      title: 'Tags',
+      dataIndex: 'tags',
       render: (_, { tags }) => (
         <>
           {tags.map((tag) => {
-            let color = "green";
-            if (tag === "gym owner") {
-              color = "volcano";
-            } else if (tag == "unset") {
-              color = "grey";
+            let color = 'green';
+            if (tag === 'OWNER') {
+              color = 'volcano';
+            } else if (tag === 'ADMIN') {
+              color = 'yellow';
+            } else if (tag === 'unset') {
+              color = 'grey';
             }
 
             return (
@@ -78,23 +72,21 @@ function UserTable() {
       ),
     },
     {
-      title: "Action",
-      key: "operation",
-      fixed: "right",
+      title: 'Action',
+      key: 'operation',
+      fixed: 'right',
       width: 100,
       render: (_, { email }) => (
         <Space size="large">
           <a onClick={() => handleEdit(email)}>Edit</a>
-          <a onClick={() => showModal(email)}>
-            Delete
-          </a>
+          <a onClick={() => showModal(email)}>Delete</a>
         </Space>
       ),
     },
   ];
 
   const handleEdit = (email) => {
-    navigate("/admin/userManagement/edit/" + email);
+    navigate('/admin/userManagement/edit/' + email);
   };
   const submit = (email) => {
     const selectedUser = {
@@ -107,14 +99,8 @@ function UserTable() {
     handleDelete();
     setTimeout(function () {
       setIsModalOpen(false);
-      setCount((count) => count+1);
+      setCount((count) => count + 1);
     }, 1000);
-
-  };
-
-  const rowSelection = {
-    selectedRowKeys,
-    onChange: onSelectChange,
   };
 
   const fetchAllUsers = async () => {
@@ -131,7 +117,7 @@ function UserTable() {
       data1.push({
         id: index + 1,
         key: index,
-        name: "user" + users[index].username,
+        name: 'user' + users[index].username,
         email: users[index].email,
         tags: [users[index].type],
       });
@@ -140,16 +126,20 @@ function UserTable() {
 
   return (
     <>
-      <Modal title="Confirmation" visible={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-        <p>Do you want to delete user? </p>
+      <Modal
+        title="Confirmation"
+        visible={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <p>Are you sure to delete user? </p>
       </Modal>
       <Table
+        className="table-users"
         dataSource={data1}
         columns={columns}
-        rowSelection={rowSelection}
         pagination={{ pageSize: 8 }}
       />
-
     </>
   );
 }
