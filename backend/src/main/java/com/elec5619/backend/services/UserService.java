@@ -118,7 +118,6 @@ public class UserService {
         user.setType("USER");
         if(userRequest.getEmail().equals("gymmy@admin.com")){
             user.setType("ADMIN");
-            System.out.println("aaa"+user.getType());
             user.setActive(true);
         }
         userRepository.save(user);
