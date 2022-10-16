@@ -46,3 +46,5 @@ export SENDGRID_API_KEY='SG.-v_meS6OQkij53XjBesYjg.jmH_koboPq7dR3-tDy3CYPE7JOrjH
 export SENDGRID_API_KEY='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 ' echo sendgrid.env source ./sendgrid.env
 export SENDGRID_API_KEY='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 ' echo sendgrid.env source ./sendgrid.env
 export SENDGRID_API_KEY='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 ' echo sendgrid.env source ./sendgrid.env
+sendgrid.env
+sendgrid.env

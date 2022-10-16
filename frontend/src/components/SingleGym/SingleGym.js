@@ -191,7 +191,14 @@ const SingleGym = () => {
   };
   const [isAppointmentModalOpen, setIsAppointmentModalOpen] = useState(false);
   const showAppointmnetModal = () => {
-    setIsAppointmentModalOpen(true);
+
+    if (!currentUser || !currentUser.id) {
+      navigate('/login', { replace: true });
+    }else{
+      setIsAppointmentModalOpen(true);
+    }
+
+
   };
   const getTimeAvailability = async (gymId, startTime, endTime) => {
     await dispatch(
