@@ -14,9 +14,10 @@ import { useEffect, useState } from 'react';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { handleRequestToSaveGymPhoto } from '../../services/gyms';
 import AddressAutoComplete from '../AddressAutoComplete/AddressAutoComplete';
-
 import moment from 'moment';
 import { dayObjects, getStringFromNumber } from '../../utils/dateHandlers';
+import './GymForm.scss';
+import { baseURL } from '../../utils/request';
 const { TextArea } = Input;
 
 export default function GymForm({ open, onCreate, onCancel, gym, setGymNull }) {
@@ -96,7 +97,7 @@ export default function GymForm({ open, onCreate, onCancel, gym, setGymNull }) {
     const tags = keys.map((hour, index) => {
       const each = tradingHours[hour];
       return (
-        <Tag>
+        <Tag className="tradingHourTag" key={index}>
           {getStringFromNumber(hour)} {each.startTime} - {each.endTime}
           <CloseOutlined
             onClick={() => {
@@ -129,6 +130,14 @@ export default function GymForm({ open, onCreate, onCancel, gym, setGymNull }) {
       form.setFieldValue('address', gym.address);
       form.setFieldValue('name', gym.name);
       form.setFieldValue('description', gym.description);
+      const urlStringList = gym.imageUrl.split('/');
+      form.setFieldValue('imageUrl', [
+        {
+          name: urlStringList[urlStringList.length - 1],
+          status: 'done',
+          url: baseURL + gym.imageUrl,
+        },
+      ]);
       form.setFieldValue('maximumOfAppointments', gym.maximumOfAppointments);
     }
   }, [gym]);
@@ -202,9 +211,7 @@ export default function GymForm({ open, onCreate, onCancel, gym, setGymNull }) {
             },
           ]}
         >
-          <Form.Item name="maximumOfAppointments" noStyle>
-            <InputNumber name="maximumOfAppointments" min={0} max={100} />
-          </Form.Item>
+          <InputNumber name="maximumOfAppointments" min={0} max={100} />
         </Form.Item>
         <Form.Item label="Trading Hours">
           <>{getTradingHoursTag()}</>
@@ -220,21 +227,23 @@ export default function GymForm({ open, onCreate, onCancel, gym, setGymNull }) {
                 </Select.Option>
               ))}
             </Select>
-            <TimePicker.RangePicker
-              ranges={[
-                moment(tradingHour.startTime),
-                moment(tradingHour.endTime),
-              ]}
-              minuteStep={60}
-              secondStep={60}
-              onChange={handleOnChanegHours}
-            />
-            <Button
-              disabled={!checkAbleToAddTradingHour()}
-              onClick={handleAddTradingHour}
-            >
-              add
-            </Button>
+            <div className="timePickerAndButton">
+              <TimePicker.RangePicker
+                ranges={[
+                  moment(tradingHour.startTime),
+                  moment(tradingHour.endTime),
+                ]}
+                minuteStep={59}
+                secondStep={60}
+                onChange={handleOnChanegHours}
+              />
+              <Button
+                disabled={!checkAbleToAddTradingHour()}
+                onClick={handleAddTradingHour}
+              >
+                add
+              </Button>
+            </div>
           </>
         </Form.Item>
         <Form.Item
