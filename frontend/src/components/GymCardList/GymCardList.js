@@ -1,11 +1,11 @@
-import { Col, Row, Spin, Card, Avatar } from 'antd';
-import { useSelector } from 'react-redux';
-import Icon from '@ant-design/icons';
-import './GymCardList.scss';
-import { useNavigate } from 'react-router-dom';
-import { baseURL } from '../../utils/request';
-import Lottie from 'lottie-react';
-import empty from './../../image/lotties/empty.json';
+import { Col, Row, Spin, Card, Avatar } from "antd";
+import { useSelector } from "react-redux";
+import Icon from "@ant-design/icons";
+import "./GymCardList.scss";
+import { useNavigate } from "react-router-dom";
+import { baseURL } from "../../utils/request";
+import Lottie from "lottie-react";
+import empty from "./../../image/lotties/empty.json";
 const { Meta } = Card;
 const dumbBell = () => {
   return (
@@ -26,50 +26,51 @@ export default function GymCardList() {
           <Lottie animationData={empty} />
         </div>
       );
-    }
-    return gymsList
-      .reduce((rows, item, index) => {
-        if ((index + 1) % 3 == 1) {
-          return [...rows, [item]];
-        } else {
-          return [...rows.slice(0, -1), rows.slice(-1)[0].concat(item)];
-        }
-      }, [])
-      .map((row) => {
-        return (
-          <Row style={{ marginBottom: 20 }}>
-            {row.map((item, index) => (
-              <Col span={8} key={index} align="center">
-                <Card
-                  onClick={() => {
-                    navigate('/gyms/' + item.id);
-                  }}
-                  hoverable
-                  className="card_body"
-                  cover={
-                    <img
-                      height="300px"
-                      alt="example"
-                      src={
-                        item.imageUrl
-                          ? baseURL + item.imageUrl
-                          : 'https://picsum.photos/id/300/300'
-                      }
+    } else {
+      return gymsList
+        .reduce((rows, item, index) => {
+          if ((index + 1) % 3 == 1) {
+            return [...rows, [item]];
+          } else {
+            return [...rows.slice(0, -1), rows.slice(-1)[0].concat(item)];
+          }
+        }, [])
+        .map((row) => {
+          return (
+            <Row style={{ marginBottom: 20 }}>
+              {row.map((item, index) => (
+                <Col span={8} key={index} align="center">
+                  <Card
+                    onClick={() => {
+                      navigate("/gyms/" + item.id);
+                    }}
+                    hoverable
+                    className="card_body"
+                    cover={
+                      <img
+                        height="300px"
+                        alt="example"
+                        src={
+                          item.imageUrl
+                            ? baseURL + item.imageUrl
+                            : "https://picsum.photos/id/300/300"
+                        }
+                      />
+                    }
+                  >
+                    <Meta
+                      avatar={<Icon component={dumbBell} />}
+                      style={{ textAlign: "left" }}
+                      title={item.name}
+                      description={item.address}
                     />
-                  }
-                >
-                  <Meta
-                    avatar={<Icon component={dumbBell} />}
-                    style={{ textAlign: 'left' }}
-                    title={item.name}
-                    description={item.address}
-                  />
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        );
-      });
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+          );
+        });
+    }
   };
 
   const navigate = useNavigate();

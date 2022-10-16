@@ -105,7 +105,6 @@ public class ForgetPasswordService {
                 userForgetPasswordRepository.save(userForgetPassword);
             }else{
                 UserForgetPassword newObj = new UserForgetPassword();
-
                 newObj.setUid(user.getId());
                 newObj.setHash(hash);
                 newObj.setDate(time);

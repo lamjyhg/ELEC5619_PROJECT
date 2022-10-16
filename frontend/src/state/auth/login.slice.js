@@ -26,16 +26,10 @@ const loginSlice = createSlice({
       }))
       .addCase(handleLoginRequest.fulfilled, (state, action) => {
         setAdminAuthorityToken(action.payload.adminAuthorityToken);
-        return {
-          ...state,
-          loginPage: {
-            ...state.loginPage,
-            userInfo: action.payload.user,
-            isSuccess: true,
-            isLoading: false,
-            isError: false,
-          },
-        };
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+        state.userInfo = action.payload.user;
       })
       .addCase(handleLoginRequest.rejected, (state, action) => ({
         ...state,
