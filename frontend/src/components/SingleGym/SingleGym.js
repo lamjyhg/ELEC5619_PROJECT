@@ -244,37 +244,13 @@ const SingleGym = () => {
 
       if(tradingHours.hasOwnProperty(key)){
           const day = TimeMap[key];
-          var startTime = tradingHours[key].startTime.slice(0,-6);
-          var endTime = tradingHours[key].endTime.slice(0,-6);
+          var startTime = tradingHours[key].startTime;
+          var endTime = tradingHours[key].endTime;
 
-          if(parseInt(startTime.length) > 1 && parseInt(startTime[0]) === 0){
-            startTime = startTime[1]
-          }
+          var startTimeMoment = moment(startTime, "hh:mm:ss").format("hh:mm A")
+          var endTimeMoment = moment(endTime, "hh:mm:ss").format("hh:mm A")
 
-        if(parseInt(startTime) >= 12){
-          if(parseInt(startTime) > 12){
-            startTime = (parseInt(startTime)-12).toString();
-          }
-          startTime+="pm";
-        }else{
-          startTime+="am"
-        }
-
-
-        if(parseInt(endTime.length) > 1 && parseInt(endTime[0]) === 0){
-          endTime = endTime[1]
-        }
-
-        if(parseInt(endTime) >= 12){
-          if(parseInt(endTime) > 12){
-            endTime = (parseInt(endTime)-12).toString()
-          }
-          endTime+="pm";
-        }else{
-          endTime+="am"
-        }
-
-        const res = <div> {day} : {startTime} - {endTime}</div>;
+        const res = <div> {day} : {startTimeMoment} - {endTimeMoment}</div>;
         component.push(res);
       }
     }
