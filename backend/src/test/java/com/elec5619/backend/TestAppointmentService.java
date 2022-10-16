@@ -13,6 +13,7 @@ import com.elec5619.backend.jwt.JwtTokenUtil;
 import com.elec5619.backend.repositories.RoleRepository;
 import com.elec5619.backend.services.AppointmentService;
 import com.elec5619.backend.services.UserService;
+import jdk.nashorn.internal.runtime.options.Option;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -50,6 +51,8 @@ public class TestAppointmentService {
     @MockBean
     private AppointmentUpdateTimeRequestDto appointmentUpdateTimeRequest;
 
+    @Mock
+    private UserService userService;
     @Mock
     HttpSession session;
     @Mock
@@ -159,9 +162,8 @@ public class TestAppointmentService {
         when(appointmentRepository.findById(appointmentID1)).thenReturn(Optional.ofNullable(appointment1));
         when(appointmentRepository.findAllByUserId(user1.getId())).thenReturn(appointments1);
         when(appointmentRepository.countByGymIdAndStartTimeAndEndTime(gym1.getId(), startTime, endTime)).thenReturn(1);
-        when(appointmentRepository.findAllByGymOwnerId(user2.getId())).thenReturn(appointments1);
 
-        System.out.println("00000000--------------00000000000");
+
     }
 
     @Test
@@ -197,6 +199,24 @@ public class TestAppointmentService {
     @Test
     public void testUpdate(){
         assertEquals("gym1",appointmentService.update(appointmentID1, appointmentUpdateTimeRequest).getGymName());
+    }
+
+    @Test
+    public void testListAllForGymOwnerAuthError() throws AuthenticationError {
+        when(jtwUtil.getTokenEmail("user1@a.com")).thenReturn("user1@a.com");
+        when(userRepository.getUserByEmail("user1@a.com")).thenReturn(Optional.ofNullable(user1));
+        assertThrows(AuthenticationError.class, () -> { appointmentService.listAllForGymOwner(session);});
+        when(userService.getUserByToken(session)).thenReturn(user1);
+        when(appointmentRepository.findAllByGymOwnerId(user1.getId())).thenReturn(appointments1);
+        System.out.println(appointmentService.listAllForGymOwner(session).size());
+    }
+
+    @Test
+    public void testListAllForGymOwner() throws AuthenticationError {
+        when(session.getAttribute("token")).thenReturn("user1@a.com");
+        when(userService.getUserByToken(session)).thenReturn(user1);
+        when(appointmentRepository.findAllByGymOwnerId(user1.getId())).thenReturn(appointments1);
+        System.out.println(appointmentService.listAllForGymOwner(session).size());
     }
 
 }
