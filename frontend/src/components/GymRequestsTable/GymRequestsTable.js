@@ -1,10 +1,10 @@
-import { Space, Table, Tag } from "antd";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { handleActionToGetAllGymApplication } from "../../state/gyms/gyms.action";
+import { Space, Spin, Table, Tag } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { handleActionToGetAllGymApplication } from '../../state/gyms/gyms.action';
 
-function RequestTable() {
+function GymRequestsTable() {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -19,52 +19,51 @@ function RequestTable() {
   };
 
   const handleView = (item) => {
-    
-    navigate("/admin/gymRequests/" + item.gymID);
+    navigate('/admin/gymRequests/' + item.gymID);
   };
   const columns = [
     {
-      title: "ID",
-      dataIndex: "id",
-      defaultSortOrder: "ascend",
+      title: 'ID',
+      dataIndex: 'id',
+      defaultSortOrder: 'ascend',
       sorter: (a, b) => a.id - b.id,
     },
     {
-      title: "Gym ID",
-      dataIndex: "gymID",
+      title: 'Gym ID',
+      dataIndex: 'gymID',
     },
     {
-      title: "name",
-      dataIndex: "name",
+      title: 'name',
+      dataIndex: 'name',
     },
     {
-      title: "time",
-      dataIndex: "time",
-      defaultSortOrder: "ascend",
+      title: 'time',
+      dataIndex: 'time',
+      defaultSortOrder: 'ascend',
       sorter: (a, b) => a.id - b.id,
     },
     {
-      title: "Status",
-      dataIndex: "tags",
+      title: 'Status',
+      dataIndex: 'tags',
       render: (_, { status }) => (
-        <Tag color={"red"} key={status}>
+        <Tag color={'red'} key={status}>
           {status}
         </Tag>
       ),
     },
     {
-      title: "Type",
-      dataIndex: "type",
+      title: 'Type',
+      dataIndex: 'type',
       render: (_, { type }) => (
-        <Tag color={"orange"} key={type}>
+        <Tag color={'orange'} key={type}>
           {type}
         </Tag>
       ),
     },
     {
-      title: "Action",
-      key: "operation",
-      fixed: "right",
+      title: 'Action',
+      key: 'operation',
+      fixed: 'right',
       width: 100,
       render: (_, item) => (
         <Space size="large">
@@ -73,12 +72,6 @@ function RequestTable() {
       ),
     },
   ];
-
-  // row selection can be found at the top left of the table
-  const rowSelection = {
-    selectedRowKeys,
-    onChange: onSelectChange,
-  };
 
   useEffect(() => {
     const getAllRequest = async () => {
@@ -103,13 +96,15 @@ function RequestTable() {
   }
 
   return (
-    <Table
-      dataSource={data1}
-      columns={columns}
-      rowSelection={rowSelection}
-      pagination={{ pageSize: 8 }}
-    />
+    <Spin spinning={isLoading}>
+      <Table
+        dataSource={data1}
+        columns={columns}
+        className="table-gymRequests"
+        pagination={{ pageSize: 8 }}
+      />
+    </Spin>
   );
 }
 
-export default RequestTable;
+export default GymRequestsTable;

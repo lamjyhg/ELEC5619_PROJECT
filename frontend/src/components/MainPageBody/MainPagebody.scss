@@ -4,28 +4,37 @@
   width: 100%;
   overflow-y: scroll;
   padding-bottom: 20px;
+  height: 100%;
+
 
   .book_section {
     background: url("../../image/book_section_back.jpg") no-repeat center;
     background-size: cover;
-    height: 40rem;
+    height: 95vh;
     display: flex;
     justify-content: flex-start;
     align-items: center;
+
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 
     .left_info_container {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      margin-left: 6rem;
+      margin-left: 10rem;
       height: 100%;
+      animation: neon 2s infinite alternate;
+      color: white;
 
       .name {
         font-weight: 900;
         font-size: 100px;
         font-family: "Apple Chancery", "cursive", "papyrus";
-        color: black;
         //color: #ffffff;
       }
 
@@ -34,43 +43,45 @@
         font-weight: bold;
         font-size: 30px;
         font-family: "Apple Chancery", "cursive", "papyrus";
-        color: black;
       }
 
       .book_button {
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-top: 0.5rem;
+        margin-top: 5rem;
         height: 3rem;
         width: 8rem;
         background-color: #40188c;
         border-radius: 8px;
         font-size: large;
         font-weight: bold;
-        color: #cbcbcb;
-      }
-
-      .book_button:hover {
-        cursor: pointer;
         background-color: #5826b2;
-        color: white;
       }
+
+
+      .book_button:hover{
+        cursor: pointer;
+      }
+
     }
 
-    .left_info_container:hover .name {
-      text-shadow: 0px 0px 20px #b562e5, 0px 0px 30px #b34ef8,
+
+
+    
+    @keyframes neon {
+      0%, 15%, 30%, 45%, 60%, 75%, 90%, 100%{
+        text-shadow: 0px 0px 20px #b562e5, 0px 0px 30px #b34ef8,
         0px 0px 40px #b44ff5, 0px 0px 50px #b657f3, 0px 0px 60px #ba61f3,
         0px 0px 100px #cb94ef;
 
-      color: white;
-    }
 
-    .left_info_container:hover .descrption {
-      text-shadow: 0px 0px 20px #b562e5, 0px 0px 30px #b34ef8,
-        0px 0px 40px #b44ff5, 0px 0px 50px #b657f3, 0px 0px 60px #ba61f3,
-        0px 0px 100px #cb94ef;
-      color: white;
+        color:white;
+      }
+
+      20%, 40%, 70%{
+        text-shadow: none;
+      }
     }
   }
 

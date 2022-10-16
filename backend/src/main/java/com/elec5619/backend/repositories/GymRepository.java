@@ -17,21 +17,24 @@ public interface GymRepository extends JpaRepository<Gym, UUID> {
             "                    acos(\n" +
             "                        sin(( ?1 * pi() / 180))\n" +
             "                        *\n" +
-            "                        sin(( json_value(geo_location,'$.lat') * pi() / 180)) + cos(( ?1 * pi() /180 ))\n" +
+            "                        sin(( json_value(geo_location,'$.lat') * pi() / 180)) + cos(( ?1 * pi() /180 ))\n"
+            +
             "                        *\n" +
-            "                        cos(( json_value(geo_location,'$.lat') * pi() / 180)) * cos((( ?2 - json_value(geo_location,'$.lng')) * pi()/180)))\n" +
+            "                        cos(( json_value(geo_location,'$.lat') * pi() / 180)) * cos((( ?2 - json_value(geo_location,'$.lng')) * pi()/180)))\n"
+            +
             "                ) * 180/pi()\n" +
             "            ) * 60 * 1.1515\n" +
             "        )\n" +
             "    as distance FROM Gym\n" +
-            ") myTable where gym_status = 1 order by distance ;" , nativeQuery = true)
-    public List<Gym> findNearbyGymsByCurrentLocation(@Param("latitude") Double latitude,@Param("longitude") Double longitude);
+            ") myTable where gym_status = 1 order by distance ;", nativeQuery = true)
+    public List<Gym> findNearbyGymsByCurrentLocation(@Param("latitude") Double latitude,
+            @Param("longitude") Double longitude);
 
-    @Query(value = "SELECT * FROM gym WHERE gym_application_status=0;" , nativeQuery = true)
+    @Query(value = "SELECT * FROM gym WHERE gym_application_status=0;", nativeQuery = true)
     public List<Gym> getPendingGymRequests();
 
     public List<Gym> findAllByOwnerId(UUID ownerId);
 
-    @Query(value = "SELECT * FROM gym WHERE name like ?1 ;" , nativeQuery = true)
+    @Query(value = "SELECT * FROM gym WHERE name like ?1 ;", nativeQuery = true)
     public List<Gym> findAllGymBySearchWord(@Param("searchWord") String searchWord);
 }

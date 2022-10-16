@@ -41,7 +41,7 @@ export const handleActionToGetUser = createAsyncThunk(
 );
 
 export const handleActionToUpdateRole = createAsyncThunk(
-  'GET_USER',
+  'UPDATE_USER',
   async (params, thunkAPI) => {
     try {
       return await handleRequestToUpdateRole(params);

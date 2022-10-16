@@ -11,10 +11,10 @@ import com.elec5619.backend.entities.Gym;
 import com.elec5619.backend.exceptions.AuthenticationError;
 import com.elec5619.backend.exceptions.BadRequestException;
 import com.elec5619.backend.jwt.JwtTokenUtil;
-import com.elec5619.backend.repositories.RoleRepository;
+//import com.elec5619.backend.repositories.RoleRepository;
 import com.elec5619.backend.services.AppointmentService;
 import com.elec5619.backend.services.UserService;
-import jdk.nashorn.internal.runtime.options.Option;
+//import jdk.nashorn.internal.runtime.options.Option;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -235,6 +235,7 @@ public class TestAppointmentService {
         when(appointmentRepository.findById(appointmentID1)).thenReturn(Optional.ofNullable(appointment1));
         assertEquals("gym1",appointmentService.update(appointmentID1, appointmentUpdateTimeRequest).getGymName());
     }
+
 
     @Test
     public void testListAllForGymOwnerAuthError() throws AuthenticationError {

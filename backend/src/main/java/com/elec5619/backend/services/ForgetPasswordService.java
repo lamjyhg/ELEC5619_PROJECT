@@ -85,7 +85,6 @@ public class ForgetPasswordService {
             try{
                 emailSendingHanlderImple.send(email, "Gymmy: Reset password", html);
             }catch (Exception e){
-                System.out.println(e);
                 return new ResponseEntity<>("Send email failed, internal server error", HttpStatus.BAD_REQUEST);
             }
 
@@ -105,7 +104,6 @@ public class ForgetPasswordService {
                 userForgetPasswordRepository.save(userForgetPassword);
             }else{
                 UserForgetPassword newObj = new UserForgetPassword();
-
                 newObj.setUid(user.getId());
                 newObj.setHash(hash);
                 newObj.setDate(time);

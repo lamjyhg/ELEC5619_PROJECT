@@ -1,11 +1,11 @@
-import { DatePicker, Form, Input, Modal, Select, Spin } from 'antd';
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { handleActionToGetGymTimeAvailability } from '../../state/gyms/gyms.action';
-import moment from 'moment';
-import { hours, translateMomentDay } from '../../utils/dateHandlers';
-import { current } from '@reduxjs/toolkit';
-import { handleRequestToGetGymTimeAvailability } from '../../services/gyms';
+import { DatePicker, Form, Input, Modal, Select, Spin } from "antd";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { handleActionToGetGymTimeAvailability } from "../../state/gyms/gyms.action";
+import moment from "moment";
+import { hours, translateMomentDay } from "../../utils/dateHandlers";
+import { current } from "@reduxjs/toolkit";
+import { handleRequestToGetGymTimeAvailability } from "../../services/gyms";
 const { TextArea } = Input;
 
 export default function AppointmentForm({
@@ -24,7 +24,7 @@ export default function AppointmentForm({
   const onStartTimeChange = (value, dateString) => {
     if (!dateString || dateString.length === 0) {
       setDay(null);
-      form.setFieldValue('startTime', null);
+      form.setFieldValue("startTime", null);
     } else {
       const dayMoment = moment(dateString);
       setDay(translateMomentDay(dayMoment.day()));
@@ -40,11 +40,11 @@ export default function AppointmentForm({
   const onStarTimeOk = (value) => {};
 
   const onChangeStartTime = (value) => {
-    form.setFieldValue('startTime', value);
+    form.setFieldValue("startTime", value);
     setIsLoaded(true);
-    const date = form.getFieldValue('date').format('YYYY-MM-DD');
+    const date = form.getFieldValue("date").format("YYYY-MM-DD");
     const startTime = value;
-    const endTime = moment(value, 'hh:ss').add(1, 'hours').format('hh:ss');
+    const endTime = moment(value, "hh:ss").add(1, "hours").format("hh:ss");
     console.log(114);
     // getTimeAvailability(GID, startTime, endTime);
 
@@ -79,11 +79,11 @@ export default function AppointmentForm({
     const end = tradingHours[day].endTime;
 
     return (
-      (moment(`${hour}:00:00`, 'hh:mm:ss').isAfter(moment(start, 'hh:mm:ss')) ||
-        moment(`${hour}:00:00`, 'hh:mm:ss').isSame(
-          moment(start, 'hh:mm:ss')
+      (moment(`${hour}:00:00`, "hh:mm:ss").isAfter(moment(start, "hh:mm:ss")) ||
+        moment(`${hour}:00:00`, "hh:mm:ss").isSame(
+          moment(start, "hh:mm:ss")
         )) &&
-      moment(`${hour}:00:00`, 'hh:mm:ss').isBefore(moment(end, 'hh:mm:ss'))
+      moment(`${hour}:00:00`, "hh:mm:ss").isBefore(moment(end, "hh:mm:ss"))
     );
   };
 
@@ -97,19 +97,22 @@ export default function AppointmentForm({
     <Modal
       visible={open}
       title={
-        acitonType === 'CREATE'
-          ? 'Create Appointment for One Hour'
-          : 'Update Appointment'
+        acitonType === "CREATE"
+          ? "Create Appointment for One Hour"
+          : "Update Appointment"
       }
       okText={
-        acitonType === 'CREATE' ? 'Create Appointment' : 'Update Appointment'
+        acitonType === "CREATE" ? "Create Appointment" : "Update Appointment"
       }
       disable
       cancelText="Cancel"
       onCancel={() => {
-        if (!isLoaded && !isLoading) {
-          onCancel();
-        }
+        console.log("here")
+        // if (!isLoaded && !isLoading && avalability > 0) {
+        //   onCancel();
+        // }
+
+        onCancel()
       }}
       onOk={() => {
         if (!isLoaded && !isLoading && avalability > 0) {
@@ -134,7 +137,7 @@ export default function AppointmentForm({
             rules={[
               {
                 required: true,
-                message: 'Please input your name',
+                message: "Please input your name",
               },
             ]}
             label="Your name"
@@ -146,7 +149,7 @@ export default function AppointmentForm({
             rules={[
               {
                 required: true,
-                message: 'Please input your email',
+                message: "Please input your email",
               },
             ]}
             label="Email"
@@ -160,7 +163,7 @@ export default function AppointmentForm({
             rules={[
               {
                 required: true,
-                message: 'Please input the date',
+                message: "Please input the date",
               },
             ]}
           >
@@ -170,8 +173,8 @@ export default function AppointmentForm({
               onOk={onStarTimeOk}
               disabledDate={(current) => {
                 return (
-                  moment().add(-1, 'days') >= current ||
-                  moment().add(1, 'month') <= current ||
+                  moment().add(-1, "days") >= current ||
+                  moment().add(1, "month") <= current ||
                   checkIsNotTradingDay(current)
                 );
               }}
@@ -183,14 +186,14 @@ export default function AppointmentForm({
             rules={[
               {
                 required: true,
-                message: 'Please input the start time',
+                message: "Please input the start time",
               },
             ]}
           >
             <Select
               disabled={!day}
               onChange={onChangeStartTime}
-              status={avalability === 0 ? 'error' : null}
+              status={avalability === 0 ? "error" : null}
             >
               {hours().map((hour, index) => {
                 if (checkIsTradingHour(hour)) {
@@ -205,8 +208,17 @@ export default function AppointmentForm({
             <p> availability: {avalability}</p>
           </Form.Item>
 
-          <Form.Item label="Note" name="note">
-            <TextArea name="note" />
+          <Form.Item
+            label="Note"
+            name="note"
+            rules={[
+              {
+                required: true,
+                message: "Please add your note",
+              },
+            ]}
+          >
+            <TextArea name="note" showCount maxLength={300} />
           </Form.Item>
         </Form>
       </Spin>

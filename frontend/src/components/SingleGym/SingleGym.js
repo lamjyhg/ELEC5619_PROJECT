@@ -91,6 +91,7 @@ const SingleGym = () => {
   };
 
   const handleCancel = () => {
+
     setIsModalOpen(false);
   };
 
@@ -205,7 +206,6 @@ const SingleGym = () => {
   };
   const onCreate = (values) => {
     const date = values.date.format('YYYY-MM-DD');
-    console.log(1111);
     const startTime = values.startTime;
 
     const endTime = moment(startTime, 'hh:ss').add(1, 'hours').format('hh:ss');
@@ -235,15 +235,28 @@ const SingleGym = () => {
 
   const getTradingHours = (tradingHours) => {
     if (!tradingHours || Object.keys(tradingHours).length <= 0) {
-      return <p>coming soon</p>;
+      return <p>Currently closed, no available time</p>;
     }
-    return Object.keys(tradingHours)
-      .sort()
-      .map((hour) => (
-        <p>
-          {`${days[hour]}: ${tradingHours[hour].startTime}-${tradingHours[hour].endTime} `}
-        </p>
-      ));
+
+    const component = [];
+
+    for (const key in tradingHours){
+
+      if(tradingHours.hasOwnProperty(key)){
+          const day = TimeMap[key];
+          var startTime = tradingHours[key].startTime;
+          var endTime = tradingHours[key].endTime;
+
+          var startTimeMoment = moment(startTime, "hh:mm:ss").format("hh:mm A")
+          var endTimeMoment = moment(endTime, "hh:mm:ss").format("hh:mm A")
+
+        const res = <div> {day} : {startTimeMoment} - {endTimeMoment}</div>;
+        component.push(res);
+      }
+    }
+
+
+    return component;
   };
 
   const navigateToGymList = () => {
@@ -349,17 +362,28 @@ const SingleGym = () => {
 
               <div className="middle_size_info">Location: {gym.address}</div>
 
-              <div className="description_wrapper">
-                <div className="small_size_info">{gym.description}</div>
 
-                <div className="tradingHours">
-                  {getTradingHours(gym.tradingHours)}
+                <div className="other_container">
+                  <div className="description_wrapper" style={{marginTop:"0"}}>
+                      <div className="small_size_info">{gym.description}</div>
+                  </div>
+
+
+                  <div className="vertical_wrapper">
+                      <div className="tradingHours">
+                          {getTradingHours(gym.tradingHours)}
+                      </div>
+
+
+                      <Button type="primary" onClick={showAppointmnetModal}>
+                          Make Appointment
+                      </Button>
+                  </div>
                 </div>
-                <Button type="primary" onClick={showAppointmnetModal}>
-                  Make Appointment
-                </Button>
               </div>
-            </div>
+
+
+
 
             <div className="right_image_area">
               <div className="mid_img">

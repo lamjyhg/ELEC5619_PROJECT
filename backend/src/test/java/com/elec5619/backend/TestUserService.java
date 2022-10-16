@@ -6,6 +6,7 @@ import com.elec5619.backend.dtos.RegisterRequest;
 import com.elec5619.backend.entities.AccountVerificationEntity;
 import com.elec5619.backend.entities.Role;
 import com.elec5619.backend.entities.User;
+import com.elec5619.backend.exceptions.AuthenticationError;
 import com.elec5619.backend.jwt.HashUtil;
 import com.elec5619.backend.jwt.JwtTokenUtil;
 import com.elec5619.backend.mappers.LoginMapper;
@@ -35,6 +36,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -59,6 +61,8 @@ public class TestUserService {
     private RegisterMapper registerMapper;
     @MockBean
     private EmailService emailService;
+    @MockBean
+    private AccountVerificationEntityRepository accountVerificationEntityRepository;
 
 
 
@@ -105,8 +109,7 @@ public class TestUserService {
     Role customerRole;
     @Mock
     Role adminRole;
-    @MockBean
-    AccountVerificationEntityRepository accountVerificationEntityRepository;
+
 
 
     @MockBean
@@ -275,8 +278,8 @@ public class TestUserService {
         when(jtwUtil.getTokenEmail(any())).thenReturn(null);
         when(registerMapper.toEntity(any())).thenReturn(user5);
 
-
-        ResponseEntity entity = userService.createUser(registerRequest, null);
+        when(registerRequest.getEmail()).thenReturn("a@a.com");
+        ResponseEntity entity = userService.createUser(registerRequest, session);
 
         assertNotNull(entity);
         assertTrue(entity.getStatusCode().is2xxSuccessful());
@@ -335,6 +338,110 @@ public class TestUserService {
         assertTrue(entity.getStatusCode().is4xxClientError());
     }
 
+
+
+    @Test
+    public void testResetPassword(){
+
+        when(userRepository.findById(any())).thenReturn(Optional.ofNullable(user1));
+        when(hashUtil.matchPassword(any(),any())).thenReturn(true);
+        when(hashUtil.encrypy(any())).thenReturn("");
+        doReturn(null).when(userRepository).save(any());
+
+        ResponseEntity response = userService.resetPassword(UUID.randomUUID(), " ",  " ");
+        assertNotNull(response);
+        assertTrue(response.getStatusCode().is2xxSuccessful());
+    }
+
+    @Test
+    public void testResetPasswordInvalidUserId(){
+
+        when(userRepository.findById(any())).thenReturn(Optional.empty());
+        when(hashUtil.matchPassword(any(),any())).thenReturn(true);
+        when(hashUtil.encrypy(any())).thenReturn("");
+        doReturn(null).when(userRepository).save(any());
+
+        ResponseEntity response = userService.resetPassword(UUID.randomUUID(), " ",  " ");
+        assertNotNull(response);
+        assertTrue(response.getStatusCode().is4xxClientError());
+    }
+
+    @Test
+    public void testCheckAdmin() throws AuthenticationError {
+
+        when(jtwUtil.getTokenEmail(any())).thenReturn("a@a.com");
+        when(userRepository.getUserByEmail(any())).thenReturn(Optional.ofNullable(user1));
+        when(user1.isAdmin()).thenReturn(true);
+        when(session.getAttribute("token")).thenReturn("x");
+
+        ResponseEntity response = userService.checkAdminAuthority(session);
+        assertNotNull(response);
+        assertTrue(response.getStatusCode().is2xxSuccessful());
+    }
+
+    @Test
+    public void testCheckAdminNotAdmin() {
+
+        when(jtwUtil.getTokenEmail(any())).thenReturn("a@a.com");
+        when(userRepository.getUserByEmail(any())).thenReturn(Optional.ofNullable(user1));
+        when(user1.isAdmin()).thenReturn(false);
+        when(session.getAttribute("token")).thenReturn("x");
+
+        boolean isThrow = false;
+        try{
+            ResponseEntity response = userService.checkAdminAuthority(session);
+            assertNotNull(response);
+            assertTrue(response.getStatusCode().is4xxClientError());
+        }catch (AuthenticationError e){
+            isThrow = true;
+        }
+
+        assertTrue(isThrow);
+
+    }
+
+
+
+
+    @Test
+    public void testActivateAccount(){
+
+        when(accountVerificationEntityRepository.findById(any())).thenReturn(Optional.ofNullable(accountVerificationEntity));
+        when(accountVerificationEntity.getUser()).thenReturn(user1);
+        doNothing().when(user1).setActive(any());
+        doReturn(null).when(userRepository).save(any());
+        doNothing().when(accountVerificationEntityRepository).deleteById(any());
+
+        ResponseEntity response = userService.activateAccount(any());
+        assertNotNull(response);
+        assertTrue(response.getStatusCode().is2xxSuccessful());
+
+    }
+
+
+    @Test
+    public void testActivateAccountInvalidUserId(){
+
+        when(accountVerificationEntityRepository.findById(any())).thenReturn(Optional.empty());
+        when(accountVerificationEntity.getUser()).thenReturn(user1);
+        doNothing().when(user1).setActive(any());
+        doReturn(null).when(userRepository).save(any());
+        doNothing().when(accountVerificationEntityRepository).deleteById(any());
+
+        boolean isThrow = false;
+        try{
+            ResponseEntity response = userService.activateAccount(any());
+            assertNotNull(response);
+            assertTrue(response.getStatusCode().is4xxClientError());
+
+        }catch (IllegalArgumentException e){
+            isThrow = true;
+        }
+
+        assertTrue(isThrow);
+
+
+    }
 
 
 

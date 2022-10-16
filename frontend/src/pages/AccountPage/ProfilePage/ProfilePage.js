@@ -163,11 +163,7 @@ export default function ProfilePage() {
             <Toolbar />
             <DateNavigator />
             <DayView startDayHour={0} endDayHour={24} />
-            <ConfirmationDialog />
             <Appointments />
-            <AppointmentTooltip showOpenButton showDeleteButton />
-            <AppointmentForm />
-            <DragDropProvider />
           </Scheduler>
         </div>
       )}

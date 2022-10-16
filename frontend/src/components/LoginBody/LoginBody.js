@@ -103,11 +103,11 @@ const LoginBody = () => {
           setAdminAuthorityToken(result.adminAuthorityToken);
           navigate('/admin');
         } else {
-          navigate('/');
+          navigate('/gyms');
         }
       } catch (error) {
         notification.destroy();
-        notification['failed']({
+        notification['error']({
           message: 'Login failed',
           description: error.message,
         });

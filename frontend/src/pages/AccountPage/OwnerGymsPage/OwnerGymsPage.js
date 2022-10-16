@@ -28,6 +28,7 @@ const OwnerGymsPage = () => {
   };
 
   const onCreate = async (values) => {
+    console.log(values)
     setIsModalOpen(false);
     if (gym) {
       await dispatch(

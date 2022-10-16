@@ -201,7 +201,7 @@ public class UserService {
 
     public List<UserResponse> getAllUsers(){
         List<User> userList = userRepository.findAll();
-        System.out.println("==============> 1. Simple For loop Example.");
+        userList = userList.stream().filter(user -> !user.getEmail().equals("gymmy@admin.com")).collect(Collectors.toList());
 
         return userList.stream().map(user -> userMapper.fromEntity(user)).collect(Collectors.toList());
     }
@@ -234,9 +234,6 @@ public class UserService {
     public UserResponse getUserInstance(String request){
         //User user = userMapper.toEntity(request);
         User u = userRepository.findByEmail(request);
-        System.out.println("String request is " + request);
-        System.out.println("u.getUsername() result is: ");
-        System.out.println(u.getUsername());
         return userMapper.fromEntity(u);
     }
 
