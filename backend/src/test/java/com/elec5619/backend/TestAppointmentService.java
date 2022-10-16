@@ -164,7 +164,7 @@ public class TestAppointmentService {
         appointments2.add(appointment2);
         //when(appointmentRepository.findAll()).thenReturn(appointmentList);
         //when(appointmentRepository.findById(appointmentID1)).thenReturn(Optional.ofNullable(appointment1));
-        //when(appointmentRepository.findAllByUserId(user1.getId())).thenReturn(appointments1);
+        when(appointmentRepository.findAllByUserId(user1.getId())).thenReturn(appointments1);
         //when(appointmentRepository.countByGymIdAndStartTimeAndEndTime(gym1.getId(), startTime, endTime)).thenReturn(1);
 
 
@@ -175,6 +175,7 @@ public class TestAppointmentService {
         when(session.getAttribute("token")).thenReturn("user1@a.com");
         when(jtwUtil.getTokenEmail("user1@a.com")).thenReturn("user1@a.com");
         when(userRepository.getUserByEmail("user1@a.com")).thenReturn(Optional.ofNullable(user1));
+
         assertEquals(1, appointmentService.listAppointmentByUser(session).size());
         assertThrows(BadRequestException.class, () -> appointmentService.listAppointmentByUser(null).size());
     }
@@ -269,7 +270,26 @@ public class TestAppointmentService {
         assertThrows(BadRequestException.class, () -> appointmentService.cancelByGymOwner(appointmentID1, "new_note", session));
         when(appointment1.getStatus()).thenReturn(AppointmentStatus.PROCESSING);
         assertThrows(BadRequestException.class, () ->appointmentService.cancelByGymOwner(appointmentID1, "new_note", session));
+    }
 
+    @Test
+    public void testUpdateStatusByUser() throws AuthenticationError, IOException {
+        when(session.getAttribute("token")).thenReturn("user1@a.com");
+        when(jtwUtil.getTokenEmail("user1@a.com")).thenReturn("user1@a.com");
+        when(userRepository.getUserByEmail("user1@a.com")).thenReturn(Optional.ofNullable(user1));
+
+        when(appointmentRepository.findById(appointmentID1)).thenReturn(Optional.ofNullable(appointment1));
+        User customer = mock(User.class);
+        when(appointment1.getCustomer()).thenReturn(customer);
+        when(customer.getId()).thenReturn(userID1);
+        when(user1.getId()).thenReturn(userID1);
+
+        assertThrows(BadRequestException.class, () ->appointmentService.updateStatusByUser(appointmentID1, AppointmentStatus.PROCESSING, session));
+        when(user1.getId()).thenReturn(userID2);
+        assertThrows(AuthenticationError.class, () ->appointmentService.updateStatusByUser(appointmentID1, AppointmentStatus.PROCESSING, session));
+        when(user1.getId()).thenReturn(userID1);
+        when(appointment1.getStatus()).thenReturn(AppointmentStatus.PROCESSING);
+        assertEquals("gym1", appointmentService.updateStatusByUser(appointmentID1, AppointmentStatus.PROCESSING, session).getGymName()); ;
     }
 
 }
