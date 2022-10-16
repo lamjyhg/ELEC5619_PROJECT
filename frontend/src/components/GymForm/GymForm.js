@@ -258,6 +258,7 @@ export default function GymForm({ open, onCreate, onCancel, gym, setGymNull }) {
               required: true,
               message: "Please input your gym description!",
             },
+
           ]}
         >
           <TextArea name="description" showCount maxLength={300} />
