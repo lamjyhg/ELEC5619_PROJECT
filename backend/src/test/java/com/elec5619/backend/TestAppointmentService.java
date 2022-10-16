@@ -266,6 +266,8 @@ public class TestAppointmentService {
 
         when(session.getAttribute("token")).thenReturn("user1@a.com");
         when(jtwUtil.getTokenEmail("user1@a.com")).thenReturn("user1@a.com");
+        when(userRepository.getUserByEmail("user1@a.com")).thenReturn(Optional.ofNullable(user2));
+        assertThrows(AuthenticationError.class, () -> appointmentService.cancelByGymOwner(appointmentID1, "new_note", session));
         when(userRepository.getUserByEmail("user1@a.com")).thenReturn(Optional.ofNullable(user1));
         assertThrows(BadRequestException.class, () -> appointmentService.cancelByGymOwner(appointmentID1, "new_note", session));
         when(appointment1.getStatus()).thenReturn(AppointmentStatus.PROCESSING);
