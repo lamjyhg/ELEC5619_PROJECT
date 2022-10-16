@@ -121,14 +121,14 @@ export default function AppointmentForm({
       }}
       onOk={() => {
         if (!isLoaded && !isLoading && avalability > 0) {
-          setAvailability(0);
-          setDay(0);
-          form.setFieldValue('date', null);
-          form.setFieldValue('startTime', null);
           form
             .validateFields()
             .then(async (values) => {
               form.resetFields();
+              setAvailability(0);
+              setDay(0);
+              form.setFieldValue('date', null);
+              form.setFieldValue('startTime', null);
               onCreate(values);
             })
             .catch((info) => {});
