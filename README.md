@@ -109,7 +109,6 @@ Add appointment based on trading hours of selected date with customer’s inform
 View all users with information of username, id and role
 View detailed information of a selected user
 Edit role of a selected user
-Delete user
 - Admin Gym Application Management
 View all gym applications
 View single gym application page
