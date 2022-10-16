@@ -3,7 +3,7 @@ import temp_gym from '../../../image/temp_gym_img.jpg';
 import './SingleGymView.scss';
 import 'antd/dist/antd.css';
 import { baseURL } from '../../../utils/request';
-import SingleGymMapView from './SingleGymViewMap/SingleGymViewMap';
+import SingleGymMap from '../../SingleGymMap/SingleGymMap';
 
 const SingleGymView = ({ GID, gym }) => {
   if (!gym) {
@@ -39,7 +39,7 @@ const SingleGymView = ({ GID, gym }) => {
 
       <div className="bot_container">
         <div className="small_map">
-          <SingleGymMapView geoLocation={gym.geoLocation}></SingleGymMapView>
+          <SingleGymMap geoLocation={gym.geoLocation}></SingleGymMap>
         </div>
       </div>
     </div>
