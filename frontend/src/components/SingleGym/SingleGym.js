@@ -1,7 +1,7 @@
 import { Avatar, Modal, Rate } from 'antd';
 import React, { useEffect, useState } from 'react';
 import temp_gym from '../../image/temp_gym_img.jpg';
-import SingleGymMap from './SingleGymMap/SingleGymMap';
+import SingleGymMap from '../SingleGymMap/SingleGymMap';
 import { EditFilled } from '@ant-design/icons';
 import { Button, Form, Input, notification, Select, TreeSelect } from 'antd';
 import 'antd/dist/antd.css';

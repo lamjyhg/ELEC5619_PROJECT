@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
+/*
 public class UserDetailsImpl implements UserDetails {
 
     private UUID id;
@@ -47,6 +47,8 @@ public class UserDetailsImpl implements UserDetails {
         );
 
     }
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -105,3 +107,4 @@ public class UserDetailsImpl implements UserDetails {
         return Objects.equals(id, user.id);
     }
 }
+ */

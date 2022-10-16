@@ -37,7 +37,7 @@ public class User {
     @Column(name = "name", unique = false, nullable = false)
     private String name;
 
-    @Column(name = "type", unique = false, nullable = false)
+    @Column(name = "type", unique = false, nullable = false) //"USER", "OWNER", "ADMIN" use uppercase
     private String type;
 
     @Column(name = "active", nullable = false)
@@ -59,6 +59,7 @@ public class User {
 //    @OneToMany(mappedBy = "user")
 //    private List<Gym> gyms;
 
+    /*
     @ManyToMany
     @JoinTable(
             name = "UserRole",
@@ -68,12 +69,9 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
 
+
     public void addRole(Role role) {
         this.roles.add(role);
-    }
-
-    public String getUsername() {
-        return this.username;
     }
 
     public Set<Role> getRole() {
@@ -84,6 +82,11 @@ public class User {
         Set<Role> newRoles = new HashSet<>();
         newRoles.add(role);
         this.roles = newRoles;
+    }
+     */
+
+    public String getUsername() {
+        return this.username;
     }
 
     public void updateUsername(String username) {

@@ -110,9 +110,9 @@ function UserEditPage() {
                 style={{ width: 120 }}
                 onChange={handleChange}
               >
-                <Option value="user">User</Option>
-                <Option value="owner">Owner</Option>
-                <Option value="admin">Admin</Option>
+                <Option value="USER">USER</Option>
+                <Option value="OWNER">OWNER</Option>
+                <Option value="ADMIN">ADMIN</Option>
               </Select>
             </Col>
           </Row>

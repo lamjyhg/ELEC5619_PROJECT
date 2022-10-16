@@ -107,7 +107,7 @@ export default function AppointmentForm({
       disable
       cancelText="Cancel"
       onCancel={() => {
-        if (!isLoaded && !isLoading && avalability > 0) {
+        if (!isLoaded && !isLoading) {
           onCancel();
         }
       }}
