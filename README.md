@@ -62,61 +62,61 @@
 
 
 ## Functionality
-- Register: 
-Users can register a new account by providing the required fields and an email will be sent to activate their account. 
-- Login: 
-User can login with their email and password
+- Register:  <br />
+Users can register a new account by providing the required fields and an email will be sent to activate their account.  <br />
+- Login:  <br />
+User can login with their email and password <br />
 
-- Activate Account: 
-User should be activated and then log in
-
-
-- Change password: 
-Users can change their password if they provide the correct current password.
-
-- Forget password: 
-Users can reset their email by using this function, they are required to fill in their email and a one time link will be sent to their email if the email exists in the database.
-
-- Single gym page: 
-Each gym will have a detailed page, where the information such as trading hours, name and location are displayed. 
-
-- Comment: 
-Users can leave a comment to a gym and rate the gym.
-
-- Gyms: 
-View nearby gyms by list or map
-Search gyms by their name which is displayed by list only
-
-- Profile: 
-View today customer’s appointments
-
-- Owner Appointments: 
-See all appointments of gyms that owner created
-Cancel by owner with comment
-
-- Customer Appointments: 
-See all appointments that customer booked
-- Cancel by customer
-
-- Create Gym: 
-Add gym name, trading hours, description , maximum appointment number
-Upload Gym Image Cover
-
-- Make Appointment: 
-Add appointment based on trading hours of selected date with customer’s information
-
-- Admin Usermanagement: 
-View all users with information of username, id and role
-View detailed information of a selected user
-Edit role of a selected user
+- Activate Account:  <br />
+User should be activated and then log in <br />
 
 
+- Change password:  <br />
+Users can change their password if they provide the correct current password. <br />
 
-- Admin Gym Application Management: 
-View all gym applications
-View single gym application page
-Approve gym application
-Disapprove gym application
+- Forget password:  <br />
+Users can reset their email by using this function, they are required to fill in their email and a one time link will be sent to their email if the email exists in the database. <br />
+
+- Single gym page:  <br />
+Each gym will have a detailed page, where the information such as trading hours, name and location are displayed.  <br />
+
+- Comment:  <br />
+Users can leave a comment to a gym and rate the gym. <br />
+
+- Gyms:  <br />
+View nearby gyms by list or map <br />
+Search gyms by their name which is displayed by list only <br />
+
+- Profile:  <br />
+View today customer’s appointments <br />
+
+- Owner Appointments:  <br />
+See all appointments of gyms that owner created <br />
+Cancel by owner with comment <br />
+
+- Customer Appointments:  <br />
+See all appointments that customer booked <br />
+- Cancel by customer <br />
+
+- Create Gym:  <br />
+Add gym name, trading hours, description , maximum appointment number <br />
+Upload Gym Image Cover <br />
+
+- Make Appointment:  <br />
+Add appointment based on trading hours of selected date with customer’s information <br />
+
+- Admin Usermanagement:  <br />
+View all users with information of username, id and role <br />
+View detailed information of a selected user <br />
+Edit role of a selected user <br />
+
+
+
+- Admin Gym Application Management:  <br />
+View all gym applications <br />
+View single gym application page <br />
+Approve gym application <br />
+Disapprove gym application <br />
 
 
 
