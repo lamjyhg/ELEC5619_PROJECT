@@ -1,0 +1,31 @@
+.page-editUser{
+    
+    margin: auto;
+    width: 90%;
+    max-width: 350px;
+    margin-top: 70px;
+    background-color: rgba(255, 255, 255, 0.534);
+    border-radius: 10px;
+    padding: 20px;
+    padding-bottom: 40px;
+    >h2{
+        margin-bottom: 30px;
+    }
+    .row-editUserRow{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &_text{
+            margin-right: 10px;
+        }
+    }
+    .buttons-editUser{
+        margin-top: 30px;
+        display: flex;
+        justify-content: space-between;
+        &_button{
+            width: 40%;
+            height: 40px;
+        }
+    }
+}

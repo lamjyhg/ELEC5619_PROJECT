@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Button, Col, Layout, notification, Row, Spin } from 'antd';
 import { useParams } from 'react-router-dom';
-import SingleGymView from '../../components/AdminTable/SingleGymView/SingleGymView';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import './GymRequestPage.scss';
@@ -11,6 +10,7 @@ import {
   handleRequestToDisapproveApplication,
 } from '../../services/gyms';
 import { handleActionToGetAllGymApplication } from '../../state/gyms/gyms.action';
+import GymRequestBody from '../../components/GymRequestBody/GymRequestBody';
 const GymBody = ({ gym, handleApprove, handleDisapprove }) => {
   const navigate = useNavigate();
 
@@ -43,7 +43,7 @@ const GymBody = ({ gym, handleApprove, handleDisapprove }) => {
             </Col>
           </Row>
         </div>
-        <SingleGymView gym={gym} GID={gym.id} />
+        <GymRequestBody gym={gym} GID={gym.id} />
       </>
     );
   } else {
@@ -52,7 +52,7 @@ const GymBody = ({ gym, handleApprove, handleDisapprove }) => {
         <div className="gymRequestHeader">
           <p>This gym has been published</p>
         </div>
-        <SingleGymView gym={gym} GID={gym.id} />
+        <GymRequestBody gym={gym} GID={gym.id} />
       </>
     );
   }
