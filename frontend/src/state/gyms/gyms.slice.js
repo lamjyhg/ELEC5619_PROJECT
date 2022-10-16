@@ -10,6 +10,8 @@ import {
   handleActionToGetNearbyGyms,
   handleActionToGetOwnerGyms,
   handleActionToUpdateGym,
+  handleActionToApproveApplication,
+  handleActionToDisapproveApplication,
 } from './gyms.action';
 
 const gymsSlice = createSlice({
@@ -40,6 +42,12 @@ const gymsSlice = createSlice({
       isLoading: false,
       isSuccess: false,
     },
+    approveStatus: {
+      status: false,
+      isError: false,
+      isLoading: false,
+      isSuccess: false,
+    }
   },
 
   extraReducers: (builder) => {
@@ -304,7 +312,91 @@ const gymsSlice = createSlice({
             isSuccess: false,
           },
         })
-      );
+      )
+      .addCase(
+          handleActionToDisapproveApplication.pending,
+          (state, action) => ({
+            ...state,
+            approveStatus: {
+              ...state.approveStatus,
+              status: false,
+              isLoading: true,
+              isError: false,
+              isSuccess: false,
+            },
+          })
+      )
+      .addCase(
+          handleActionToDisapproveApplication.fulfilled,
+          (state, action) => {
+            console.log(action, 1111);
+            return {
+              ...state,
+              approveStatus: {
+                ...state.approveStatus,
+                status: action.payload,
+                isLoading: false,
+                isError: false,
+                isSuccess: true,
+              },
+            };
+          }
+      )
+      .addCase(
+          handleActionToDisapproveApplication.rejected,
+          (state, action) => ({
+            ...state,
+            approveStatus: {
+              ...state.approveStatus,
+              status: false,
+              isLoading: false,
+              isError: true,
+              isSuccess: false,
+            },
+          })
+        )
+        .addCase(
+            handleActionToApproveApplication.pending,
+            (state, action) => ({
+              ...state,
+              approveStatus: {
+                ...state.approveStatus,
+                status: false,
+                isLoading: true,
+                isError: false,
+                isSuccess: false,
+              },
+            })
+        )
+        .addCase(
+            handleActionToApproveApplication.fulfilled,
+            (state, action) => {
+              console.log(action, 1111);
+              return {
+                ...state,
+                approveStatus: {
+                  ...state.approveStatus,
+                  status: action.payload,
+                  isLoading: false,
+                  isError: false,
+                  isSuccess: true,
+                },
+              };
+            }
+        )
+        .addCase(
+            handleActionToApproveApplication.rejected,
+            (state, action) => ({
+              ...state,
+              singleGym: {
+                ...state.singleGym,
+                availability: 0,
+                isLoading: false,
+                isError: true,
+                isSuccess: false,
+              },
+            })
+        );
     //
   },
 });

@@ -1,15 +1,15 @@
-import { Button, Input, notification, Spin } from "antd";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import GymForm from "../../../components/GymForm/GymForm";
-import OwnerGymCardList from "../../../components/OwnerGymCardList/OwnerGymCardList";
-import { POST, PUT } from "../../../constants/requests";
+import { Button, Input, notification, Spin } from 'antd';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import GymForm from '../../../components/GymForm/GymForm';
+import OwnerGymCardList from '../../../components/OwnerGymCardList/OwnerGymCardList';
+import { POST, PUT } from '../../../constants/requests';
 import {
   handleActionToCreateGym,
   handleActionToGetOwnerGyms,
   handleActionToUpdateGym,
-} from "../../../state/gyms/gyms.action";
-import "./OwnerGymsPage.scss";
+} from '../../../state/gyms/gyms.action';
+import './OwnerGymsPage.scss';
 
 const OwnerGymsPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,7 +28,6 @@ const OwnerGymsPage = () => {
   };
 
   const onCreate = async (values) => {
-    
     setIsModalOpen(false);
     if (gym) {
       await dispatch(
@@ -61,16 +60,16 @@ const OwnerGymsPage = () => {
       switch (requestType) {
         case PUT:
           notification.destroy();
-          notification["success"]({
-            message: "Success",
-            description: "Update successfully ",
+          notification['success']({
+            message: 'Success',
+            description: 'Update successfully ',
           });
           break;
         case POST:
           notification.destroy();
-          notification["success"]({
-            message: "Success",
-            description: "Create successfully ",
+          notification['success']({
+            message: 'Success',
+            description: 'Create successfully ',
           });
           break;
         default:
@@ -81,16 +80,16 @@ const OwnerGymsPage = () => {
       switch (requestType) {
         case PUT:
           notification.destroy();
-          notification["error"]({
-            message: "Success",
-            description: "Update failed ",
+          notification['error']({
+            message: 'Success',
+            description: 'Update failed ',
           });
           break;
         case POST:
           notification.destroy();
-          notification["error"]({
-            message: "Success",
-            description: "Create failed ",
+          notification['error']({
+            message: 'Success',
+            description: 'Create failed ',
           });
           break;
         default:
@@ -101,7 +100,7 @@ const OwnerGymsPage = () => {
   return (
     <Spin spinning={isLoading}>
       <div className="gym_list_contianer">
-        <Button type="primary" onClick={showModal}>
+        <Button type="primary" onClick={showModal} className="button-createGym">
           Create gym
         </Button>
         <GymForm
