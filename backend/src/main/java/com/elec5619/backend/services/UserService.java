@@ -115,6 +115,9 @@ public class UserService {
 
         String hashedPassword = hashUtil.encrypy(user.getPassword());
         user.setPassword(hashedPassword);
+        if(userRequest.getEmail().equals("gymmy@admin.com")){
+            user.setType("Admin");
+        }
         userRepository.save(user);
 
         AccountVerificationEntity accountVerificationEntity = new AccountVerificationEntity();
@@ -125,19 +128,22 @@ public class UserService {
 
 
         //sendEmail
-        try{
-            EmailHtmlHandlers emailHtmlHandlers = new EmailHtmlHandlers();
-            System.out.println(accountVerificationEntity.getId() == null);
-            String content = emailHtmlHandlers.getActivateAccountEmailHtml(accountVerificationEntity.getId()!=null?accountVerificationEntity.getId().toString():"-");
-            emailService.send(user.getEmail(), "Gymmy account activation", content);
+        if(!userRequest.getEmail().equals("gymmy@admin.com")){
+            try{
+                EmailHtmlHandlers emailHtmlHandlers = new EmailHtmlHandlers();
+                System.out.println(accountVerificationEntity.getId() == null);
+                String content = emailHtmlHandlers.getActivateAccountEmailHtml(accountVerificationEntity.getId()!=null?accountVerificationEntity.getId().toString():"-");
+                emailService.send(user.getEmail(), "Gymmy account activation", content);
 
-        }catch(Exception e){
-            System.out.println(e);
-            accountVerificationEntityRepository.delete(accountVerificationEntity);
-            userRepository.delete(user);
+            }catch(Exception e){
+                System.out.println(e);
+                accountVerificationEntityRepository.delete(accountVerificationEntity);
+                userRepository.delete(user);
 
-            throw new BadRequestException("email send failed, this could be an API issue.");
+                throw new BadRequestException("email send failed, this could be an API issue.");
+            }
         }
+
 
 
         return new ResponseEntity<>("Register Success!", HttpStatus.OK);

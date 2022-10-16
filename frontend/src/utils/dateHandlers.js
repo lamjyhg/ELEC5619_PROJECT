@@ -22,7 +22,7 @@ const displayTwoNumber = (number) => {
   return '';
 };
 
-export const days = ['Mon', 'Tus', 'Wed', 'Thur', 'Fri', 'Sat', 'Fri'];
+export const days = ['Mon', 'Tus', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'];
 
 export const getStringFromNumber = (number) => {
   const num = number * 1;
