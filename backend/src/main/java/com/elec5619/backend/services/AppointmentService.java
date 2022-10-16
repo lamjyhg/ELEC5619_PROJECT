@@ -250,6 +250,7 @@ public class AppointmentService {
         Time tradingStart = gym.getTradingHours().get(startDay).get("startTime");
         Time tradingEnd = gym.getTradingHours().get(startDay).get("endTime");
 
+
         Time appointmentStartTimeObject = new Time(appointmentStartTime.getHour(), appointmentStartTime.getMinute(), appointmentStartTime.getSecond());
         Time appointmentEndTimeObject = new Time(appointmentEndTime.getHour(), appointmentEndTime.getMinute(), appointmentEndTime.getSecond());
 

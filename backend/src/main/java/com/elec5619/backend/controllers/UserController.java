@@ -108,7 +108,6 @@ public class UserController {
 
     @GetMapping("/checkAdminAuthority")
     public  ResponseEntity checkAdminAuthority(HttpServletRequest request) throws AuthenticationError {
-        System.out.println(111111);
         HttpSession session = request.getSession();
         return userService.checkAdminAuthority(session);
     }

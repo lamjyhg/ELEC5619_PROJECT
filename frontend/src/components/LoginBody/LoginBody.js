@@ -107,7 +107,7 @@ const LoginBody = () => {
         }
       } catch (error) {
         notification.destroy();
-        notification['failed']({
+        notification['error']({
           message: 'Login failed',
           description: error.message,
         });

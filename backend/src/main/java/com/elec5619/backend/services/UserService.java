@@ -237,9 +237,6 @@ public class UserService {
     public UserResponse getUserInstance(String request){
         //User user = userMapper.toEntity(request);
         User u = userRepository.findByEmail(request);
-        System.out.println("String request is " + request);
-        System.out.println("u.getUsername() result is: ");
-        System.out.println(u.getUsername());
         return userMapper.fromEntity(u);
     }
 
