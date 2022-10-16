@@ -2,7 +2,7 @@ package com.elec5619.backend;
 
 import com.elec5619.backend.config.CustomAuthenticationProvider;
 import com.elec5619.backend.jwt.AuthenticationFilter;
-import com.elec5619.backend.security.UserDetailsServiceImpl;
+//import com.elec5619.backend.security.UserDetailsServiceImpl;
 import org.apache.http.protocol.HttpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -39,10 +39,10 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter  {
     @Autowired
     private CustomAuthenticationProvider authProvider;
 
-
+    /*
     @Autowired
     private UserDetailsServiceImpl userDetailsServiceImpl;
-
+    */
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -57,12 +57,14 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter  {
         return new BCryptPasswordEncoder();
     }
 
-
+    /*
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder.userDetailsService(userDetailsServiceImpl).passwordEncoder(passwordEncoder());
         authenticationManagerBuilder.authenticationProvider(authProvider);
     }
+
+     */
 
 
     @Bean
