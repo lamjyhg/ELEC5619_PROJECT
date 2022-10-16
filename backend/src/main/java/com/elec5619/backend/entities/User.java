@@ -38,7 +38,7 @@ public class User {
     private String name;
 
     @Column(name = "type", unique = false, nullable = false) //"USER", "OWNER", "ADMIN" use uppercase
-    private String type;
+    private String type ;
 
     @Column(name = "active", nullable = false)
     private Boolean active = false;
@@ -97,8 +97,5 @@ public class User {
         gyms.add(gym);
     }
 
-    public Boolean isAdmin() {
-        return false;
-    }
 
 }

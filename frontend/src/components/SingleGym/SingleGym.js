@@ -91,7 +91,6 @@ const SingleGym = () => {
   };
 
   const handleCancel = () => {
-
     setIsModalOpen(false);
   };
 
@@ -233,28 +232,34 @@ const SingleGym = () => {
       });
   };
 
-  const getTradingHours = (tradingHours) => {
-    if (!tradingHours || Object.keys(tradingHours).length <= 0) {
+  const getTradingHours = (tradingHours, maximumOfAppointments) => {
+    if (
+      (maximumOfAppointments <= 0) | !tradingHours ||
+      Object.keys(tradingHours).length <= 0
+    ) {
       return <p>Currently closed, no available time</p>;
     }
 
     const component = [];
 
-    for (const key in tradingHours){
+    for (const key in tradingHours) {
+      if (tradingHours.hasOwnProperty(key)) {
+        const day = TimeMap[key];
+        var startTime = tradingHours[key].startTime;
+        var endTime = tradingHours[key].endTime;
 
-      if(tradingHours.hasOwnProperty(key)){
-          const day = TimeMap[key];
-          var startTime = tradingHours[key].startTime;
-          var endTime = tradingHours[key].endTime;
+        var startTimeMoment = moment(startTime, 'hh:mm:ss').format('hh:mm A');
+        var endTimeMoment = moment(endTime, 'hh:mm:ss').format('hh:mm A');
 
-          var startTimeMoment = moment(startTime, "hh:mm:ss").format("hh:mm A")
-          var endTimeMoment = moment(endTime, "hh:mm:ss").format("hh:mm A")
-
-        const res = <div> {day} : {startTimeMoment} - {endTimeMoment}</div>;
+        const res = (
+          <div>
+            {' '}
+            {day} : {startTimeMoment} - {endTimeMoment}
+          </div>
+        );
         component.push(res);
       }
     }
-
 
     return component;
   };
@@ -362,33 +367,31 @@ const SingleGym = () => {
 
               <div className="middle_size_info">Location: {gym.address}</div>
 
+              <div className="other_container">
+                <div className="description_wrapper" style={{ marginTop: '0' }}>
+                  <div className="small_size_info">{gym.description}</div>
+                </div>
 
-                <div className="other_container">
-                  <div className="description_wrapper" style={{marginTop:"0"}}>
-                      <div className="small_size_info">{gym.description}</div>
+                <div className="vertical_wrapper">
+                  <div className="tradingHours">
+                    {getTradingHours(gym.tradingHours)}
                   </div>
 
-
-                  <div className="vertical_wrapper">
-                      <div className="tradingHours">
-                          {getTradingHours(gym.tradingHours)}
-                      </div>
-
-
-                      <Button type="primary" onClick={showAppointmnetModal}>
-                          Make Appointment
-                      </Button>
-                  </div>
+                  {gym.maximumOfAppointments > 0 &&
+                  Object.keys(gym.tradingHours).length > 0 ? (
+                    <Button type="primary" onClick={showAppointmnetModal}>
+                      Make Appointment
+                    </Button>
+                  ) : null}
                 </div>
               </div>
-
-
-
+            </div>
 
             <div className="right_image_area">
               <div className="mid_img">
                 <img
                   className="large_img"
+                  alt={`${gym.name}'s logo`}
                   src={gym.imageUrl ? baseURL + gym.imageUrl : temp_gym}
                 />
               </div>

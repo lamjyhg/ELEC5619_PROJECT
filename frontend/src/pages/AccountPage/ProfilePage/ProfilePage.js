@@ -48,11 +48,6 @@ export default function ProfilePage() {
   }, []);
 
   useEffect(() => {
-    console.log(
-      userAppointments.appointmentList.filter(
-        (each) => each.status === 'PROCESSING'
-      )
-    );
     setAppointments(
       processData(
         userAppointments.appointmentList.filter(
@@ -74,7 +69,6 @@ export default function ProfilePage() {
           'YYYY-MM-DD HH:mm:ss'
         ),
       };
-      console.log({ changedAppointment });
       handleRequestToUpdateAppointment(requestData)
         .then(() => {
           notification.success({
@@ -94,7 +88,6 @@ export default function ProfilePage() {
     (state) => state.login.loginPage
   );
   const commitChanges = ({ added, changed, deleted }) => {
-    console.log({ added, changed, deleted });
     if (added) {
       const startingAddedId =
         appointmentsList.length > 0

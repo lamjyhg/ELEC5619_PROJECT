@@ -22,26 +22,29 @@ const GymBody = ({ gym, handleApprove, handleDisapprove }) => {
     return (
       <>
         <div className="gymRequestHeader">
-          <Row align={'center'}>
-            <Col className="gutter-row" span={2}>
-              <Button type="primary" onClick={() => handleApprove()}>
-                Approve
-              </Button>
-            </Col>
-            <Col className="gutter-row" span={2}>
-              <Button type="primary" onClick={() => handleDisapprove()}>
-                Disapprove
-              </Button>
-            </Col>
-            <Col className="gutter-row" span={2}>
-              <Button
-                type="primary"
-                onClick={() => navigate('/admin/gymRequests')}
-              >
-                Cancel
-              </Button>
-            </Col>
-          </Row>
+          <div className="buttons-gymRequest">
+            <Button
+              type="primary"
+              onClick={() => handleApprove()}
+              className="buttons-gymRequest_button"
+            >
+              Approve
+            </Button>
+            <Button
+              type="primary"
+              onClick={() => handleDisapprove()}
+              className="buttons-gymRequest_button"
+            >
+              Disapprove
+            </Button>
+            <Button
+              type="primary"
+              onClick={() => navigate('/admin/gymRequests')}
+              className="buttons-gymRequest_button"
+            >
+              Cancel
+            </Button>
+          </div>
         </div>
         <GymRequestBody gym={gym} GID={gym.id} />
       </>

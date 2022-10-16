@@ -79,7 +79,6 @@ function UserTable() {
       render: (_, { email }) => (
         <Space size="large">
           <a onClick={() => handleEdit(email)}>Edit</a>
-          <a onClick={() => showModal(email)}>Delete</a>
         </Space>
       ),
     },

@@ -9,6 +9,7 @@ import {
   handleActionToGetOwnerGyms,
   handleActionToUpdateGym,
 } from '../../../state/gyms/gyms.action';
+import { setOwnerGymsPageDefaultStatus } from '../../../state/gyms/gyms.slice';
 import './OwnerGymsPage.scss';
 
 const OwnerGymsPage = () => {
@@ -28,7 +29,6 @@ const OwnerGymsPage = () => {
   };
 
   const onCreate = async (values) => {
-    console.log(values)
     setIsModalOpen(false);
     if (gym) {
       await dispatch(
@@ -55,6 +55,10 @@ const OwnerGymsPage = () => {
   useEffect(() => {
     getOwnerGyms();
   }, []);
+
+  const setDefault = async () => {
+    await dispatch(setOwnerGymsPageDefaultStatus());
+  };
 
   useEffect(() => {
     if (isSuccess) {
@@ -96,6 +100,7 @@ const OwnerGymsPage = () => {
         default:
       }
     }
+    setDefault();
   }, [isError, isSuccess]);
 
   return (

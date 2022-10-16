@@ -4,7 +4,6 @@ import LoginBody from '../../components/LoginBody/LoginBody';
 
 const LoginPage = () => {
   const token = getToken();
-  console.log(token);
 
   return (
     <>

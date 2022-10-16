@@ -127,6 +127,7 @@ const GymOwnerAppointmentManagementTable = () => {
         message: 'Success',
         description: 'Cancel Successfully ',
       });
+      getAppointments();
     } catch (error) {
       notification.destroy();
       notification['error']({
@@ -146,12 +147,11 @@ const GymOwnerAppointmentManagementTable = () => {
     setCancelledAppointment(null);
     setComment('');
   };
+  const getAppointments = async () => {
+    await dispatch(handleActionToGetGymsAppointmentsByGymOwner());
+  };
 
   useEffect(() => {
-    const getAppointments = async () => {
-      await dispatch(handleActionToGetGymsAppointmentsByGymOwner());
-    };
-
     getAppointments();
   }, []);
 

@@ -7,7 +7,6 @@ const mapStyle = {
 };
 
 const SingleGymMap = ({ geoLocation, gymsList }) => {
-  console.log(geoLocation, gymsList);
   if (!geoLocation || !gymsList) {
     return <>not found address</>;
   }

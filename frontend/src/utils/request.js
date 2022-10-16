@@ -19,7 +19,6 @@ export default function request(options) {
   axiosInstance.interceptors.response.use(
     (res) => res,
     async (error) => {
-      // return Promise.reject(error.message);
       console.log(error);
       if (error.response.status === 401) {
         removeToken();

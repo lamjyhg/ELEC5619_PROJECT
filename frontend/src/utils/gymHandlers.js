@@ -1,9 +1,12 @@
 export const replaceGymList = (gym, list) => {
   const newList = [...list];
-  
-  const foundIndex = list.findIndex((each) => each.id === gym.id);
-  if (foundIndex) {
-    newList[foundIndex] = gym;
+  console.log(gym);
+
+  const foundGym = list.find((each) => each.id === gym.id);
+
+  if (foundGym) {
+    const foundIndex = list.indexOf(foundGym);
+    newList.splice(foundIndex, 1, gym);
   }
   return newList;
 };
