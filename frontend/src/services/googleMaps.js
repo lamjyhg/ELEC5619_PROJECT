@@ -1,1 +1,1 @@
-export const googleMapApiKey = "AIzaSyAiK11DnRIczBDNY3YzLDIKp3JpLk8C8tE";
+export const googleMapApiKey = ""//place your api id here;
